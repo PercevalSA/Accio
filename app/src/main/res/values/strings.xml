@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ACCIO</string>
+    <string name="bienvenue">Bienvenue sur ACCIO</string>
+    <string name="action_settings">Settings</string>
+    <string name="choose_fridge">Choisissez votre réfrigérateur :</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="fridge_content">Contenu</string>
+    <string name="recipes">Recettes</string>
+    <string name="favorite">Favoris</string>
+    <string name="historique">Historique</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_content">ContentActivity</string>
+    <string name="title_activity_recipes">RecipesActivity</string>
+    <string name="title_activity_favoris">FavorisActivity</string>
+    <string name="title_activity_historique">HistoriqueActivity</string>
+
+</resources>
