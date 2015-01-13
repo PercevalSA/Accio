@@ -15,5 +15,6 @@
     <string name="title_activity_recipes">Vos Recettes</string>
     <string name="title_activity_favoris">Vos Favoris</string>
     <string name="title_activity_historique">Votre Historique</string>
+    <string name="action_search">Recherche</string>
 
 </resources>

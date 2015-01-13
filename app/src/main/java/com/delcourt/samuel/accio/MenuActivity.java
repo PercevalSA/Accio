@@ -30,14 +30,22 @@ public class MenuActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                openSearch();
+                return true;
+            case R.id.action_settings:
+                // on mettra la méthode openSettings() quand elle sera cree
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    public void openSearch(){
+        Uri webpage = Uri.parse("http://www.google.fr/");
+        Intent help = new Intent(Intent.ACTION_VIEW, webpage);
+        startActivity(help);
     }
 
     public void sendMessageContent(View view){
