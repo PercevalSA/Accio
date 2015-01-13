@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ACCIO.iml" filepath="$PROJECT_DIR$/ACCIO.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/delcourt-accio.iml" filepath="$PROJECT_DIR$/delcourt-accio.iml" />
     </modules>
   </component>
 </project>
