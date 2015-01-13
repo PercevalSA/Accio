@@ -22,19 +22,23 @@
         </activity>
         <activity
             android:name=".ContentActivity"
-            android:label="@string/title_activity_content" >
+            android:label="@string/title_activity_content"
+            android:parentActivityName=".MenuActivity">
         </activity>
         <activity
             android:name=".RecipesActivity"
-            android:label="@string/title_activity_recipes" >
+            android:label="@string/title_activity_recipes"
+            android:parentActivityName=".MenuActivity">
         </activity>
         <activity
             android:name=".FavoriteActivity"
-            android:label="@string/title_activity_favoris" >
+            android:label="@string/title_activity_favoris"
+            android:parentActivityName=".MenuActivity">
         </activity>
         <activity
             android:name=".HistoriqueActivity"
-            android:label="@string/title_activity_historique" >
+            android:label="@string/title_activity_historique"
+            android:parentActivityName=".MenuActivity">
         </activity>
     </application>
 
