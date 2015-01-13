@@ -1,6 +1,7 @@
 package com.delcourt.samuel.accio;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -57,5 +58,11 @@ public class MenuActivity extends ActionBarActivity {
     public void sendMessageHistorique(View view){
         Intent intent = new Intent(this,HistoriqueActivity.class);
         startActivity(intent);
+    }
+
+    public void sendMessageHelp(View view){
+        Uri webpage = Uri.parse("http://www.android-help.fr/");
+        Intent help = new Intent(Intent.ACTION_VIEW, webpage);
+        startActivity(help);
     }
 }
