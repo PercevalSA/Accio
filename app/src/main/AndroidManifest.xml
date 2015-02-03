@@ -42,7 +42,7 @@
             android:parentActivityName=".MenuActivity" >
         </activity>
         <activity
-            android:name=".ContentSousActivites.ContentLegumesActivity"
+            android:name=".content_sous_activites.ContentLegumesActivity"
             android:label="@string/title_activity_legumes"
             android:parentActivityName=".ContentActivity">
         </activity>
