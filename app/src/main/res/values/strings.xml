@@ -16,5 +16,5 @@
     <string name="title_activity_favoris">Vos Favoris</string>
     <string name="title_activity_historique">Votre Historique</string>
     <string name="action_search">Recherche</string>
-
+    <string name="logo">Logo</string>
 </resources>

@@ -11,4 +11,11 @@
         android:icon="@drawable/ic_action_search"
         android:title="@string/action_search"
         app:showAsAction="ifRoom" />
+    <!-- tentative de mettre le logo dans la barre de tache (Ne marche pas) -->
+    <item android:id="@+id/logo"
+        android:icon="@drawable/ic_logo"
+        android:title="@string/logo"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 </menu>
