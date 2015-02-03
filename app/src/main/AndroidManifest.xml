@@ -19,27 +19,32 @@
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_menu"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
         </activity>
         <activity
             android:name=".ContentActivity"
             android:label="@string/title_activity_content"
-            android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity" >
         </activity>
         <activity
             android:name=".RecipesActivity"
             android:label="@string/title_activity_recipes"
-            android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity" >
         </activity>
         <activity
             android:name=".FavoriteActivity"
             android:label="@string/title_activity_favoris"
-            android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity" >
         </activity>
         <activity
             android:name=".HistoriqueActivity"
             android:label="@string/title_activity_historique"
-            android:parentActivityName=".MenuActivity">
+            android:parentActivityName=".MenuActivity" >
+        </activity>
+        <activity
+            android:name=".ContentSousActivites.ContentLegumesActivity"
+            android:label="@string/title_activity_legumes"
+            android:parentActivityName=".ContentActivity">
         </activity>
     </application>
 
