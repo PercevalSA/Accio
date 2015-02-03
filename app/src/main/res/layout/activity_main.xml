@@ -25,25 +25,12 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="32dp" />
 
-    <ExpandableListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/expandableListView"
-        android:layout_below="@+id/textView"
-        android:layout_marginLeft="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="48dp"
-        android:layout_alignTop="@+id/textView2"
-        android:clickable="false" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ok"
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/expandableListView"
-        android:layout_alignEnd="@+id/expandableListView"
 
         android:onClick="sendMessageOk"/>
 
