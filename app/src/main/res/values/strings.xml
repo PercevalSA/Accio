@@ -17,4 +17,10 @@
     <string name="title_activity_historique">Votre Historique</string>
     <string name="action_search">Recherche</string>
     <string name="logo">Logo</string>
+    <string name="contenu_bouton1">Bouton1</string>
+    <string name="contenu_bouton2">Bouton2</string>
+    <string name="contenu_bouton3">Bouton3</string>
+    <string name="contenu_bouton4">Bouton4</string>
+    <string name="contenu_bouton5">Bouton5</string>
+    <string name="contenu_bouton6">Bouton6</string>
 </resources>
