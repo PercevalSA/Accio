@@ -10,7 +10,15 @@ sont ainsi stockées par l'application elle même.
 public class Refrigerateur {
 
     public String name;
-    public ArrayList boites;
-    
+    public ArrayList<Box> boxes;
+
+    public void setName(String name)
+    {
+        this.name=name;
+    }
+
+    public void addBox(Box box) {
+        boxes.add(box);
+    }
 
 }
