@@ -2,10 +2,15 @@ package com.delcourt.samuel.accio;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import com.delcourt.samuel.accio.content_sous_activites.ContentLegumesActivity;
+
+
+
 
 
 public class ContentActivity extends ActionBarActivity {
@@ -45,5 +50,10 @@ public class ContentActivity extends ActionBarActivity {
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
+    }
+
+    public void sendMessageLegumes(View view){
+        Intent intent = new Intent(this, ContentLegumesActivity.class);
+        startActivity(intent);
     }
 }

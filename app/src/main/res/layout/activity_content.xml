@@ -12,7 +12,8 @@
         android:text="@string/contenu_bouton1"
         android:id="@+id/button7"
         android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_one"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_one"/>
+        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_one"
+        android:onClick="sendMessageLegumes"/>
 
 
 
