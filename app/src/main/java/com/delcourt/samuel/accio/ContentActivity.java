@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.delcourt.samuel.accio.content_sous_activites.ContentDessertsActivity;
 import com.delcourt.samuel.accio.content_sous_activites.ContentLegumesActivity;
 import com.delcourt.samuel.accio.content_sous_activites.ContentViandesActivity;
 import com.delcourt.samuel.accio.content_sous_activites.ContentYaourtsActivity;
@@ -63,6 +65,11 @@ public class ContentActivity extends ActionBarActivity {
 
     public void sendMessageYaourts(View view){
         Intent intent = new Intent(this, ContentYaourtsActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendMessageDesserts(View view){
+        Intent intent = new Intent(this, ContentDessertsActivity.class);
         startActivity(intent);
     }
 }

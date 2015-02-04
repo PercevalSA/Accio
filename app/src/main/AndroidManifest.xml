@@ -47,8 +47,19 @@
             android:parentActivityName=".ContentActivity" >
         </activity>
         <activity
+            android:name=".content_sous_activites.ContentViandesActivity"
+            android:label="@string/title_activity_content_viandes"
+            android:parentActivityName=".ContentActivity" >
+        </activity>
+        <activity
             android:name=".content_sous_activites.ContentYaourtsActivity"
-            android:label="@string/title_activity_content_yaourts" >
+            android:label="@string/title_activity_content_yaourts"
+            android:parentActivityName=".ContentActivity" >
+        </activity>
+        <activity
+            android:name=".content_sous_activites.ContentDessertsActivity"
+            android:label="@string/title_activity_content_desserts"
+            android:parentActivityName=".ContentActivity" >
         </activity>
     </application>
 

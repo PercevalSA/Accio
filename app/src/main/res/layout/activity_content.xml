@@ -26,6 +26,7 @@
         android:id="@+id/button8"
         android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_one"
         android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_two"
+        android:onClick="sendMessageViandes"
         />
 
     <Button
@@ -34,7 +35,8 @@
         android:text="@string/contenu_bouton3"
         android:id="@+id/button9"
         android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_two"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_one"/>
+        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_one"
+        android:onClick="sendMessageYaourts"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -42,7 +44,8 @@
         android:text="@string/contenu_bouton4"
         android:id="@+id/button10"
         android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_two"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_two"/>
+        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_two"
+        android:onClick="sendMessageDesserts"/>
 
     <Button
         android:layout_width="wrap_content"
