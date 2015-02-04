@@ -1,7 +1,7 @@
 package com.delcourt.samuel.accio.structures;
 
 /* Définit la structure des boîtes.
-Les attributs de la boîte seront données par la base de bonnées
+Les attributs de la boîte seront données par la base de données
  */
 
 public class Box {
