@@ -44,7 +44,11 @@
         <activity
             android:name=".content_sous_activites.ContentLegumesActivity"
             android:label="@string/title_activity_legumes"
-            android:parentActivityName=".ContentActivity">
+            android:parentActivityName=".ContentActivity" >
+        </activity>
+        <activity
+            android:name=".content_sous_activites.ContentYaourtsActivity"
+            android:label="@string/title_activity_content_yaourts" >
         </activity>
     </application>
 

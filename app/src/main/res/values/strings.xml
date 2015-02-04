@@ -24,5 +24,6 @@
     <string name="contenu_bouton5">Fruits</string>
     <string name="contenu_bouton6">Fromages</string>
     <string name="title_activity_legumes">Legumes</string>
+    <string name="title_activity_content_yaourts">ContentYaourtsActivity</string>
 
 </resources>

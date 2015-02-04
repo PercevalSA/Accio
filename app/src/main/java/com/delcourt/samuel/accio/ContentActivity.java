@@ -9,9 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import com.delcourt.samuel.accio.content_sous_activites.ContentLegumesActivity;
 import com.delcourt.samuel.accio.content_sous_activites.ContentViandesActivity;
-
-
-
+import com.delcourt.samuel.accio.content_sous_activites.ContentYaourtsActivity;
 
 
 public class ContentActivity extends ActionBarActivity {
@@ -60,6 +58,11 @@ public class ContentActivity extends ActionBarActivity {
 
     public void sendMessageViandes(View view){
         Intent intent = new Intent(this, ContentViandesActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendMessageYaourts(View view){
+        Intent intent = new Intent(this, ContentYaourtsActivity.class);
         startActivity(intent);
     }
 }
