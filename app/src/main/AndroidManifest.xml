@@ -61,6 +61,11 @@
             android:label="@string/title_activity_content_desserts"
             android:parentActivityName=".ContentActivity" >
         </activity>
+        <activity
+            android:name=".content_sous_activites.ContentFruitsActivity"
+            android:label="@string/title_activity_content_fruits"
+            android:parentActivityName=".ContentActivity">
+        </activity>
     </application>
 
 </manifest>

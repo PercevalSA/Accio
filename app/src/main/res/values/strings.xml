@@ -27,5 +27,6 @@
     <string name="title_activity_content_viandes">Viandes</string>
     <string name="title_activity_content_yaourts">Yaourts</string>
     <string name="title_activity_content_desserts">Desserts</string>
+    <string name="title_activity_content_fruits">Fruits</string>
 
 </resources>
