@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.util.ArrayList;
@@ -50,6 +51,11 @@ public class MainActivity extends ActionBarActivity {
 
     public void sendMessageOk(View view){
         Intent intent = new Intent(this,MenuActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendMessageNouveau(View view){
+        Intent intent = new Intent(this,NewFrigoActivity.class);
         startActivity(intent);
     }
 
