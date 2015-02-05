@@ -8,8 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.delcourt.samuel.accio.structures.Refrigerateur;
+
+import java.util.ArrayList;
+
 
 public class MainActivity extends ActionBarActivity {
+
+    public ArrayList<Refrigerateur> listeFrigos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,5 +57,10 @@ public class MainActivity extends ActionBarActivity {
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
+    }
+
+    public void createFrigo(String name){
+        Refrigerateur newRef = new Refrigerateur(name);
+        listeFrigos.add(newRef);
     }
 }
