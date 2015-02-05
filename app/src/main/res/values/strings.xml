@@ -18,11 +18,15 @@
     <string name="action_search">Recherche</string>
     <string name="logo">Logo</string>
     <string name="contenu_bouton1">Légumes</string>
-    <string name="contenu_bouton2">Bouton2</string>
-    <string name="contenu_bouton3">Bouton3</string>
-    <string name="contenu_bouton4">Bouton4</string>
-    <string name="contenu_bouton5">Bouton5</string>
-    <string name="contenu_bouton6">Bouton6</string>
+    <string name="contenu_bouton2">Viandes</string>
+    <string name="contenu_bouton3">Yaourts</string>
+    <string name="contenu_bouton4">Desserts</string>
+    <string name="contenu_bouton5">Fruits</string>
+    <string name="contenu_bouton6">Fromages</string>
     <string name="title_activity_legumes">Legumes</string>
+    <string name="title_activity_content_viandes">Viandes</string>
+    <string name="title_activity_content_yaourts">Yaourts</string>
+    <string name="title_activity_content_desserts">Desserts</string>
+    <string name="title_activity_content_fruits">Fruits</string>
 
 </resources>
