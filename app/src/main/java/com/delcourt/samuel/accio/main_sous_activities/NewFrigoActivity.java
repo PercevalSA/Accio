@@ -1,10 +1,13 @@
 package com.delcourt.samuel.accio.main_sous_activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
+import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
 
 public class NewFrigoActivity extends ActionBarActivity {
@@ -36,5 +39,18 @@ public class NewFrigoActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void newFrigo(){
+
+        //Comment récupérer le texte (le nom du frigo) ??
+
+        /*
+        MainActivity.createFrigo(message); //Création du nouveau frigo en utilisant la méthode écrite dans la classe de référence MainActivity
+
+        Intent intent = new Intent(this,MainActivity.class); //Renvoie sur la page d'accueil
+        startActivity(intent);
+
+        */
     }
 }

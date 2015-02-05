@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
-    public ArrayList<Refrigerateur> listeFrigos;
+    public static ArrayList<Refrigerateur> listeFrigos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,8 @@ public class MainActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public void createFrigo(String name){
-        Refrigerateur newRef = new Refrigerateur(name);
-        listeFrigos.add(newRef);
+    public static void createFrigo(String name){
+        Refrigerateur newRefrigerateur = new Refrigerateur(name);
+        listeFrigos.add(newRefrigerateur);
     }
 }
