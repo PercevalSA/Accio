@@ -56,8 +56,8 @@ public class NewFrigoActivity extends ActionBarActivity {
         String messageName = editText.getText().toString();
 
         Refrigerateur newFrigo = new Refrigerateur(messageName);
-        MainActivity.listeFrigos.add(newFrigo); //SOURCE D ERREUR...
-        //MainActivity.frigoNamesList.add(messageName);
+        MainActivity.listeFrigos.add(newFrigo);
+        MainActivity.numberFrigo++;
 
         startActivity(intent); //Renvoie sur la page d'accueil
     }

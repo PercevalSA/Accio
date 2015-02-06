@@ -16,12 +16,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
-    public static ArrayList<Refrigerateur> listeFrigos;
+    public static ArrayList<Refrigerateur> listeFrigos = new ArrayList<Refrigerateur>();
+    public static int numberFrigo=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listeFrigos = new ArrayList<Refrigerateur>();
         setContentView(R.layout.activity_main);}
 
 
