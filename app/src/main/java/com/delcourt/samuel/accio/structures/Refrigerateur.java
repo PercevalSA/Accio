@@ -25,8 +25,8 @@ public class Refrigerateur {
         this.name=name;
     }
 
-    public String getName(Refrigerateur frigo){
-        return frigo.name;
+    public String getName(){
+        return name;
     }
 
     public void addBox(Box box) {
