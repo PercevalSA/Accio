@@ -13,7 +13,9 @@ public class Refrigerateur {
     public ArrayList<Box> boxes;
 
     public Refrigerateur(String name){
+
         this.name=name;
+        boxes = new ArrayList<Box>();
         }
 
     public void setName(String name)

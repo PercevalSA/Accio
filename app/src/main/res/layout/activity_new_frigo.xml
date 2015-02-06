@@ -7,7 +7,7 @@
     tools:context="com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity">
 
     <EditText
-        android:id="@+id/name"
+        android:id="@+id/nameFrigo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/new_frigo_name" />
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text= "@string/new_frigo_create"
-        android:layout_below="@id/name"
+        android:layout_below="@id/nameFrigo"
         android:layout_centerHorizontal="true"
         android:onClick="newFrigo"/>
 

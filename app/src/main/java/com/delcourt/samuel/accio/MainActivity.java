@@ -14,15 +14,15 @@ import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
     public static ArrayList<Refrigerateur> listeFrigos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+        listeFrigos = new ArrayList<Refrigerateur>();
+        setContentView(R.layout.activity_main);}
 
 
     @Override
@@ -65,8 +65,4 @@ public class MainActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public static void createFrigo(String name){
-        Refrigerateur newRefrigerateur = new Refrigerateur(name);
-        listeFrigos.add(newRefrigerateur);
-    }
 }

@@ -5,12 +5,19 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.structures.Refrigerateur;
+
+import java.util.ArrayList;
 
 public class NewFrigoActivity extends ActionBarActivity {
+
+    public ArrayList a;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +48,17 @@ public class NewFrigoActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newFrigo(){
+    public void newFrigo(View view){
 
-        //Comment récupérer le texte (le nom du frigo) ??
+        Intent intent = new Intent(this,MainActivity.class);
 
-        /*
-        MainActivity.createFrigo(message); //Création du nouveau frigo en utilisant la méthode écrite dans la classe de référence MainActivity
+        EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
+        String messageName = editText.getText().toString();
 
-        Intent intent = new Intent(this,MainActivity.class); //Renvoie sur la page d'accueil
-        startActivity(intent);
+        Refrigerateur newFrigo = new Refrigerateur(messageName);
+        MainActivity.listeFrigos.add(newFrigo); //SOURCE D ERREUR...
+        //MainActivity.frigoNamesList.add(messageName);
 
-        */
+        startActivity(intent); //Renvoie sur la page d'accueil
     }
 }
