@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
@@ -17,12 +21,24 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
     public static ArrayList<Refrigerateur> listeFrigos = new ArrayList<Refrigerateur>();
-    public static int numberFrigo=0;
+    public static int numberFrigos=0;
+    public ArrayList<String> listeFrigosNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);}
+        setContentView(R.layout.activity_main);
+
+        // Get the reference of listViewFrigos
+        ListView frigoList=(ListView)findViewById(R.id.listViewFrigos);
+
+        listeFrigosNames=new ArrayList<String>();
+        getFrigosNames();
+        // Create The Adapter with passing ArrayList as 3rd parameter
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listeFrigosNames);
+        // Set The Adapter
+        frigoList.setAdapter(arrayAdapter);
+    }
 
 
     @Override
@@ -63,6 +79,16 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
+    }
+
+    public void getFrigosNames(){
+        listeFrigosNames.add("Coucou1");
+        listeFrigosNames.add("Coucou2");
+        int i =0;
+        for (i=0;i<numberFrigos;i++)
+        {
+            listeFrigosNames.add(listeFrigos.get(i).getName());
+        }
     }
 
 }

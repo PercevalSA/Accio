@@ -57,7 +57,7 @@ public class NewFrigoActivity extends ActionBarActivity {
 
         Refrigerateur newFrigo = new Refrigerateur(messageName);
         MainActivity.listeFrigos.add(newFrigo);
-        MainActivity.numberFrigo++;
+        MainActivity.numberFrigos++;
 
         startActivity(intent); //Renvoie sur la page d'accueil
     }
