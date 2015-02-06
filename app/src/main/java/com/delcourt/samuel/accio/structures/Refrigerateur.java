@@ -25,6 +25,10 @@ public class Refrigerateur {
         this.name=name;
     }
 
+    public String getName(Refrigerateur frigo){
+        return frigo.name;
+    }
+
     public void addBox(Box box) {
         boxes.add(box);
     }
