@@ -64,7 +64,12 @@
         <activity
             android:name=".content_sous_activites.ContentFruitsActivity"
             android:label="@string/title_activity_content_fruits"
-            android:parentActivityName=".ContentActivity">
+            android:parentActivityName=".ContentActivity" >
+        </activity>
+        <activity
+            android:name=".main_sous_activities.NewFrigoActivity"
+            android:label="@string/title_activity_new_frigo"
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

@@ -28,5 +28,8 @@
     <string name="title_activity_content_yaourts">Yaourts</string>
     <string name="title_activity_content_desserts">Desserts</string>
     <string name="title_activity_content_fruits">Fruits</string>
+    <string name="title_activity_new_frigo">Nouveau réfrigérateur</string>
+    <string name="new_frigo_name">Nom du nouveau réfrigérateur</string>
+    <string name="new_frigo_create">Créer</string>
 
 </resources>

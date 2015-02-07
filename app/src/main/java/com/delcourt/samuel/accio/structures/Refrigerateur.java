@@ -11,14 +11,22 @@ public class Refrigerateur {
 
     public String name;
     public ArrayList<Box> boxes;
+    public int numberBoxes;
 
     public Refrigerateur(String name){
+
         this.name=name;
+        boxes = new ArrayList<Box>();
+        numberBoxes=0;
         }
 
     public void setName(String name)
     {
         this.name=name;
+    }
+
+    public String getName(){
+        return name;
     }
 
     public void addBox(Box box) {
