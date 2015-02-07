@@ -17,6 +17,8 @@ import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.util.ArrayList;
 
+import static android.widget.AdapterView.OnItemClickListener;
+
 
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
@@ -38,6 +40,15 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listeFrigosNames);
         // Set The Adapter
         frigoList.setAdapter(arrayAdapter);
+
+        //register onClickListener to handle click events on each item
+        frigoList.setOnItemClickListener(new OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                sendMessageOk(view);
+            }
+        });
     }
 
 
