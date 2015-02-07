@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r√
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sendMessageOk(view);
+                sendMessageFrigoSelected(view);
             }
         });
     }
@@ -76,7 +76,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r√
         }
     }
 
-    public void sendMessageOk(View view){
+    public void sendMessageFrigoSelected(View view){
         Intent intent = new Intent(this,MenuActivity.class);
         startActivity(intent);
     }

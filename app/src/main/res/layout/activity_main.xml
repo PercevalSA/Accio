@@ -28,15 +28,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ok"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-
-        android:onClick="sendMessageOk"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Nouveau"
         android:id="@+id/buttonNew"
         android:layout_alignParentRight="true"
