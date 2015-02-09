@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio.main_sous_activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,12 +13,15 @@ import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class NewFrigoActivity extends ActionBarActivity {
-
-    public ArrayList a;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +52,36 @@ public class NewFrigoActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newFrigo(View view){
+    public void newFrigo(View view) throws IOException {
 
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
 
         EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
         String messageName = editText.getText().toString();
 
-        Refrigerateur newFrigo = new Refrigerateur(messageName);
-        MainActivity.listeFrigos.add(newFrigo);
-        MainActivity.numberFrigos++;
+        //Refrigerateur newFrigo = new Refrigerateur(messageName);
+        //MainActivity.listeFrigos.add(newFrigo);
+        int N = MainActivity.numberFrigos + 1;
+
+       //Sauve le nom du frigo dans les données
+           try{ FileWriter fw = new FileWriter("Frigos_file",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.print(messageName);//écrit le nom du frigo
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();}
+
+        try { //Sauve le nombre total de frigos dans les données
+            FileWriter fw = new FileWriter("NombreFrigos_file",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.print(N);//écrit le nombre total de frigos
+            pw.close();
+        } catch (IOException e) {
+            e.printStackTrace();}
 
         startActivity(intent); //Renvoie sur la page d'accueil
+
     }
 }
