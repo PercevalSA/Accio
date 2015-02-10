@@ -72,10 +72,8 @@ public class NewFrigoActivity extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();}
 
-        try { //Sauve le nombre total de frigos dans les données
-            FileWriter fw = new FileWriter("NombreFrigos_file",true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
+        try { //Sauve le nombre total de frigos dans les données, remplace le fichier (et donc la valeur) précédent
+            PrintWriter pw = new PrintWriter("NombreFrigos_file");
             pw.print(N);//écrit le nombre total de frigos
             pw.close();
         } catch (IOException e) {
