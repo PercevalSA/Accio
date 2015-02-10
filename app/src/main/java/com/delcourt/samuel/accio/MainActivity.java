@@ -1,6 +1,5 @@
 package com.delcourt.samuel.accio;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -11,16 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -41,7 +37,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         listeFrigos = new ArrayList<Refrigerateur>();
 
        try { //Récupère le nombre total de frigos qui ont été créés
-            FileReader fr = new FileReader("NombreFrigos_file");
+            FileReader fr = new FileReader("data/NombreFrigos_file");
             BufferedReader br = new BufferedReader(fr);
             Scanner sc = new Scanner(br);
             numberFrigos=sc.nextInt();
@@ -50,7 +46,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         }
 
         try { //Recrée dans la liste listeFrigos tous les frigos, à partir des données permanentes
-            FileReader fr = new FileReader("Frigos_file");
+            FileReader fr = new FileReader("data/Frigos_file");
             BufferedReader br = new BufferedReader(fr);
             Scanner sc = new Scanner(br);
             int i;
