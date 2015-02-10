@@ -59,8 +59,7 @@ public class NewFrigoActivity extends ActionBarActivity {
         EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
         String messageName = editText.getText().toString();
 
-        //Refrigerateur newFrigo = new Refrigerateur(messageName);
-        //MainActivity.listeFrigos.add(newFrigo);
+
         int N = MainActivity.numberFrigos + 1;
 
        //Sauve le nom du frigo dans les données
