@@ -29,7 +29,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
-    public static ArrayList<Refrigerateur> listeFrigos = new ArrayList<Refrigerateur>();
+    public static ArrayList<Refrigerateur> listeFrigos;
     public static int numberFrigos = 0;
     public ArrayList<String> listeFrigosNames;
 
@@ -37,6 +37,8 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        listeFrigos = new ArrayList<Refrigerateur>();
 
        try { //Récupère le nombre total de frigos qui ont été créés
             FileReader fr = new FileReader("NombreFrigos_file");
