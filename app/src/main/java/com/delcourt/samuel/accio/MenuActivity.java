@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
@@ -35,6 +36,9 @@ public class MenuActivity extends ActionBarActivity {
         refrigerateur = MainActivity.dataSimulee.dataListeFrigos.get(index);
 
         setContentView(R.layout.activity_menu);
+
+        TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
+        textElement.setText("Réfrigérateur : " + refrigerateur.name);
     }
 
 
