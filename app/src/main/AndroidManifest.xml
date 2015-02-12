@@ -42,31 +42,6 @@
             android:parentActivityName=".MenuActivity" >
         </activity>
         <activity
-            android:name=".content_sous_activites.ContentLegumesActivity"
-            android:label="@string/title_activity_legumes"
-            android:parentActivityName=".ContentActivity" >
-        </activity>
-        <activity
-            android:name=".content_sous_activites.ContentViandesActivity"
-            android:label="@string/title_activity_content_viandes"
-            android:parentActivityName=".ContentActivity" >
-        </activity>
-        <activity
-            android:name=".content_sous_activites.ContentYaourtsActivity"
-            android:label="@string/title_activity_content_yaourts"
-            android:parentActivityName=".ContentActivity" >
-        </activity>
-        <activity
-            android:name=".content_sous_activites.ContentDessertsActivity"
-            android:label="@string/title_activity_content_desserts"
-            android:parentActivityName=".ContentActivity" >
-        </activity>
-        <activity
-            android:name=".content_sous_activites.ContentFruitsActivity"
-            android:label="@string/title_activity_content_fruits"
-            android:parentActivityName=".ContentActivity" >
-        </activity>
-        <activity
             android:name=".main_sous_activities.NewFrigoActivity"
             android:label="@string/title_activity_new_frigo"
             android:parentActivityName=".MainActivity">
