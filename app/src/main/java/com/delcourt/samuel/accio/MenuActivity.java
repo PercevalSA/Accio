@@ -14,7 +14,7 @@ import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 public class MenuActivity extends ActionBarActivity {
 
-    public Refrigerateur refrigerateur;
+    public static Refrigerateur refrigerateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

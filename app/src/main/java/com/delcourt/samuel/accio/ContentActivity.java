@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-
-
+import android.widget.TextView;
 
 
 public class ContentActivity extends ActionBarActivity {
@@ -17,6 +15,9 @@ public class ContentActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+
+        TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
+        textElement.setText("Boites Accio du réfrigérateur : " + MenuActivity.refrigerateur.name);
     }
 
 
