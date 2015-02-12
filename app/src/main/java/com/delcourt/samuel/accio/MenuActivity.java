@@ -13,11 +13,27 @@ import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 public class MenuActivity extends ActionBarActivity {
 
-    public static Refrigerateur refrigerateur;
+    public Refrigerateur refrigerateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //get the message from the intent (the frigo name)
+        Intent intent = getIntent();
+        String frigoName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+
+        //Récupère à partir des données sauvegardées les données du frigo
+        int index=0;
+        for (int i=0;i<MainActivity.dataSimulee.dataNombreFrigos;i++){
+            if (frigoName.compareTo(MainActivity.dataSimulee.dataListeFrigos.get(i).name)==0) {
+                index = i;
+                break;
+            }
+        }
+        //int index = MainActivity.dataSimulee.dataListeFrigos.indexOf(frigoName);
+        refrigerateur = MainActivity.dataSimulee.dataListeFrigos.get(index);
+
         setContentView(R.layout.activity_menu);
     }
 

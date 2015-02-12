@@ -72,6 +72,11 @@ public class NewFrigoActivity extends ActionBarActivity {
             else{//On modifie les données sauvegardées
                 MainActivity.dataSimulee.dataFrigoNames.add(newFrigoName);
                 MainActivity.dataSimulee.dataNombreFrigos++;
+                Refrigerateur newFrigo = new Refrigerateur(newFrigoName);
+                MainActivity.dataSimulee.dataListeFrigos.add(newFrigo); //Crée DEUX nouveaux fichiers textes, pour l'instant
+                    //vides, qui contiendront pour l'un le nom des boîtes de ce frigo, pour l'autre le nombre de boîtes contenues par le frigo
+                    //(cf description dans DataSimulée).
+
 
                 startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
             }
