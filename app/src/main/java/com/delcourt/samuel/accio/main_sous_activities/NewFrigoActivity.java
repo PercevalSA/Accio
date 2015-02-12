@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
@@ -50,15 +51,34 @@ public class NewFrigoActivity extends ActionBarActivity {
 
     public void newFrigo(View view){
 
+        int k = 0; //permet de s'assurer que le nom du nouveau frigo n'existe pas encore
+
         Intent intent = new Intent(this,MainActivity.class);
 
         EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
         String messageName = editText.getText().toString();
 
-        Refrigerateur newFrigo = new Refrigerateur(messageName);
-        MainActivity.listeFrigos.add(newFrigo);
-        MainActivity.numberFrigos++;
 
-        startActivity(intent); //Renvoie sur la page d'accueil
+        if (messageName.length() == 0){ //S'assure que le nom n'est pas vide
+            Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_LONG).show();
+        }
+        else {
+            for (int i=0;i<MainActivity.numberFrigos;i++){
+                if (messageName.compareTo(MainActivity.listeFrigos.get(i).name) == 0){
+                    k++;
+                }
+            }
+
+            if (k > 0){
+                Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Refrigerateur newFrigo = new Refrigerateur(messageName);
+                MainActivity.listeFrigos.add(newFrigo);
+                MainActivity.numberFrigos++;
+
+                startActivity(intent); //Renvoie sur la page d'accueil
+            }
+        }
     }
 }
