@@ -18,7 +18,7 @@
         android:layout_marginTop="32dp" />
 
     <ListView
-        android:id="@+id/listeBoites"
+        android:id="@+id/listeViewBoites"
         android:dividerHeight="0.1dp"
         android:divider="#0000CC"
         android:layout_width="match_parent"
