@@ -31,6 +31,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r√
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Get the reference of listViewFrigos
         ListView frigoList=(ListView)findViewById(R.id.listViewFrigos);
 
@@ -93,8 +94,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r√
     }
 
     public void getFrigosNames(){
-        listeFrigosNames.add("Coucou1");
-        listeFrigosNames.add("Coucou2");
+        listeFrigosNames.add("Frigo essai 1");
         int i =0;
         for (i=0;i<numberFrigos;i++)
         {
