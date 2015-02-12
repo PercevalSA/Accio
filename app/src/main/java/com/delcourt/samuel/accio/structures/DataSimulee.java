@@ -24,6 +24,9 @@ public class DataSimulee {
         dataNombreFrigos++;
         dataListeFrigos.add(new Refrigerateur("Réfrigérateur essai"));
 
+        dataListeFrigos.get(0).addBox("Fruits (exemple 1)");
+        dataListeFrigos.get(0).addBox("Légumes (exemple 2)");
+
     }
 
 }
