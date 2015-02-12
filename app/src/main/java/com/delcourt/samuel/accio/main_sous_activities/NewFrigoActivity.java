@@ -17,9 +17,6 @@ import java.util.ArrayList;
 
 public class NewFrigoActivity extends ActionBarActivity {
 
-    public ArrayList a;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +53,15 @@ public class NewFrigoActivity extends ActionBarActivity {
         Intent intent = new Intent(this,MainActivity.class);
 
         EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
-        String messageName = editText.getText().toString();
+        String newFrigoName = editText.getText().toString();
 
 
-        if (messageName.length() == 0){ //S'assure que le nom n'est pas vide
+        if (newFrigoName.length() == 0){ //Si le nom est vide, envoie un message
             Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_LONG).show();
         }
-        else {
-            for (int i=0;i<MainActivity.numberFrigos;i++){
-                if (messageName.compareTo(MainActivity.listeFrigos.get(i).name) == 0){
+        else { //On s'assure qu'aucun frigo du même nom n'a encore été créé
+            for (int i=0;i<MainActivity.nombreFrigos;i++){
+                if (newFrigoName.compareTo(MainActivity.listeFrigosNames.get(i)) == 0){
                     k++;
                 }
             }
@@ -72,12 +69,11 @@ public class NewFrigoActivity extends ActionBarActivity {
             if (k > 0){
                 Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_LONG).show();
             }
-            else{
-                Refrigerateur newFrigo = new Refrigerateur(messageName);
-                MainActivity.listeFrigos.add(newFrigo);
-                MainActivity.numberFrigos++;
+            else{//On modifie les données sauvegardées
+                MainActivity.dataSimulee.dataFrigoNames.add(newFrigoName);
+                MainActivity.dataSimulee.dataNombreFrigos++;
 
-                startActivity(intent); //Renvoie sur la page d'accueil
+                startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
             }
         }
     }

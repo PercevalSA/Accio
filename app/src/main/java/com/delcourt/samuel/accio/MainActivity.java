@@ -13,18 +13,26 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.structures.DataSimulee;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.util.ArrayList;
 
 import static android.widget.AdapterView.OnItemClickListener;
 
+//Cette classe gère la gestion des frigos (dans lesquels sont réparties les boîtes).
+
+//Elle n'a pour cela besoin que des noms des frigos : pour cette raison, elle (et les classes directement associées) lit et écrit dans un
+//fichier texte listeFrigos.txt (pour l'instant une ArrayList dataFrigoNames).
+
+//Cette classe a également besoin de connaître le nombre  de frigos : elle le lit (et peut de même le modifier) dans le fichier
+//texte nombreFrigos.txt (pour l'instant un int dataNombreFrigos).
 
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
-    public static ArrayList<Refrigerateur> listeFrigos = new ArrayList<Refrigerateur>();
-    public static int numberFrigos=0;
-    public ArrayList<String> listeFrigosNames;
+    public static int nombreFrigos;
+    public static ArrayList<String> listeFrigosNames;
+    public static DataSimulee dataSimulee = new DataSimulee();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +40,28 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         setContentView(R.layout.activity_main);
 
 
-        // Get the reference of listViewFrigos
-        ListView frigoList=(ListView)findViewById(R.id.listViewFrigos);
+        //récupère les données à chaque ouverture de l'activité (=actualisation permanente) :
+        nombreFrigos= dataSimulee.dataNombreFrigos;//récupère la valeur dans les données
+        listeFrigosNames = dataSimulee.dataFrigoNames; //récupère la liste des noms des frigos
 
-        listeFrigosNames=new ArrayList<String>();
-        getFrigosNames();
+
+        // Get the reference of listViewFrigos (pour l'affichage de la liste)
+        ListView frigoList=(ListView)findViewById(R.id.listViewFrigos);
         // Create The Adapter with passing ArrayList as 3rd parameter
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listeFrigosNames);
         // Set The Adapter
         frigoList.setAdapter(arrayAdapter);
 
+
         //register onClickListener to handle click events on each item
         frigoList.setOnItemClickListener(new OnItemClickListener()
         {
+            // argument position gives the index of item which is clicked
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sendMessageFrigoSelected(view);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                int indexFrigo = position;
+                sendMessageFrigoSelected(view, indexFrigo);
             }
         });
     }
@@ -77,8 +91,11 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         }
     }
 
-    public void sendMessageFrigoSelected(View view){
+    public void sendMessageFrigoSelected(View view, int index){ //Envoi du message à changer
         Intent intent = new Intent(this,MenuActivity.class);
+        MenuActivity.refrigerateur=new Refrigerateur(listeFrigosNames.get(index));//crée le réfrigérateur à partir du nom.
+                //connaissant ce nom, MenuActivity sera capable de retrouver elle même toutes les caractéristiques du frigo
+                // (par ex, nb de boites) à partir des données sauvegardées.
         startActivity(intent);
     }
 
@@ -92,14 +109,4 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
     }
-
-    public void getFrigosNames(){
-        listeFrigosNames.add("Frigo essai 1");
-        int i =0;
-        for (i=0;i<numberFrigos;i++)
-        {
-            listeFrigosNames.add(listeFrigos.get(i).getName());
-        }
-    }
-
 }

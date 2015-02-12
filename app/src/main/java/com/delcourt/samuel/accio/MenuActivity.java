@@ -8,8 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.delcourt.samuel.accio.structures.Refrigerateur;
+
 
 public class MenuActivity extends ActionBarActivity {
+
+    public static Refrigerateur refrigerateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
