@@ -11,7 +11,7 @@
     <string name="favorite">Favoris</string>
     <string name="historique">Historique</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_content">Vos Aliments</string>
+    <string name="title_activity_content">Vos boîtes Accio</string>
     <string name="title_activity_recipes">Vos Recettes</string>
     <string name="title_activity_favoris">Vos Favoris</string>
     <string name="title_activity_historique">Votre Historique</string>
