@@ -89,4 +89,8 @@ public class ContentActivity extends ActionBarActivity {
 
     }
 
+    public void sendMessageNewBox(View view){
+
+    }
+
 }
