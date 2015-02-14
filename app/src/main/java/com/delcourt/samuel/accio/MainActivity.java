@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.DataSimulee;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 

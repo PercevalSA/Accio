@@ -42,7 +42,7 @@
             android:parentActivityName=".MenuActivity" >
         </activity>
         <activity
-            android:name=".main_sous_activities.NewFrigoActivity"
+            android:name=".create_new_object_activities.NewFrigoActivity"
             android:label="@string/title_activity_new_frigo"
             android:parentActivityName=".MainActivity">
         </activity>

@@ -1,4 +1,4 @@
-package com.delcourt.samuel.accio.createnewobjectactivities;
+package com.delcourt.samuel.accio.create_new_object_activities;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
