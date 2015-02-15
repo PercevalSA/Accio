@@ -52,7 +52,8 @@
         android:id="@+id/frigoNameMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="nom frigo" />
+        android:text="nom frigo"
+        android:textSize="20dp" />
 
 
     <Button

@@ -12,7 +12,7 @@
     <TextView android:text="boites"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="20dp"
         android:textIsSelectable="false"
         android:id="@+id/messageBoitesduFrigo"
         android:layout_marginTop="32dp" />
