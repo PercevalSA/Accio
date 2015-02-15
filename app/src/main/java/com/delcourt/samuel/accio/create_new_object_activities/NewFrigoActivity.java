@@ -56,7 +56,7 @@ public class NewFrigoActivity extends ActionBarActivity {
 
 
         if (newFrigoName.length() == 0){ //Si le nom est vide, envoie un message
-            Toast toast = Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
@@ -68,7 +68,7 @@ public class NewFrigoActivity extends ActionBarActivity {
             }
 
             if (k > 0){
-                Toast toast = Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
             }
