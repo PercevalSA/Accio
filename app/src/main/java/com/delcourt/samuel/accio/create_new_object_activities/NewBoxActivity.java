@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.delcourt.samuel.accio.R;
 
@@ -36,5 +37,13 @@ public class NewBoxActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendMessageNewBox(View view){
+
+    }
+
+    public void sendMessageHelp(View view){
+
     }
 }

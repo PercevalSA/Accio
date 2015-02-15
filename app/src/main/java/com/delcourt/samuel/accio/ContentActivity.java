@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
+
 import java.util.ArrayList;
 
 
@@ -91,7 +93,8 @@ public class ContentActivity extends ActionBarActivity {
     }
 
     public void sendMessageNewBox(View view){
-
-    }
+        Intent intent = new Intent(this, NewBoxActivity.class);
+        startActivity(intent);
+        }
 
 }
