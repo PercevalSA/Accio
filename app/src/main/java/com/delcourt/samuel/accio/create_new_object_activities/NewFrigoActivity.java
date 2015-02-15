@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio.create_new_object_activities;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +56,9 @@ public class NewFrigoActivity extends ActionBarActivity {
 
 
         if (newFrigoName.length() == 0){ //Si le nom est vide, envoie un message
-            Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
         }
         else { //On s'assure qu'aucun frigo du même nom n'a encore été créé
             for (int i=0;i<MainActivity.nombreFrigos;i++){
@@ -65,7 +68,9 @@ public class NewFrigoActivity extends ActionBarActivity {
             }
 
             if (k > 0){
-                Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
             }
             else{//On modifie les données sauvegardées
                 MainActivity.dataSimulee.dataFrigoNames.add(newFrigoName);
