@@ -33,7 +33,6 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
     public static int nombreFrigos;
     public static ArrayList<String> listeFrigosNames;
     public static DataSimulee dataSimulee = new DataSimulee();
-    public final static String EXTRA_MESSAGE = "com.delcourt.samuel.accio.main.MESSAGE";//utilisé dans la méthode sendMessageFrigoSelected
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +91,19 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         }
     }
 
-    public void sendMessageFrigoSelected(View view, int index){
+    public void sendMessageFrigoSelected(View view, int indexName){
 
         Intent intent = new Intent(this, MenuActivity.class);//Lance l'activité MenuActivity, avec le nom du frigo sélectionné en message
-        String frigoName = listeFrigosNames.get(index);
-        intent.putExtra(EXTRA_MESSAGE, frigoName);
+        String frigoName = listeFrigosNames.get(indexName);
+
+        int index=0;//Récupère le fichier du frigo correspondant et le charge en mémoire dans MenuActivity
+        for (int i=0;i<MainActivity.dataSimulee.dataNombreFrigos;i++){
+            if (frigoName.compareTo(MainActivity.dataSimulee.dataListeFrigos.get(i).name)==0) {
+                index = i;
+                break;
+            }
+        }
+        MenuActivity.refrigerateur = MainActivity.dataSimulee.dataListeFrigos.get(index);
         startActivity(intent);
     }
 

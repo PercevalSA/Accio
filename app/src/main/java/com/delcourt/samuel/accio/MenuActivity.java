@@ -21,27 +21,6 @@ public class MenuActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //get the message from the intent (the frigo name)
-        Intent intent = getIntent();
-        try{String frigoName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);//Le bloc try permet d'aasurer que l'on peut revenir au menu depuis les activités précédentes (erreur sinon)
-
-        //Récupère à partir des données sauvegardées les données du frigo
-        int index=0;
-        for (int i=0;i<MainActivity.dataSimulee.dataNombreFrigos;i++){
-            if (frigoName.compareTo(MainActivity.dataSimulee.dataListeFrigos.get(i).name)==0) {
-                index = i;
-                break;
-            }
-        }
-        //int index = MainActivity.dataSimulee.dataListeFrigos.indexOf(frigoName);
-        refrigerateur = MainActivity.dataSimulee.dataListeFrigos.get(index);}
-        catch (Exception E){//Affiche un Toast indiquant qu'une erreur a eu lieu
-            Toast toast = Toast.makeText(getApplicationContext(), "Une erreur est survenue...", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }
-
         setContentView(R.layout.activity_menu);
 
         TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
