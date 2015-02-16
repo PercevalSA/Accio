@@ -31,7 +31,7 @@
     <string name="title_activity_new_frigo">Nouveau réfrigérateur</string>
     <string name="new_frigo_name">Nom du nouveau réfrigérateur</string>
     <string name="new_frigo_create">Créer</string>
-    <string name="title_activity_new_box">NewBoxActivity</string>
+    <string name="title_activity_new_box">Nouvelle boîte Accio</string>
     <string name="numero_boite">Veuillez entrer le numéro de la boîte</string>
     <string name="code_boite">Entrez le code d activation de la boîte</string>
     <string name="nom_boite">Nom de la nouvelle boîte</string>
