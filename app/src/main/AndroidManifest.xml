@@ -48,11 +48,13 @@
         </activity>
         <activity
             android:name=".create_new_object_activities.NewBoxActivity"
-            android:label="@string/title_activity_new_box" >
+            android:label="@string/title_activity_new_box"
+            android:parentActivityName=".ContentActivity">
         </activity>
         <activity
             android:name=".BoxActivity"
-            android:label="@string/title_activity_box" >
+            android:label="@string/title_activity_box"
+            android:parentActivityName=".ContentActivity">
         </activity>
     </application>
 
