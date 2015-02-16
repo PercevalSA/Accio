@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
@@ -70,7 +71,7 @@ public class NewFrigoActivity extends ActionBarActivity {
             pw.print(messageName);//écrit le nom du frigo
             pw.close();
         } catch (IOException e) {
-            e.printStackTrace();}
+               Toast.makeText(getApplicationContext(), "erreur", Toast.LENGTH_LONG).show();}
 
         try { //Sauve le nombre total de frigos dans les données, remplace le fichier (et donc la valeur) précédent
             PrintWriter pw = new PrintWriter("NombreFrigos_file");
