@@ -4,17 +4,27 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 
 public class MenuActivity extends ActionBarActivity {
+
+    public static Refrigerateur refrigerateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
+        textElement.setText("Réfrigérateur : " + refrigerateur.name);
     }
 
 

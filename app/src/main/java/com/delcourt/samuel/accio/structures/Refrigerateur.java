@@ -2,21 +2,19 @@ package com.delcourt.samuel.accio.structures;
 
 import java.util.ArrayList;
 
-/* Définit la structure des réfrigérateurs.
-Le nom des frigo et les références sur la base de données des boites qu'ils contiennent
-sont ainsi stockées par l'application elle même.
+/* Cette partie est associée à DataSimulee, et pourra disparaître par la suite
  */
 
 public class Refrigerateur {
 
     public String name;
-    public ArrayList<Box> boxes;
+    public ArrayList<String> listBoxes;
     public int numberBoxes;
 
     public Refrigerateur(String name){
 
         this.name=name;
-        boxes = new ArrayList<Box>();
+        listBoxes = new ArrayList<String>();
         numberBoxes=0;
         }
 
@@ -29,8 +27,8 @@ public class Refrigerateur {
         return name;
     }
 
-    public void addBox(Box box) {
-        boxes.add(box);
+    public void addBox(String boxName) {
+        listBoxes.add(boxName);
     }
 
 }

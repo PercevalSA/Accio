@@ -1,25 +1,29 @@
-package com.delcourt.samuel.accio.content_sous_activites;
+package com.delcourt.samuel.accio;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.structures.Box;
 
-public class ContentLegumesActivity extends ActionBarActivity {
+public class BoxActivity extends ActionBarActivity {
+
+    public static Box boite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contentlegumes);
+        setContentView(R.layout.activity_box);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_contentlegumes, menu);
+        getMenuInflater().inflate(R.menu.menu_box, menu);
         return true;
     }
 

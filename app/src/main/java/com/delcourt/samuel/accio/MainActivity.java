@@ -11,7 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.delcourt.samuel.accio.main_sous_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.structures.DataSimulee;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
@@ -22,62 +23,50 @@ import java.util.Scanner;
 
 import static android.widget.AdapterView.OnItemClickListener;
 
+//Cette classe gère la gestion des frigos (dans lesquels sont réparties les boîtes).
+
+//Elle n'a pour cela besoin que des noms des frigos : pour cette raison, elle (et les classes directement associées) lit et écrit dans un
+//fichier texte listeFrigos.txt (pour l'instant une ArrayList dataFrigoNames).
+
+//Cette classe a également besoin de connaître le nombre  de frigos : elle le lit (et peut de même le modifier) dans le fichier
+//texte nombreFrigos.txt (pour l'instant un int dataNombreFrigos).
 
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
-    public static ArrayList<Refrigerateur> listeFrigos;
-    public static int numberFrigos = 0;
-    public ArrayList<String> listeFrigosNames;
+
+    public static int nombreFrigos;
+    public static ArrayList<String> listeFrigosNames;
+    public static DataSimulee dataSimulee = new DataSimulee();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listeFrigos = new ArrayList<Refrigerateur>();
 
-       try { //Récupère le nombre total de frigos qui ont été créés
-            FileReader fr = new FileReader("data/NombreFrigos_file");
-            BufferedReader br = new BufferedReader(fr);
-            Scanner sc = new Scanner(br);
-            numberFrigos=sc.nextInt();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        //récupère les données à chaque ouverture de l'activité (=actualisation permanente) :
+        nombreFrigos= dataSimulee.dataNombreFrigos;//récupère la valeur dans les données
+        listeFrigosNames = dataSimulee.dataFrigoNames; //récupère la liste des noms des frigos
 
-        try { //Recrée dans la liste listeFrigos tous les frigos, à partir des données permanentes
-            FileReader fr = new FileReader("data/Frigos_file");
-            BufferedReader br = new BufferedReader(fr);
-            Scanner sc = new Scanner(br);
-            int i;
-            int n = numberFrigos;
-            for(i=0;i<n;i++){
-                String name = sc.next();
-                Refrigerateur newFrigo = new Refrigerateur(name);
-                listeFrigos.add(newFrigo);
-                numberFrigos++;
-                i++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        // Get the reference of listViewFrigos
+        // Get the reference of listViewFrigos (pour l'affichage de la liste)
         ListView frigoList=(ListView)findViewById(R.id.listViewFrigos);
-
-        listeFrigosNames=new ArrayList<String>();
-        getFrigosNames();
         // Create The Adapter with passing ArrayList as 3rd parameter
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listeFrigosNames);
         // Set The Adapter
         frigoList.setAdapter(arrayAdapter);
 
+
         //register onClickListener to handle click events on each item
         frigoList.setOnItemClickListener(new OnItemClickListener()
         {
+            // argument position gives the index of item which is clicked
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sendMessageFrigoSelected(view);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                int indexFrigo = position;
+                sendMessageFrigoSelected(view, indexFrigo);
             }
         });
     }
@@ -107,8 +96,19 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         }
     }
 
-    public void sendMessageFrigoSelected(View view){
-        Intent intent = new Intent(this,MenuActivity.class);
+    public void sendMessageFrigoSelected(View view, int indexName){
+
+        Intent intent = new Intent(this, MenuActivity.class);//Lance l'activité MenuActivity, avec le nom du frigo sélectionné en message
+        String frigoName = listeFrigosNames.get(indexName);
+
+        int index=0;//Récupère le fichier du frigo correspondant et le charge en mémoire dans MenuActivity
+        for (int i=0;i<MainActivity.dataSimulee.dataNombreFrigos;i++){
+            if (frigoName.compareTo(MainActivity.dataSimulee.dataListeFrigos.get(i).name)==0) {
+                index = i;
+                break;
+            }
+        }
+        MenuActivity.refrigerateur = MainActivity.dataSimulee.dataListeFrigos.get(index);
         startActivity(intent);
     }
 
@@ -122,15 +122,4 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
     }
-
-    public void getFrigosNames(){
-        listeFrigosNames.add("Coucou1");
-        listeFrigosNames.add("Coucou2");
-        int i =0;
-        for (i=0;i<numberFrigos;i++)
-        {
-            listeFrigosNames.add(listeFrigos.get(i).getName());
-        }
-    }
-
 }
