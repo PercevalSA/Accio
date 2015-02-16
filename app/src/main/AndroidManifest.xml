@@ -50,6 +50,10 @@
             android:name=".create_new_object_activities.NewBoxActivity"
             android:label="@string/title_activity_new_box" >
         </activity>
+        <activity
+            android:name=".BoxActivity"
+            android:label="@string/title_activity_box" >
+        </activity>
     </application>
 
 </manifest>

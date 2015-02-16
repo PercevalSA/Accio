@@ -88,8 +88,9 @@ public class ContentActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public void sendMessageBoxSelected(View view, int index){
-
+    public void sendMessageBoxSelected(View view, int index){//A COMPLETER !!!
+        Intent intent = new Intent(this, BoxActivity.class);
+        startActivity(intent);
     }
 
     public void sendMessageNewBox(View view){
