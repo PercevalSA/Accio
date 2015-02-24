@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +18,7 @@ import com.delcourt.samuel.accio.structures.DataSimulee;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +41,9 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
 
     public static int nombreFrigos;
     public static ArrayList<String> listeFrigosNames;
-    public static DataSimulee dataSimulee = new DataSimulee();
+    public static DataSimulee dataSimulee = new DataSimulee();//Petit à petit, dataSimulee va disparaître : tout sera fait à
+    // partir de initialisationFrigoReference()
+
 
 
     @Override
@@ -58,8 +62,14 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
             BufferedReader buffreader = new BufferedReader(inputreader);
             nombreFrigos= buffreader.read();
             Toast.makeText(getApplicationContext(), "nb frigos : " + nombreFrigos, Toast.LENGTH_SHORT).show();
-        } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_SHORT).show();} catch (IOException e) {
+        } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (utile pour nous)
+            try {
+                initialisationFrigoReference();
+                nombreFrigos=1;
+                Toast.makeText(getApplicationContext(), "initialisé, nb frigos :" + nombreFrigos, Toast.LENGTH_SHORT).show();
+            } catch (IOException e1) {Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_SHORT).show();}
+
+            } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -144,7 +154,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         String frigoName = listeFrigosNames.get(indexName);
 
         int index=0;//Récupère le fichier du frigo correspondant et le charge en mémoire dans MenuActivity
-        for (int i=0;i<MainActivity.dataSimulee.dataNombreFrigos;i++){
+        for (int i=0;i<nombreFrigos;i++){
             if (frigoName.compareTo(MainActivity.dataSimulee.dataListeFrigos.get(i).name)==0) {
                 index = i;
                 break;
@@ -163,5 +173,13 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
+    }
+
+    public void initialisationFrigoReference() throws IOException {//A CONTINUER
+        //crée le fichier nombre_frigos, un frigo :
+        FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
+        fos.write(1);
+        fos.close();
+
     }
 }
