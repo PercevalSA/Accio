@@ -90,7 +90,7 @@ public class NewFrigoActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "erreur écriture frigo", Toast.LENGTH_SHORT).show();
                 }
 
-                try { //Sauve le nombre total de frigos dans les données, ???????? remplace le fichier (et donc la valeur) précédent
+                try { //Sauve le nombre total de frigos dans les données, remplace le fichier (et donc la valeur) précédent
                     FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
                     fos.write(N);
                     fos.close();
@@ -102,11 +102,10 @@ public class NewFrigoActivity extends ActionBarActivity {
 
                 //CODE TEST PRECEDENT :
                 MainActivity.dataSimulee.dataFrigoNames.add(newFrigoName);
-                //MainActivity.dataSimulee.dataNombreFrigos++;
                 Refrigerateur newFrigo = new Refrigerateur(newFrigoName);
                 MainActivity.dataSimulee.dataListeFrigos.add(newFrigo); //Crée DEUX nouveaux fichiers textes, pour l'instant
-                    //vides, qui contiendront pour l'un le nom des boîtes de ce frigo, pour l'autre le nombre de boîtes contenues par le frigo
-                    //(cf description dans DataSimulée).
+                //vides, qui contiendront pour l'un le nom des boîtes de ce frigo, pour l'autre le nombre de boîtes contenues par le frigo
+                //(cf description dans DataSimulée).
                 //FIN DU CODE TEST PRECEDENT
 
 

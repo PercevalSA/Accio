@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.DataSimulee;
-import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -55,25 +54,18 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         InputStream instream = null;
         try {
             instream = openFileInput("nombre_frigos_file.txt");
-            // prepare the file for reading
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             nombreFrigos= buffreader.read();
-            Toast.makeText(getApplicationContext(), "nb frigos : " + nombreFrigos, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "nb frigos : " + nombreFrigos, Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {
-            Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_LONG).show();} catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_SHORT).show();} catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        //Recrée dans la liste listeFrigos tous les frigos, à partir des données permanentes
-        /*InputStream instream = null;
+        /*instream = null;
         try {
             instream = openFileInput("Frigos_file.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        // prepare the file for reading
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
@@ -87,13 +79,17 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
                 catch(Exception e){
                     Toast.makeText(getApplicationContext(),"exception", Toast.LENGTH_LONG).show();
                 }
-            }*/
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+            */
 
-        //FIN LECTURE DES FICHIERS
+
 
         //récupère les données à chaque ouverture de l'activité (=actualisation permanente) :
-        //nombreFrigos= dataSimulee.dataNombreFrigos;//récupère la valeur dans les données
         listeFrigosNames = dataSimulee.dataFrigoNames; //récupère la liste des noms des frigos
+        //FIN LECTURE DES FICHIERS
 
 
         // Get the reference of listViewFrigos (pour l'affichage de la liste)
