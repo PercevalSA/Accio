@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
                 openSearch();
                 return true;
             case R.id.action_settings:
-               // on mettra la méthode openSettings() quand elle sera cree
+                // on mettra la méthode openSettings() quand elle sera cree
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
