@@ -21,6 +21,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,7 +43,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
 
         listeFrigos = new ArrayList<Refrigerateur>();
 
-       try { //Récupère le nombre total de frigos qui ont été créés
+        try { //Récupère le nombre total de frigos qui ont été créés
             FileReader fr = new FileReader("NombreFrigos_file");
             BufferedReader br = new BufferedReader(fr);
             Scanner sc = new Scanner(br);
@@ -50,20 +53,22 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         }
 
         try { //Recrée dans la liste listeFrigos tous les frigos, à partir des données permanentes
-            FileReader fr = new FileReader("Frigos_file");
-            BufferedReader br = new BufferedReader(fr);
-            Scanner sc = new Scanner(br);
-            int i;
-            int n = numberFrigos;
-            for(i=0;i<n;i++){
-                String name = sc.next();
-                Refrigerateur newFrigo = new Refrigerateur(name);
-                listeFrigos.add(newFrigo);
-                numberFrigos++;
-                i++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            InputStream instream = openFileInput("Frigos_file.txt");
+
+
+                // prepare the file for reading
+                InputStreamReader inputreader = new InputStreamReader(instream);
+                BufferedReader buffreader = new BufferedReader(inputreader);
+
+                String line= buffreader.readLine();
+            Toast.makeText(getApplicationContext(), line, Toast.LENGTH_LONG).show();
+
+            // close the file again
+            instream.close();
+
+
+        } catch (IOException e) {
+            Toast.makeText(getApplicationContext(), "erreur lecture", Toast.LENGTH_LONG).show();;
         }
 
         // Get the reference of listViewFrigos
@@ -104,7 +109,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
                 openSearch();
                 return true;
             case R.id.action_settings:
-               // on mettra la méthode openSettings() quand elle sera cree
+                // on mettra la méthode openSettings() quand elle sera cree
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

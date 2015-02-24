@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +15,15 @@ import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -64,21 +69,25 @@ public class NewFrigoActivity extends ActionBarActivity {
         //MainActivity.listeFrigos.add(newFrigo);
         int N = MainActivity.numberFrigos + 1;
 
-       //Sauve le nom du frigo dans les données
-           try{ FileWriter fw = new FileWriter("Frigos_file",true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-            pw.print(messageName);//écrit le nom du frigo
-            pw.close();
-        } catch (IOException e) {
-               Toast.makeText(getApplicationContext(), "erreur", Toast.LENGTH_LONG).show();}
+        //Sauve le nom du frigo dans les données
 
-        try { //Sauve le nombre total de frigos dans les données, remplace le fichier (et donc la valeur) précédent
-            PrintWriter pw = new PrintWriter("NombreFrigos_file");
+        try {
+            OutputStreamWriter out = new OutputStreamWriter(openFileOutput("Frigos_file.txt",0));
+            out.write(messageName);
+            out.close();
+        } catch (java.io.IOException e) {
+            Toast.makeText(getApplicationContext(), "erreur", Toast.LENGTH_LONG).show();
+        }
+
+        //Sauve le nombre total de frigos dans les données, remplace le fichier (et donc la valeur) précédent
+
+        try {//ATTENTION, CE FICHIER DEVRA ETRE REMPLACE
+            PrintWriter pw = new PrintWriter("NombreFrigos_file.txt");
             pw.print(N);//écrit le nombre total de frigos
             pw.close();
-        } catch (IOException e) {
-            e.printStackTrace();}
+        } catch (FileNotFoundException e) {
+
+            }
 
         startActivity(intent); //Renvoie sur la page d'accueil
 
