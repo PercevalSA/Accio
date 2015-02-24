@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.DataSimulee;
@@ -18,6 +19,9 @@ import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -45,8 +49,50 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         setContentView(R.layout.activity_main);
 
 
+        //LECTURE DES FICHIERS
+
+        //Leccture nombre de frigos
+        InputStream instream = null;
+        try {
+            instream = openFileInput("nombre_frigos_file.txt");
+            // prepare the file for reading
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            nombreFrigos= buffreader.read();
+            Toast.makeText(getApplicationContext(), "nb frigos : " + nombreFrigos, Toast.LENGTH_LONG).show();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_LONG).show();} catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        //Recrée dans la liste listeFrigos tous les frigos, à partir des données permanentes
+        /*InputStream instream = null;
+        try {
+            instream = openFileInput("Frigos_file.txt");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // prepare the file for reading
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            Scanner sc = new Scanner(buffreader);
+
+            int i;
+            int n = nombreFrigos;
+            for(i=0;i<2;i++){//2 sera remplacé par n après
+                try{String name = sc.next();//ce bloc try est aussi temporaire
+                    i++;
+                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();}
+                catch(Exception e){
+                    Toast.makeText(getApplicationContext(),"exception", Toast.LENGTH_LONG).show();
+                }
+            }*/
+
+        //FIN LECTURE DES FICHIERS
+
         //récupère les données à chaque ouverture de l'activité (=actualisation permanente) :
-        nombreFrigos= dataSimulee.dataNombreFrigos;//récupère la valeur dans les données
+        //nombreFrigos= dataSimulee.dataNombreFrigos;//récupère la valeur dans les données
         listeFrigosNames = dataSimulee.dataFrigoNames; //récupère la liste des noms des frigos
 
 

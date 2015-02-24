@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio.create_new_object_activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -13,6 +14,11 @@ import android.widget.Toast;
 import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class NewFrigoActivity extends ActionBarActivity {
 
@@ -53,6 +59,7 @@ public class NewFrigoActivity extends ActionBarActivity {
 
         EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
         String newFrigoName = editText.getText().toString();
+        int N = MainActivity.nombreFrigos + 1;
 
 
         if (newFrigoName.length() == 0){ //Si le nom est vide, envoie un message
@@ -73,12 +80,34 @@ public class NewFrigoActivity extends ActionBarActivity {
                 toast.show();
             }
             else{//On modifie les données sauvegardées
+
+                try {//Ajoute le nom du nouveau frigo dans frigos_file.txt ?????Le fichier est écrasé ?
+                    OutputStreamWriter out = new OutputStreamWriter(openFileOutput("frigos_file.txt",0));
+                    out.write(newFrigoName);
+                    out.close();
+                    Toast.makeText(getApplicationContext(), "écriture nom ok", Toast.LENGTH_SHORT).show();
+                } catch (java.io.IOException e) {
+                    Toast.makeText(getApplicationContext(), "erreur écriture frigo", Toast.LENGTH_SHORT).show();
+                }
+
+                try { //Sauve le nombre total de frigos dans les données, ???????? remplace le fichier (et donc la valeur) précédent
+                    FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
+                    fos.write(N);
+                    fos.close();
+                    Toast.makeText(getApplicationContext(), "nb frig sauv, val=" + N, Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();}
+
+
+
+                //CODE TEST PRECEDENT :
                 MainActivity.dataSimulee.dataFrigoNames.add(newFrigoName);
-                MainActivity.dataSimulee.dataNombreFrigos++;
+                //MainActivity.dataSimulee.dataNombreFrigos++;
                 Refrigerateur newFrigo = new Refrigerateur(newFrigoName);
                 MainActivity.dataSimulee.dataListeFrigos.add(newFrigo); //Crée DEUX nouveaux fichiers textes, pour l'instant
                     //vides, qui contiendront pour l'un le nom des boîtes de ce frigo, pour l'autre le nombre de boîtes contenues par le frigo
                     //(cf description dans DataSimulée).
+                //FIN DU CODE TEST PRECEDENT
 
 
                 startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
