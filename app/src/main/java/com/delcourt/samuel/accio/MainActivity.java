@@ -176,13 +176,8 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         String frigoName = listeFrigosNames.get(indexName);
 
         int index=0;//Récupère le fichier du frigo correspondant et le charge en mémoire dans MenuActivity
-        for (int i=0;i<nombreFrigos;i++){
-            if (frigoName.compareTo(MainActivity.dataSimulee.dataListeFrigos.get(i).name)==0) {
-                index = i;
-                break;
-            }
-        }
-        MenuActivity.refrigerateur = MainActivity.dataSimulee.dataListeFrigos.get(index);
+        Refrigerateur frigo = new Refrigerateur(frigoName);
+        MenuActivity.refrigerateur = frigo;
         startActivity(intent);
     }
 
