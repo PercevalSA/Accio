@@ -10,11 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
-import com.delcourt.samuel.accio.structures.Refrigerateur;
-
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -88,7 +85,6 @@ public class NewFrigoActivity extends ActionBarActivity {
                     PrintWriter out = new PrintWriter(bw);
                     out.println(newFrigoName);
                     out.close();
-                    Toast.makeText(getApplicationContext(), "écriture nom ok", Toast.LENGTH_SHORT).show();
                 } catch (java.io.IOException e) {
                     Toast.makeText(getApplicationContext(), "erreur écriture frigo", Toast.LENGTH_SHORT).show();
                 }
@@ -97,20 +93,8 @@ public class NewFrigoActivity extends ActionBarActivity {
                     FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
                     fos.write(N);
                     fos.close();
-                    Toast.makeText(getApplicationContext(), "nb frig sauv, val=" + N, Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();}
-
-
-
-                //CODE TEST PRECEDENT :
-                MainActivity.dataSimulee.dataFrigoNames.add(newFrigoName);
-                Refrigerateur newFrigo = new Refrigerateur(newFrigoName);
-                MainActivity.dataSimulee.dataListeFrigos.add(newFrigo); //Crée DEUX nouveaux fichiers textes, pour l'instant
-                //vides, qui contiendront pour l'un le nom des boîtes de ce frigo, pour l'autre le nombre de boîtes contenues par le frigo
-                //(cf description dans DataSimulée).
-                //FIN DU CODE TEST PRECEDENT
-
 
                 startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
             }
