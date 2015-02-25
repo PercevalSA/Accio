@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,27 +12,53 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class ContentActivity extends ActionBarActivity {
 
-    public static int nombreBoites;
-    public static ArrayList<String> listeBoitesNames;
+    //public static int nombreBoites;
+    public static ArrayList<String> listeBoitesNames = new ArrayList<>();
+    public String frigoName = MenuActivity.refrigerateur.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
 
-        //récupère les données à chaque ouverture de l'activité (=actualisation permanente) :
-        nombreBoites= MenuActivity.refrigerateur.numberBoxes;//récupère la valeur dans les données
-        listeBoitesNames = MenuActivity.refrigerateur.listBoxes; //récupère la liste des noms des frigos
 
+        //Leccture nombre de frigos
+        InputStream instream = null;
+        listeBoitesNames = new ArrayList<>();//réinitialise la liste
+        try {
+            instream = openFileInput(frigoName + "Boxes.txt");
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            Scanner sc = new Scanner(buffreader);
+
+            while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
+                String name = sc.nextLine();
+                listeBoitesNames.add(name);
+            }
+        } catch (FileNotFoundException e) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Ce réfrigérateur ne contient pas encore de boite Accio", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
 
         // Get the reference of listViewFrigos (pour l'affichage de la liste)
         ListView boxesList=(ListView)findViewById(R.id.listeViewBoites);

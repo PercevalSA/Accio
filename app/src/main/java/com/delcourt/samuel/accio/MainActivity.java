@@ -92,6 +92,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
                 out2.println("Réfrigérateur essai");
                 out2.close();
                 listeFrigosNames.add("Réfrigérateur essai");//initialise les données locales
+                initialisationFrigoExemple();//Permet la suite de l'initialisation du frigo de référence (càd l'exemple)
             } catch (FileNotFoundException e1) {
                 Toast.makeText(getApplicationContext(), "liste frigo not found", Toast.LENGTH_SHORT).show();
             }
@@ -163,4 +164,15 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         startActivity(help);
     }
 
+    public void initialisationFrigoExemple() throws FileNotFoundException {
+
+        //On crée le fichier contenant la liste des boites de Réfrigérateur essai
+        OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("Réfrigérateur essaiBoxes.txt",MODE_APPEND));
+        BufferedWriter bw = new BufferedWriter(outStream);
+        PrintWriter out2 = new PrintWriter(bw);
+        out2.println("Fruits (exemple)");
+        out2.println("Légumes (exemple)");
+        out2.close();
+    }
 }
+
