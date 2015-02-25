@@ -15,14 +15,18 @@ import android.widget.Toast;
 
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.DataSimulee;
+import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,7 +44,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
 
 
     public static int nombreFrigos;
-    public static ArrayList<String> listeFrigosNames;
+    public static ArrayList<String> listeFrigosNames = new ArrayList<>();
     public static DataSimulee dataSimulee = new DataSimulee();//Petit à petit, dataSimulee va disparaître : tout sera fait à
     // partir de initialisationFrigoReference()
 
@@ -64,41 +68,59 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
             Toast.makeText(getApplicationContext(), "nb frigos : " + nombreFrigos, Toast.LENGTH_SHORT).show();
         } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (utile pour nous)
             try {
-                initialisationFrigoReference();
-                nombreFrigos=1;
+                //Crée le fichier contenant le nombre de frigos
+                FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
+                fos.write(1);
+                fos.close();
+
+                nombreFrigos = 1;//initialise les données locales
                 Toast.makeText(getApplicationContext(), "initialisé, nb frigos :" + nombreFrigos, Toast.LENGTH_SHORT).show();
-            } catch (IOException e1) {Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_SHORT).show();}
+                } catch (IOException e1) {Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_SHORT).show();}
 
             } catch (IOException e) {
             e.printStackTrace();
         }
 
-        /*instream = null;
+        instream = null;
         try {
-            instream = openFileInput("Frigos_file.txt");
+            instream = openFileInput("frigos_file.txt");
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
 
             int i;
             int n = nombreFrigos;
-            for(i=0;i<2;i++){//2 sera remplacé par n après
-                try{String name = sc.next();//ce bloc try est aussi temporaire
-                    i++;
-                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_LONG).show();}
+            listeFrigosNames = new ArrayList<>();//réinitialise la liste
+            for(i=0;i<n;i++){//On recrée la liste des frigos : listeFrigosNames
+                try{String name = sc.nextLine();//ce bloc try est aussi temporaire
+                    //i++;
+                    //listeFrigosNames = new ArrayList<>();
+                    Toast.makeText(getApplicationContext(), name, Toast.LENGTH_SHORT).show();
+                    listeFrigosNames.add(name);
+                }
                 catch(Exception e){
-                    Toast.makeText(getApplicationContext(),"exception", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"exception", Toast.LENGTH_SHORT).show();
                 }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (suite) (utile pour nous)
+            try {
+                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_APPEND));
+                BufferedWriter bw = new BufferedWriter(outStream);
+                PrintWriter out2 = new PrintWriter(bw);
+                out2.println("Réfrigérateur essai");
+                out2.close();
+                listeFrigosNames.add("Réfrigérateur essai");//initialise les données locales
+                Toast.makeText(getApplicationContext(), "liste frigo initialisee", Toast.LENGTH_SHORT).show();
+            } catch (FileNotFoundException e1) {
+                Toast.makeText(getApplicationContext(), "liste frigo not found", Toast.LENGTH_SHORT).show();
+            } catch (IOException e1) {
+                Toast.makeText(getApplicationContext(), "liste frigo IOException", Toast.LENGTH_SHORT).show();
+            }
+
         }
-            */
-
-
 
         //récupère les données à chaque ouverture de l'activité (=actualisation permanente) :
-        listeFrigosNames = dataSimulee.dataFrigoNames; //récupère la liste des noms des frigos
+        //listeFrigosNames = dataSimulee.dataFrigoNames; //récupère la liste des noms des frigos
         //FIN LECTURE DES FICHIERS
 
 
@@ -175,11 +197,4 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
         startActivity(help);
     }
 
-    public void initialisationFrigoReference() throws IOException {//A CONTINUER
-        //crée le fichier nombre_frigos, un frigo :
-        FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
-        fos.write(1);
-        fos.close();
-
-    }
 }

@@ -15,6 +15,7 @@ import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
+import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -81,9 +82,11 @@ public class NewFrigoActivity extends ActionBarActivity {
             }
             else{//On modifie les données sauvegardées
 
-                try {//Ajoute le nom du nouveau frigo dans frigos_file.txt ?????Le fichier est écrasé ?
-                    OutputStreamWriter out = new OutputStreamWriter(openFileOutput("frigos_file.txt",0));
-                    out.write(newFrigoName);
+                try {//Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_APPEND));
+                    BufferedWriter bw = new BufferedWriter(outStream);
+                    PrintWriter out = new PrintWriter(bw);
+                    out.println(newFrigoName);
                     out.close();
                     Toast.makeText(getApplicationContext(), "écriture nom ok", Toast.LENGTH_SHORT).show();
                 } catch (java.io.IOException e) {
