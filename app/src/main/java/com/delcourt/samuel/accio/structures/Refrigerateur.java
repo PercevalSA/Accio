@@ -2,9 +2,6 @@ package com.delcourt.samuel.accio.structures;
 
 import java.util.ArrayList;
 
-/* Cette partie est associée à DataSimulee, et pourra disparaître par la suite
- */
-
 public class Refrigerateur {
 
     public String name;

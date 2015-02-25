@@ -31,10 +31,10 @@ import static android.widget.AdapterView.OnItemClickListener;
 //Cette classe gère la gestion des frigos (dans lesquels sont réparties les boîtes).
 
 //Elle n'a pour cela besoin que des noms des frigos : pour cette raison, elle (et les classes directement associées) lit et écrit dans un
-//fichier texte listeFrigos.txt (pour l'instant une ArrayList dataFrigoNames).
+//fichier texte liste_frigos_file.txt
 
 //Cette classe a également besoin de connaître le nombre  de frigos : elle le lit (et peut de même le modifier) dans le fichier
-//texte nombreFrigos.txt (pour l'instant un int dataNombreFrigos).
+//texte nombre_frigos_files.txt
 
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
