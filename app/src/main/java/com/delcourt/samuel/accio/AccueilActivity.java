@@ -1,6 +1,5 @@
 package com.delcourt.samuel.accio;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -17,8 +16,6 @@ import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -33,7 +30,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 //Elle n'a pour cela besoin que des noms des frigos : pour cette raison, elle (et les classes directement associées) lit et écrit dans un
 //fichier texte liste_frigos_file.txt
 
-public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
+public class AccueilActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
 
     public static int nombreFrigos;
@@ -43,7 +40,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_accueil);
 
         //LECTURE DES FICHIERS
 
@@ -102,7 +99,7 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_accueil, menu);
         return true;
     }
 
@@ -124,9 +121,9 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
     }
 
     public void sendMessageFrigoSelected(int indexName){
-        Intent intent = new Intent(this, MenuActivity.class);//Lance l'activité MenuActivity, avec le nom du frigo sélectionné en message
+        Intent intent = new Intent(this, RefrigerateurActivity.class);//Lance l'activité RefrigerateurActivity, avec le nom du frigo sélectionné en message
         String frigoName = listeFrigosNames.get(indexName);
-        MenuActivity.refrigerateur = new Refrigerateur(frigoName);
+        com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur = new Refrigerateur(frigoName);
         startActivity(intent);
     }
 

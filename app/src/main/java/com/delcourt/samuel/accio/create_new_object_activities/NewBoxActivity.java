@@ -10,9 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.delcourt.samuel.accio.MainActivity;
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 
 import java.util.ArrayList;
@@ -74,7 +73,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
     public void sendMessageNewBox(View view){
 
-        Intent intent = new Intent(this,MainActivity.class);
+        Intent intent = new Intent(this,AccueilActivity.class);
             //RECUPERE LES DIFFERENTES INFOS
         //Récupère le nom de la boîte
         EditText editText = (EditText) findViewById(R.id.name_boite);

@@ -18,30 +18,26 @@ import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class ContentActivity extends ActionBarActivity {
+public class ListeBoitesActivity extends ActionBarActivity {
 
     //public static int nombreBoites;
     public static ArrayList<String> listeBoitesNames = new ArrayList<>();
-    public String frigoName = MenuActivity.refrigerateur.getName();
+    public String frigoName = com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content);
+        setContentView(R.layout.activity_liste_boites);
 
 
-        //Leccture nombre de frigos
+        //Leccture de la liste des boîtes
         InputStream instream = null;
         listeBoitesNames = new ArrayList<>();//réinitialise la liste
         try {
@@ -81,14 +77,14 @@ public class ContentActivity extends ActionBarActivity {
         });
 
         TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
-        textElement.setText("Boites Accio du réfrigérateur : " + MenuActivity.refrigerateur.name);
+        textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.name);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_content, menu);
+        getMenuInflater().inflate(R.menu.menu_liste_boites, menu);
         return true;
     }
 
