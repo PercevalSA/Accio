@@ -48,7 +48,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
             //Toast provisoire
             Toast toast = Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)"
-                    , Toast.LENGTH_LONG);
+                    , Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
 

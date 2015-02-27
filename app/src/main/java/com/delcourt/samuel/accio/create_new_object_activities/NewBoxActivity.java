@@ -42,13 +42,13 @@ public class NewBoxActivity extends ActionBarActivity {
         getTypesNames();
         for (int i = 0; i < 6; i++) {
             map = new HashMap<String, String>();
-            map.put("type", listTypesBoxes.get(i));
+            map.put("check", listTypesBoxes.get(i));
             listItem.add(map);
         }
 
         //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
         SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_categories,
-                new String[] {"type"}, new int[] {R.id.type});
+                new String[] {"check"}, new int[] {R.id.check});
 
         //On attribue à notre listView l'adapter que l'on vient de créer
         typesList.setAdapter(mSchedule);
@@ -61,7 +61,8 @@ public class NewBoxActivity extends ActionBarActivity {
             // argument position gives the index of item which is clicked
             public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
             {
-                
+
+
             }
         });
     }
@@ -118,20 +119,10 @@ public class NewBoxActivity extends ActionBarActivity {
         listTypesBoxes.add("Sauces et condiments");
     }
 
-    public void MyHandler(View v) {
+    public void selectedBox(View v) {
         CheckBox cb = (CheckBox) v;
-        //on récupère la position à l'aide du tag défini dans la classe MyListAdapter
-        int position = Integer.parseInt(cb.getTag().toString());
-
-        //On change la couleur
-        if (cb.isChecked()) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Coché", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL| Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        } else {
-            Toast toast = Toast.makeText(getApplicationContext(), "Décoché", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }
+        Toast toast = Toast.makeText(getApplicationContext(), "Sélectionné : " + cb.getText() , Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 }
