@@ -40,15 +40,16 @@ public class NewBoxActivity extends ActionBarActivity {
 
         listTypesBoxes = new ArrayList<>();
         getTypesNames();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < listTypesBoxes.size(); i++) {
             map = new HashMap<String, String>();
             map.put("check", listTypesBoxes.get(i));
+            map.put("img2",String.valueOf(R.drawable.ic_launcher));
             listItem.add(map);
         }
 
         //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
         SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_categories,
-                new String[] {"check"}, new int[] {R.id.check});
+                new String[] {"check","img2"}, new int[] {R.id.check,R.id.img2});
 
         //On attribue à notre listView l'adapter que l'on vient de créer
         typesList.setAdapter(mSchedule);
