@@ -9,43 +9,40 @@
     tools:context="com.delcourt.samuel.accio.RefrigerateurActivity">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/MenuButton"
         android:text="@string/fridge_content"
         android:id="@+id/button2"
-        android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_one"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_one"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-
-        android:onClick="sendMessageContent"/>
+        android:onClick="sendMessageContent"
+        android:layout_alignTop="@+id/button4"
+        android:layout_alignRight="@+id/button6"
+        android:layout_alignEnd="@+id/button6" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/MenuButton"
         android:text="@string/recipes"
         android:id="@+id/button3"
-        android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_two"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_one"
-        android:onClick="sendMessageRecipes"/>
+        android:onClick="sendMessageRecipes"
+        android:layout_alignTop="@+id/button5"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/MenuButton"
         android:text="@string/favorite"
         android:id="@+id/button4"
-        android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_one"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_two"
-        android:onClick="sendMessageFavorite"/>
+        android:layout_marginTop="72dp"
+
+        android:onClick="sendMessageFavorite"
+        android:layout_below="@+id/frigoNameMenu"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/MenuButton"
         android:text="@string/historique"
         android:id="@+id/button5"
         android:layout_marginTop="@dimen/activity_content_Boutons_topMargin_two"
-        android:layout_marginLeft="@dimen/activity_content_Boutons_left_margin_two"
+
         android:onClick="sendMessageHistorique"/>
 
     <TextView

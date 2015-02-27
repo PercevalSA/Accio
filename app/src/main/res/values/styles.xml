@@ -4,5 +4,15 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="FontTest" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#ff2571ff</item>
+        <item name="android:textIsSelectable">false</item>
+    </style>
+
+    <style name="MenuButton" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">80dp</item>
+    </style>
 
 </resources>
