@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio.create_new_object_activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,9 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.MainActivity;
 import com.delcourt.samuel.accio.R;
 
 import java.util.ArrayList;
@@ -70,6 +73,18 @@ public class NewBoxActivity extends ActionBarActivity {
     }
 
     public void sendMessageNewBox(View view){
+
+        Intent intent = new Intent(this,MainActivity.class);
+            //RECUPERE LES DIFFERENTES INFOS
+        //Récupère le nom de la boîte
+        EditText editText = (EditText) findViewById(R.id.name_boite);
+        String newBoiteName = editText.getText().toString();
+        //Récupère le numéro (identifiant de la boîte)
+        EditText editText2 = (EditText) findViewById(R.id.numero_boite);
+        String numeroBoite = editText2.getText().toString();
+        //Récupère le code de la boîte
+        EditText editText3 = (EditText) findViewById(R.id.code_activation_boite);
+        String codeBoite = editText3.getText().toString();
 
     }
 
