@@ -3,47 +3,65 @@ package com.delcourt.samuel.accio.create_new_object_activities;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NewBoxActivity extends ActionBarActivity {
 
-    public ArrayList<String> listTypesBoxes = new ArrayList<>();
+    public ArrayList<String> listTypesBoxes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_box);
 
-        // Get the reference of List
-        ListView animalList=(ListView)findViewById(R.id.listViewTypeBox);
+        ListView typesList = (ListView) findViewById(R.id.listViewTypeBox);
 
+        // Création de la ArrayList qui nous permettra de remplir la listView
+        ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+        // On déclare la HashMap qui contiendra les informations pour un item
+        HashMap<String, String> map;
+
+        listTypesBoxes = new ArrayList<>();
         getTypesNames();
-        // Create The Adapter with passing ArrayList as 3rd parameter
-        ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listTypesBoxes);
-        // Set The Adapter
-        animalList.setAdapter(arrayAdapter);
+        for (int i = 0; i < 6; i++) {
+            map = new HashMap<String, String>();
+            map.put("type", listTypesBoxes.get(i));
+            listItem.add(map);
+        }
+
+        //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+        SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_categories,
+                new String[] {"type"}, new int[] {R.id.type});
+
+        //On attribue à notre listView l'adapter que l'on vient de créer
+        typesList.setAdapter(mSchedule);
+
+
 
         //register onClickListener to handle click events on each item
-        animalList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        typesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             // argument position gives the index of item which is clicked
             public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
             {
-
-                String selected=listTypesBoxes.get(position);
-
+                
             }
         });
     }
@@ -98,5 +116,22 @@ public class NewBoxActivity extends ActionBarActivity {
         listTypesBoxes.add("Poisson");
         listTypesBoxes.add("Viande");
         listTypesBoxes.add("Sauces et condiments");
+    }
+
+    public void MyHandler(View v) {
+        CheckBox cb = (CheckBox) v;
+        //on récupère la position à l'aide du tag défini dans la classe MyListAdapter
+        int position = Integer.parseInt(cb.getTag().toString());
+
+        //On change la couleur
+        if (cb.isChecked()) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Coché", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL| Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        } else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Décoché", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
     }
 }

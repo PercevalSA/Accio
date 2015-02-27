@@ -59,17 +59,12 @@ public class ListeBoitesActivity extends ActionBarActivity {
             ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 
             //On déclare la HashMap qui contiendra les informations pour un item
-            HashMap<String, String> map;
-
-            //Création d'une HashMap pour insérer les informations du premier item de notre listView
-            map = new HashMap<String, String>();
+            HashMap<String, String> map = new HashMap<String, String>();
 
             for(int i=0;i<numberBoxes;i++){
-                //on insère un élément titre que l'on récupérera dans le textView titre créé dans le fichier affichageitem.xml
+                //on insère la référence aux éléments à afficher
                 map.put("titre", RefrigerateurActivity.refrigerateur.listeBoitesNames.get(i));
-                //on insère un élément description que l'on récupérera dans le textView description créé dans le fichier affichageitem.xml
                 map.put("description", "Type à récupérer dans la base de données");
-                //on insère la référence à l'image (converti en String car normalement c'est un int) que l'on récupérera dans l'imageView créé dans le fichier affichageitem.xml
                 map.put("img", String.valueOf(R.drawable.ic_launcher));
                 //enfin on ajoute cette hashMap dans la arrayList
                 listItem.add(map);
