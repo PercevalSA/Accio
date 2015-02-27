@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,17 +12,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
+import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
@@ -34,8 +38,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_boites);
 
-        //Récupère la liste des noms des boîtes dans listeBoitesNames pour pouvoir les afficher
-        //listeBoitesNames = refrigerate;
         int numberBoxes = RefrigerateurActivity.refrigerateur.boxes.size();
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
             Toast toast = Toast.makeText(getApplicationContext(), "Ce réfrigérateur ne contient pas encore de boîte Accio", Toast.LENGTH_LONG);
@@ -43,16 +45,46 @@ public class ListeBoitesActivity extends ActionBarActivity {
             toast.show();
         }
             else {//On affiche la liste des boîtes
+
+            //Toast provisoire
+            Toast toast = Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)"
+                    , Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+
             // Get the reference of listViewFrigos (pour l'affichage de la liste)
-            ListView boxesList=(ListView)findViewById(R.id.listeViewBoites);
-            // Create The Adapter with passing ArrayList as 3rd parameter
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, RefrigerateurActivity.refrigerateur.listeBoitesNames);
-            // Set The Adapter
-            boxesList.setAdapter(arrayAdapter);
+            final ListView listViewBoxes=(ListView)findViewById(R.id.listeViewBoites);
+
+            //Création de la ArrayList qui nous permettra de remplir la listView
+            ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+
+            //On déclare la HashMap qui contiendra les informations pour un item
+            HashMap<String, String> map;
+
+            //Création d'une HashMap pour insérer les informations du premier item de notre listView
+            map = new HashMap<String, String>();
+
+            for(int i=0;i<numberBoxes;i++){
+                //on insère un élément titre que l'on récupérera dans le textView titre créé dans le fichier affichageitem.xml
+                map.put("titre", RefrigerateurActivity.refrigerateur.listeBoitesNames.get(i));
+                //on insère un élément description que l'on récupérera dans le textView description créé dans le fichier affichageitem.xml
+                map.put("description", "Type à récupérer dans la base de données");
+                //on insère la référence à l'image (converti en String car normalement c'est un int) que l'on récupérera dans l'imageView créé dans le fichier affichageitem.xml
+                map.put("img", String.valueOf(R.drawable.ic_launcher));
+                //enfin on ajoute cette hashMap dans la arrayList
+                listItem.add(map);
+            }
+
+            //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichage_liste_boites,
+                    new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
+
+            //On attribue à notre listView l'adapter que l'on vient de créer
+            listViewBoxes.setAdapter(mSchedule);
 
 
             //register onClickListener to handle click events on each item
-            boxesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
             {
                 // argument position gives the index of item which is clicked
 
@@ -62,6 +94,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
                     sendMessageBoxSelected(view, indexBox);
                 }
             });
+
+
         }
 
         TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
