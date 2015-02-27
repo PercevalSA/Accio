@@ -33,9 +33,6 @@ import static android.widget.AdapterView.OnItemClickListener;
 //Elle n'a pour cela besoin que des noms des frigos : pour cette raison, elle (et les classes directement associées) lit et écrit dans un
 //fichier texte liste_frigos_file.txt
 
-//Cette classe a également besoin de connaître le nombre  de frigos : elle le lit (et peut de même le modifier) dans le fichier
-//texte nombre_frigos_files.txt
-
 public class MainActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
 
@@ -50,40 +47,18 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
 
         //LECTURE DES FICHIERS
 
-        //Leccture nombre de frigos
         InputStream instream;
-        try {
-            instream = openFileInput("nombre_frigos_file.txt");
-            InputStreamReader inputreader = new InputStreamReader(instream);
-            BufferedReader buffreader = new BufferedReader(inputreader);
-            nombreFrigos= buffreader.read();
-        } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (utile pour nous)
-            try {
-                //Crée le fichier contenant le nombre de frigos
-                FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
-                fos.write(1);
-                fos.close();
-                nombreFrigos = 1;//initialise les données locales
-                } catch (IOException e1) {Toast.makeText(getApplicationContext(), "erreur lecture nb frigos", Toast.LENGTH_SHORT).show();}
-
-            } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         try {
             instream = openFileInput("frigos_file.txt");
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
-
-            int i;
-            int n = nombreFrigos;
             listeFrigosNames = new ArrayList<>();//réinitialise la liste
-            for(i=0;i<n;i++){//On recrée la liste des frigos : listeFrigosNames
-                String name = sc.nextLine();//ce bloc try est aussi temporaire
-                    listeFrigosNames.add(name);
+            while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
+                String name = sc.nextLine();
+                listeFrigosNames.add(name);
                 }
-
         } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (suite) (utile pour nous)
             try {
                 OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_APPEND));
@@ -91,6 +66,8 @@ public class MainActivity extends ActionBarActivity { //Permet la gestion des r�
                 PrintWriter out2 = new PrintWriter(bw);
                 out2.println("Réfrigérateur essai");
                 out2.close();
+
+                nombreFrigos = 1;//initialise les données locales
                 listeFrigosNames.add("Réfrigérateur essai");//initialise les données locales
                 initialisationFrigoExemple();//Permet la suite de l'initialisation du frigo de référence (càd l'exemple)
             } catch (FileNotFoundException e1) {

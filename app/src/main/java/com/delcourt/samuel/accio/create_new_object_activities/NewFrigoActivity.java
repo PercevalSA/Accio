@@ -89,13 +89,6 @@ public class NewFrigoActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "erreur écriture frigo", Toast.LENGTH_SHORT).show();
                 }
 
-                try { //Sauve le nombre total de frigos dans les données, remplace le fichier (et donc la valeur) précédent
-                    FileOutputStream fos = openFileOutput("nombre_frigos_file.txt", Context.MODE_PRIVATE);
-                    fos.write(N);
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();}
-
                 startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
             }
         }
