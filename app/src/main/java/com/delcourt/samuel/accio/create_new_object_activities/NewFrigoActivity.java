@@ -85,6 +85,12 @@ public class NewFrigoActivity extends ActionBarActivity {
                 } catch (java.io.IOException e) {
                     Toast.makeText(getApplicationContext(), "erreur écriture frigo", Toast.LENGTH_SHORT).show();
                 }
+                try {//Crée le fichier contenant la liste des boîtes de ce frigo
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(newFrigoName + "Boxes.txt",MODE_APPEND));
+                    outStream.close();
+                } catch (java.io.IOException e) {
+                    Toast.makeText(getApplicationContext(), "erreur création fichier liste boîtes", Toast.LENGTH_SHORT).show();
+                }
 
                 startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
             }

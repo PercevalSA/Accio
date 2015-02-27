@@ -5,14 +5,13 @@ import java.util.ArrayList;
 public class Refrigerateur {
 
     public String name;
-    public ArrayList<String> listBoxes;
-    public int numberBoxes;
+    public ArrayList<Box> boxes;
+    public ArrayList<String> listeBoitesNames;
 
     public Refrigerateur(String name){
-
         this.name=name;
-        listBoxes = new ArrayList<String>();
-        numberBoxes=0;
+        boxes = new ArrayList<>();
+        listeBoitesNames = new ArrayList<>();
         }
 
     public void setName(String name)
@@ -25,7 +24,9 @@ public class Refrigerateur {
     }
 
     public void addBox(String boxName) {
-        listBoxes.add(boxName);
+        Box box = new Box("ReferenceADefinir",boxName);
+        boxes.add(box);
+        listeBoitesNames.add(boxName);
     }
 
 }

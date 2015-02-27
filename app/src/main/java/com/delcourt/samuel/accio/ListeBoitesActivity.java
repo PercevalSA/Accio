@@ -27,54 +27,42 @@ import java.util.Scanner;
 
 public class ListeBoitesActivity extends ActionBarActivity {
 
-    //public static int nombreBoites;
-    public static ArrayList<String> listeBoitesNames = new ArrayList<>();
-    public String frigoName = com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName();
+    //public ArrayList<String> listeBoitesNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_boites);
 
-
-        //Leccture de la liste des boîtes
-        InputStream instream = null;
-        listeBoitesNames = new ArrayList<>();//réinitialise la liste
-        try {
-            instream = openFileInput(frigoName + "Boxes.txt");
-            InputStreamReader inputreader = new InputStreamReader(instream);
-            BufferedReader buffreader = new BufferedReader(inputreader);
-            Scanner sc = new Scanner(buffreader);
-
-            while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
-                String name = sc.nextLine();
-                listeBoitesNames.add(name);
-            }
-        } catch (FileNotFoundException e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Ce réfrigérateur ne contient pas encore de boite Accio", Toast.LENGTH_LONG);
+        //Récupère la liste des noms des boîtes dans listeBoitesNames pour pouvoir les afficher
+        //listeBoitesNames = refrigerate;
+        int numberBoxes = RefrigerateurActivity.refrigerateur.boxes.size();
+        if(numberBoxes==0){//Si pas de boîte, on affiche un message
+            Toast toast = Toast.makeText(getApplicationContext(), "Ce réfrigérateur ne contient pas encore de boîte Accio", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
+            else {//On affiche la liste des boîtes
+            // Get the reference of listViewFrigos (pour l'affichage de la liste)
+            ListView boxesList=(ListView)findViewById(R.id.listeViewBoites);
+            // Create The Adapter with passing ArrayList as 3rd parameter
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, RefrigerateurActivity.refrigerateur.listeBoitesNames);
+            // Set The Adapter
+            boxesList.setAdapter(arrayAdapter);
 
-        // Get the reference of listViewFrigos (pour l'affichage de la liste)
-        ListView boxesList=(ListView)findViewById(R.id.listeViewBoites);
-        // Create The Adapter with passing ArrayList as 3rd parameter
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, listeBoitesNames);
-        // Set The Adapter
-        boxesList.setAdapter(arrayAdapter);
 
+            //register onClickListener to handle click events on each item
+            boxesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                // argument position gives the index of item which is clicked
 
-        //register onClickListener to handle click events on each item
-        boxesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            // argument position gives the index of item which is clicked
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                int indexBox = position;
-                sendMessageBoxSelected(view, indexBox);
-            }
-        });
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                    int indexBox = position;
+                    sendMessageBoxSelected(view, indexBox);
+                }
+            });
+        }
 
         TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
         textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.name);
