@@ -120,8 +120,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
                 String refBdd = sc.nextLine();
                 String name = sc.nextLine();
-
-                String type = "Type (à récupérer dans la base de données)";
+                String type = sc.nextLine();
 
                 Box box = new Box(refBdd,name,type);
 
