@@ -51,7 +51,8 @@
         android:hint="@string/nom_boite"
         android:layout_below="@+id/code_activation_boite"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -59,7 +60,6 @@
         android:text="@string/new_frigo_create"
         android:id="@+id/button"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/listeViewBoites"
         android:layout_centerHorizontal="true"
         android:onClick="sendMessageNewBox"/>
 
