@@ -30,7 +30,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
 
-        chargementRéfrigerateur(refrigerateur.name);
+        chargementRéfrigerateur();
 
         TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
         textElement.setText("Réfrigérateur : " + refrigerateur.name);
@@ -93,7 +93,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public void chargementRéfrigerateur(String frigoName) {
+    public void chargementRéfrigerateur() {
 
         //ON RECREE LE REFRIGERATEUR AVEC SES BOITES
         //Le nom du réfrigérateur a été spécifié lors du choix du frigo. On récupère maintenant la liste des boîtes
@@ -108,9 +108,15 @@ public class RefrigerateurActivity extends ActionBarActivity {
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
 
+            refrigerateur.boxes=new ArrayList<>();//Réinitialise la liste des boites
+
             while(sc.hasNextLine() == true){//On recrée la liste des boites et la liste des noms des boîtes
+                String refBdd = sc.nextLine();
                 String name = sc.nextLine();
-                refrigerateur.addBox(name);
+
+                String type = "Type (à récupérer dans la base de données)";
+
+                refrigerateur.addBox(refBdd,name,type);
 
             }
         } catch (FileNotFoundException e) {

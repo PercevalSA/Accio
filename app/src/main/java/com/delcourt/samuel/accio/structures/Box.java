@@ -6,12 +6,14 @@ Les attributs de la boîte seront données par la base de données
 
 public class Box {
 
-    public String name;
-    public String referenceBdd; //référence vers la base de données : permet d'avoir accès aux informations sur la boîte
+    private String referenceBdd; //référence vers la base de données : permet d'avoir accès aux informations sur la boîte
+    private String name;
+    private String type;
 
-    public Box(String referenceBdd, String name){
+    public Box(String referenceBdd, String name, String type){
         this.name=name;
         this.referenceBdd=referenceBdd;
+        this.type = type;
     }
 
     public void setName(String name){
@@ -21,4 +23,6 @@ public class Box {
     public String getName(){
         return name;
     }
+
+    public String getType(){return type;}
 }

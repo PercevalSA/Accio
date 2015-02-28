@@ -23,8 +23,8 @@ public class Refrigerateur {
         return name;
     }
 
-    public void addBox(String boxName) {
-        Box box = new Box("ReferenceADefinir",boxName);
+    public void addBox(String refBdd, String boxName, String type) {
+        Box box = new Box(refBdd,boxName,type);
         boxes.add(box);
         listeBoitesNames.add(boxName);
     }

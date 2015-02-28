@@ -144,8 +144,12 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("Réfrigérateur essaiBoxes.txt",MODE_APPEND));
         BufferedWriter bw = new BufferedWriter(outStream);
         PrintWriter out2 = new PrintWriter(bw);
+        out2.println("Ref bdd à mettre");
         out2.println("Fruits (exemple)");
-        out2.println("Légumes (exemple)");
+
+        out2.println("Ref bdd à mettre");
+        out2.println("Légumes1 (exemple)");
+
         out2.close();
     }
 }

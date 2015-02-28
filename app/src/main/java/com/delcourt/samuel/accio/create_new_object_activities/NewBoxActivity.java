@@ -16,9 +16,15 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.AccueilActivity;
+import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.RefrigerateurActivity;
+import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.ItemTypeBox;
 
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -57,7 +63,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
         //On attribue à notre listView l'adapter que l'on vient de créer
         typesList.setAdapter(mSchedule);
-        
+
         //register onClickListener to handle click events on each item
         typesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -92,17 +98,109 @@ public class NewBoxActivity extends ActionBarActivity {
 
     public void sendMessageNewBox(View view){
 
-        Intent intent = new Intent(this,AccueilActivity.class);
+        Intent intent = new Intent(this,ListeBoitesActivity.class);
+
             //RECUPERE LES DIFFERENTES INFOS
+
         //Récupère le nom de la boîte
         EditText editText = (EditText) findViewById(R.id.name_boite);
         String newBoiteName = editText.getText().toString();
+
         //Récupère le numéro (identifiant de la boîte)
         EditText editText2 = (EditText) findViewById(R.id.numero_boite);
         String numeroBoite = editText2.getText().toString();
+
         //Récupère le code de la boîte
         EditText editText3 = (EditText) findViewById(R.id.code_activation_boite);
         String codeBoite = editText3.getText().toString();
+
+            //ON S'ASSURE QUE LES INFOS SONT COHERENTES
+
+        if (newBoiteName.length() == 0 || numeroBoite.length() == 0 || codeBoite.length() == 0 ){ //Si l'un des champs n'a pas été renseigné
+            Toast toast = Toast.makeText(getApplicationContext(), "L'un des champs n'a pas été renseigné", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+        else { //On s'assure que le code de la boîte est correct. REMARQUE : pour l'instant, le code de toutes les boîtes est : accio
+
+            //Il faut ici se connecter à la bdd afin de récupérer les infos (notamment le code attendu)
+            if (codeBoite.compareTo("accio") != 0){//Le code entré est incorrect
+                Toast toast = Toast.makeText(getApplicationContext(), "Le code entré est incorrect", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+
+            else{//On s'assure qu'aucune boîte du même nom n'a encore été créée
+                int k = 0;
+                for (int i=0;i< RefrigerateurActivity.refrigerateur.boxes.size();i++){
+                    if (newBoiteName.compareTo(RefrigerateurActivity.refrigerateur.boxes.get(i).getName()) == 0){
+                        k++;
+                    }
+                }
+                if(k > 0){
+                    Toast toast = Toast.makeText(getApplicationContext(), "Une boîte possédant ce nom existe déjà dans ce réfrigérateur", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+
+                else{//Dans ce cas, c'est bon, on peut créer la nouvelle boîte
+                    try {//Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
+                        OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(
+                                RefrigerateurActivity.refrigerateur.getName() + "Boxes.txt",MODE_APPEND));
+                        BufferedWriter bw = new BufferedWriter(outStream);
+                        PrintWriter out = new PrintWriter(bw);
+                        out.println(newBoiteName);
+                        out.close();
+
+                        //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
+                        //RefrigerateurActivity.refrigerateur.addBox("Référence Bdd",newBoiteName,newBoiteType);
+
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Connecter à la bdd : récupérer référence boîte, type, code", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                        toast.show();
+                    } catch (java.io.IOException e) {
+                        Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();
+                    }
+
+                    //la boîte a été crée, on retourne sur l'activité précédente :
+                    startActivity(intent);
+                }
+            }
+
+
+            /*for (int i=0;i< AccueilActivity.nombreFrigos;i++){
+                if (newFrigoName.compareTo(AccueilActivity.listeFrigosNames.get(i)) == 0){
+                    k++;
+                }
+            }
+
+            if (k > 0){
+                Toast toast = Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+            else{//On modifie les données sauvegardées
+
+                try {//Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_APPEND));
+                    BufferedWriter bw = new BufferedWriter(outStream);
+                    PrintWriter out = new PrintWriter(bw);
+                    out.println(newFrigoName);
+                    out.close();
+                } catch (java.io.IOException e) {
+                    Toast.makeText(getApplicationContext(), "erreur écriture frigo", Toast.LENGTH_SHORT).show();
+                }
+                try {//Crée le fichier contenant la liste des boîtes de ce frigo
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(newFrigoName + "Boxes.txt",MODE_APPEND));
+                    outStream.close();
+                } catch (java.io.IOException e) {
+                    Toast.makeText(getApplicationContext(), "erreur création fichier liste boîtes", Toast.LENGTH_SHORT).show();
+                }
+
+                startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
+            }*/
+        }
 
     }
 

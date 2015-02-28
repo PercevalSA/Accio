@@ -64,7 +64,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             for(int i=0;i<numberBoxes;i++){
                 //on insère la référence aux éléments à afficher
                 map.put("titre", RefrigerateurActivity.refrigerateur.listeBoitesNames.get(i));
-                map.put("description", "Type à récupérer dans la base de données");
+                map.put("description", RefrigerateurActivity.refrigerateur.boxes.get(i).getType());
                 map.put("img", String.valueOf(R.drawable.ic_launcher));
                 //enfin on ajoute cette hashMap dans la arrayList
                 listItem.add(map);
