@@ -176,6 +176,7 @@ public class NewBoxActivity extends ActionBarActivity {
                             PrintWriter out2 = new PrintWriter(bw);
                             out2.println("Ref bdd à mettre");
                             out2.println(newBoiteName);
+                            out2.println(newBoiteType);
                             out2.close();
 
                             //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
