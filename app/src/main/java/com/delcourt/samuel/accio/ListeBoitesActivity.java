@@ -15,6 +15,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
+import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,6 +120,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     }
 
     public void sendMessageBoxSelected(View view, int index){//A COMPLETER !!!
+        BoxActivity.boite=refrigerateur.boxes.get(index);
         Intent intent = new Intent(this, BoxActivity.class);
         startActivity(intent);
     }

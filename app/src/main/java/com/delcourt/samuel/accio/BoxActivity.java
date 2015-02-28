@@ -1,13 +1,17 @@
 package com.delcourt.samuel.accio;
 
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Box;
+import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 public class BoxActivity extends ActionBarActivity {
 
@@ -17,6 +21,21 @@ public class BoxActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
+
+        //Récupère les informations de la boîte pour les afficher :
+        TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
+        textElement.setText(boite.getName());
+
+        TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
+        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+
+        //A ADAPTER EN FONCTION DU TYPE DE BOITE
+        ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxActivity);
+        textElement3.setImageResource(R.drawable.ic_launcher);
+
+        Toast.makeText(getApplicationContext(), "L'image devra correspondre à la catégorie",
+                Toast.LENGTH_SHORT).show();
+
     }
 
 
