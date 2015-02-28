@@ -17,13 +17,16 @@ import android.widget.Toast;
 
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.structures.ItemTypeBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NewBoxActivity extends ActionBarActivity {
 
-    public ArrayList<String> listTypesBoxes;
+    public ArrayList<String> listTypesBoxesNames;
+    public ArrayList<ItemTypeBox> listTypesBoxes;
+    public int numberBoxesSelected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +42,11 @@ public class NewBoxActivity extends ActionBarActivity {
         HashMap<String, String> map;
 
         listTypesBoxes = new ArrayList<>();
-        getTypesNames();
-        for (int i = 0; i < listTypesBoxes.size(); i++) {
+        listTypesBoxesNames = new ArrayList<>();
+        getTypes();
+        for (int i = 0; i < listTypesBoxesNames.size(); i++) {
             map = new HashMap<String, String>();
-            map.put("check", listTypesBoxes.get(i));
+            map.put("check", listTypesBoxesNames.get(i));
             map.put("img2",String.valueOf(R.drawable.ic_launcher));
             listItem.add(map);
         }
@@ -53,18 +57,13 @@ public class NewBoxActivity extends ActionBarActivity {
 
         //On attribue à notre listView l'adapter que l'on vient de créer
         typesList.setAdapter(mSchedule);
-
-
-
+        
         //register onClickListener to handle click events on each item
         typesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             // argument position gives the index of item which is clicked
             public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
-            {
-
-
-            }
+            {}
         });
     }
 
@@ -111,19 +110,46 @@ public class NewBoxActivity extends ActionBarActivity {
 
     }
 
-    void getTypesNames() {
-        listTypesBoxes.add("Fruits");
-        listTypesBoxes.add("Légumes");
-        listTypesBoxes.add("Produits laitiers");
-        listTypesBoxes.add("Poisson");
-        listTypesBoxes.add("Viande");
-        listTypesBoxes.add("Sauces et condiments");
+    void getTypes() {
+        ItemTypeBox fruits = new ItemTypeBox("Fruits");
+        listTypesBoxes.add(fruits);
+        listTypesBoxesNames.add("Fruits");
+
+        ItemTypeBox legumes = new ItemTypeBox("Légumes");
+        listTypesBoxes.add(legumes);
+        listTypesBoxesNames.add("Légumes");
+
+        ItemTypeBox laitier = new ItemTypeBox("Produits laitiers");
+        listTypesBoxes.add(laitier);
+        listTypesBoxesNames.add("Produits laitiers");
+
+        ItemTypeBox poisson = new ItemTypeBox("Poisson");
+        listTypesBoxes.add(poisson);
+        listTypesBoxesNames.add("Poisson");
+
+        ItemTypeBox viande = new ItemTypeBox("Viande");
+        listTypesBoxes.add(viande);
+        listTypesBoxesNames.add("Viande");
+
+        ItemTypeBox sauces = new ItemTypeBox("Sauces et condiments");
+        listTypesBoxes.add(sauces);
+        listTypesBoxesNames.add("Sauces et condiments");
     }
 
     public void selectedBox(View v) {
         CheckBox cb = (CheckBox) v;
-        Toast toast = Toast.makeText(getApplicationContext(), "Sélectionné : " + cb.getText() , Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
+        int index=listTypesBoxesNames.indexOf(cb.getText());
+        if (listTypesBoxes.get(index).isSelected()==false){
+            listTypesBoxes.get(index).selected();//on indique que le frigo a été sélectionné
+            numberBoxesSelected++;
+            Toast toast = Toast.makeText(getApplicationContext(), "Sélectionné : " + cb.getText()  , Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        } else {
+            listTypesBoxes.get(index).unselected();//on indique que le frigo a été désélectionné
+            numberBoxesSelected--;Toast toast = Toast.makeText(getApplicationContext(), "Désélectionné : " + cb.getText()  , Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
     }
 }
