@@ -16,8 +16,10 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.AccueilActivity;
+import com.delcourt.samuel.accio.AideNouvelleBoiteActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.RecipesActivity;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.ItemTypeBox;
@@ -200,7 +202,8 @@ public class NewBoxActivity extends ActionBarActivity {
     }
 
     public void sendMessageHelp(View view){
-
+        Intent intent = new Intent(this,AideNouvelleBoiteActivity.class);
+        startActivity(intent);
     }
 
     void getTypes() {
@@ -240,4 +243,5 @@ public class NewBoxActivity extends ActionBarActivity {
             numberBoxesSelected--;
         }
     }
+
 }
