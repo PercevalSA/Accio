@@ -58,7 +58,8 @@
         </activity>
         <activity
             android:name=".AideNouvelleBoiteActivity"
-            android:label="@string/title_activity_aide_nouveau_frigo" >
+            android:label="@string/title_activity_aide_nouvelle_boite"
+            android:parentActivityName=".create_new_object_activities.NewBoxActivity">
         </activity>
     </application>
 

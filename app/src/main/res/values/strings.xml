@@ -38,7 +38,7 @@
     <string name="help">Aide</string>
     <string name="type_boite">Sélectionnez le type de compartiment en cliquant sur le carré souhaité :</string>
     <string name="title_activity_box">BoxActivity</string>
-    <string name="title_activity_aide_nouveau_frigo">Aide</string>
+    <string name="title_activity_aide_nouvelle_boite">Aide</string>
 
     <string name="aide_nouvelle_boite_1">Pour créer une nouvelle boîte, vous devez entrer
         le numéro de la boîte Accio et le code d\'activation qui se trouvent derrière votre boîte.</string>
