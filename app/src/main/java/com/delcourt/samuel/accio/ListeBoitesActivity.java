@@ -10,23 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 
 public class ListeBoitesActivity extends ActionBarActivity {
@@ -47,10 +38,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
             else {//On affiche la liste des boîtes
 
             //Toast provisoire
-            Toast toast = Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)"
-                    , Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)",
+                    Toast.LENGTH_SHORT).show();
 
             // Get the reference of listViewFrigos (pour l'affichage de la liste)
             final ListView listViewBoxes=(ListView)findViewById(R.id.listeViewBoites);

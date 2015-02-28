@@ -148,7 +148,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         out2.println("Fruits (exemple)");
 
         out2.println("Ref bdd à mettre");
-        out2.println("Légumes123 (exemple)");
+        out2.println("Légumes (exemple)");
 
         out2.close();
     }

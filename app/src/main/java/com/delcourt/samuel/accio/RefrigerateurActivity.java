@@ -31,7 +31,12 @@ public class RefrigerateurActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
 
-        chargementRéfrigerateur();
+        try{chargementRéfrigerateur();}//On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
+        catch (Exception e){
+            Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement frigo", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
 
         TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
         textElement.setText("Réfrigérateur : " + refrigerateur.name);
@@ -103,14 +108,13 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
         //Lecture de la liste des boîtes
         InputStream instream = null;
+        String nameFrigo = refrigerateur.getName();
+        refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur (pour tenir compte d'éventuelles modif
         try {
-            instream = openFileInput(refrigerateur.name + "Boxes.txt");
+            instream = openFileInput(nameFrigo + "Boxes.txt");
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
-
-            refrigerateur.boxes=new ArrayList<>();//Réinitialise la liste des boites
-            int i = 0;
 
             while(sc.hasNextLine() == true){//On recrée la liste des boites et la liste des noms des boîtes
 
@@ -124,7 +128,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 refrigerateur.boxes.add(box);
 
             }
-
+            
         } catch (FileNotFoundException e) {
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement boites", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
