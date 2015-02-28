@@ -31,7 +31,7 @@ import java.util.Scanner;
 
 public class ListeBoitesActivity extends ActionBarActivity {
 
-    //public ArrayList<String> listeBoitesNames;
+    private Refrigerateur refrigerateur = RefrigerateurActivity.refrigerateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +56,15 @@ public class ListeBoitesActivity extends ActionBarActivity {
             final ListView listViewBoxes=(ListView)findViewById(R.id.listeViewBoites);
 
             //Création de la ArrayList qui nous permettra de remplir la listView
-            ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
+            ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
 
             //On déclare la HashMap qui contiendra les informations pour un item
-            HashMap<String, String> map = new HashMap<String, String>();
+            HashMap<String, String> map;
 
             for(int i=0;i<numberBoxes;i++){
                 //on insère la référence aux éléments à afficher
-                map.put("titre", RefrigerateurActivity.refrigerateur.listeBoitesNames.get(i));
+                map = new HashMap<String, String>();
+                map.put("titre", RefrigerateurActivity.refrigerateur.boxes.get(i).getName());
                 map.put("description", RefrigerateurActivity.refrigerateur.boxes.get(i).getType());
                 map.put("img", String.valueOf(R.drawable.ic_launcher));
                 //enfin on ajoute cette hashMap dans la arrayList

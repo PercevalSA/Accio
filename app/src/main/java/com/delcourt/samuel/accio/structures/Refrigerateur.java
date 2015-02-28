@@ -23,10 +23,4 @@ public class Refrigerateur {
         return name;
     }
 
-    public void addBox(String refBdd, String boxName, String type) {
-        Box box = new Box(refBdd,boxName,type);
-        boxes.add(box);
-        listeBoitesNames.add(boxName);
-    }
-
 }

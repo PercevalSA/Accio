@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
@@ -109,16 +110,21 @@ public class RefrigerateurActivity extends ActionBarActivity {
             Scanner sc = new Scanner(buffreader);
 
             refrigerateur.boxes=new ArrayList<>();//Réinitialise la liste des boites
+            int i = 0;
 
             while(sc.hasNextLine() == true){//On recrée la liste des boites et la liste des noms des boîtes
+
                 String refBdd = sc.nextLine();
                 String name = sc.nextLine();
 
                 String type = "Type (à récupérer dans la base de données)";
 
-                refrigerateur.addBox(refBdd,name,type);
+                Box box = new Box(refBdd,name,type);
+
+                refrigerateur.boxes.add(box);
 
             }
+
         } catch (FileNotFoundException e) {
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement boites", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
