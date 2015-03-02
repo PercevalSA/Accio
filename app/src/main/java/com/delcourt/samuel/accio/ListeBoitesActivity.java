@@ -30,7 +30,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_boites);
 
-        int numberBoxes = RefrigerateurActivity.refrigerateur.boxes.size();
+        int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
             Toast toast = Toast.makeText(getApplicationContext(), "Ce réfrigérateur ne contient pas encore de boîte Accio", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -54,8 +54,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
             for(int i=0;i<numberBoxes;i++){
                 //on insère la référence aux éléments à afficher
                 map = new HashMap<String, String>();
-                map.put("titre", RefrigerateurActivity.refrigerateur.boxes.get(i).getName());
-                map.put("description", RefrigerateurActivity.refrigerateur.boxes.get(i).getType());
+                map.put("titre", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
+                map.put("description", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
                 map.put("img", String.valueOf(R.drawable.ic_launcher));
                 //enfin on ajoute cette hashMap dans la arrayList
                 listItem.add(map);
@@ -85,7 +85,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         }
 
         TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
-        textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.name);
+        textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName());
     }
 
 
@@ -120,7 +120,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     }
 
     public void sendMessageBoxSelected(View view, int index){//A COMPLETER !!!
-        BoxActivity.boite=refrigerateur.boxes.get(index);
+        BoxActivity.boite=refrigerateur.getBoxes().get(index);
         Intent intent = new Intent(this, BoxActivity.class);
         startActivity(intent);
     }
