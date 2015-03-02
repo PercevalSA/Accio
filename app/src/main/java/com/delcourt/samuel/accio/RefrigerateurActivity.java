@@ -109,7 +109,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         //Lecture de la liste des boîtes et création des boîtes (pour l'instant vides)
         InputStream instream = null;
         String nameFrigo = refrigerateur.getName();
-        refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur (pour tenir compte d'éventuelles modif
+        refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur (pour tenir compte d'éventuelles modif)
         try {
             instream = openFileInput(nameFrigo + "Boxes.txt");
             InputStreamReader inputreader = new InputStreamReader(instream);
@@ -123,9 +123,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 String type = sc.nextLine();
 
                 Box box = new Box(refBdd,name,type);
-
                 refrigerateur.getBoxes().add(box);
-
             }
             
         } catch (FileNotFoundException e) {
@@ -134,6 +132,25 @@ public class RefrigerateurActivity extends ActionBarActivity {
             toast.show();
         }
 
+        //On connecte la Bdd et pr chaque boîte on remplit la liste des aliments
+        try{
+            int nbBoites = refrigerateur.getBoxes().size();
+            for (int j = 0; j <nbBoites;j++){
+                String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
+                ArrayList<String> listeAliments = refrigerateur.getBoxes().get(j).getListeAliments();
+                //ON SE CONNECTE EN UTILISANT LA REFERENCE...
+                //ON REMPLIT LA LISTE
 
+                //Toast temporaire
+                Toast toast = Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
+
+        } catch (Exception e){
+            Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
     }
 }
