@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.structures.Recette;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -35,6 +36,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
 
     public static int nombreFrigos;
     public static ArrayList<String> listeFrigosNames = new ArrayList<>();
+    protected static ArrayList<Recette> listeRecettesEnregistrées;
 
 
     @Override
@@ -42,7 +44,8 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
 
-        readFiles(); //Lecture des fichiers et récupération des infos
+        readFiles(); //Lecture des fichiers et récupération des infos sur le frigo
+        readRecettes();
 
         //On affiche :
         // Get the reference of listViewFrigos (pour l'affichage de la liste)
@@ -137,6 +140,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 String name = sc.nextLine();
                 listeFrigosNames.add(name);
             }
+            sc.close();
         } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (suite) (utile pour nous)
             try {
                 OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_APPEND));
@@ -150,6 +154,44 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 initialisationFrigoExemple();//Permet la suite de l'initialisation du frigo de référence (càd l'exemple)
             } catch (FileNotFoundException e1) {
                 Toast.makeText(getApplicationContext(), "liste frigo not found", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void readRecettes(){
+        try {
+            InputStream instream = openFileInput("recettes_file.txt");
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            Scanner sc = new Scanner(buffreader);
+            listeRecettesEnregistrées = new ArrayList<>();//réinitialise la liste
+            while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
+                String name = sc.nextLine();
+                String adresse = sc.nextLine();
+                Recette recette = new Recette(name,adresse);
+                listeRecettesEnregistrées.add(recette);
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio.
+        // On crée alors deux recettes d'exemple
+            try {
+                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_APPEND));
+                BufferedWriter bw = new BufferedWriter(outStream);
+                PrintWriter out2 = new PrintWriter(bw);
+                out2.println("Gâteau au chocolat");
+                out2.println("http://www.marmiton.org/recettes/recette_gateau-au-chocolat-des-ecoliers_20654.aspx");
+                out2.println("Tarte aux pommes");
+                out2.println("http://www.marmiton.org/recettes/recette_tarte-aux-pommes_18588.aspx");
+                out2.close();
+
+                //On ajoute deux recettes d'exemple à la liste dynamique des recettes
+                Recette recette1 = new Recette("Gâteau au chocolat","http://www.marmiton.org/recettes/recette_gateau-au-chocolat-des-ecoliers_20654.aspx");
+                Recette recette2 = new Recette("Tarte aux pommes","http://www.marmiton.org/recettes/recette_tarte-aux-pommes_18588.aspx");
+                listeRecettesEnregistrées.add(recette1);
+                listeRecettesEnregistrées.add(recette2);
+
+            } catch (FileNotFoundException e1) {
+                Toast.makeText(getApplicationContext(), "liste recettes not found", Toast.LENGTH_SHORT).show();
             }
         }
     }

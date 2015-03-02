@@ -10,6 +10,8 @@ import android.webkit.WebViewClient;
 
 public class RecetteMarmitonActivity extends ActionBarActivity {
 
+    protected static String adresseWeb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +20,7 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
         WebView webview = (WebView)findViewById(R.id.marmiton_web_view);
         webview.setWebViewClient(new WebViewClient());
         webview.getSettings().setJavaScriptEnabled(true);
-        webview.loadUrl("http://www.marmiton.org/");
+        webview.loadUrl(adresseWeb);
     }
 
 
