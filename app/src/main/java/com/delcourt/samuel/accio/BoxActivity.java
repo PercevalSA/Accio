@@ -72,24 +72,33 @@ public class BoxActivity extends ActionBarActivity {
     public void afficheAliments(){
         ArrayList<String> liste = boite.getListeAliments();
         int size = liste.size();
-        if(size==0){
+        if( RefrigerateurActivity.refrigerateur.getConnectionBdd() == true){//Si on a réussi à se connecter à la base de données
+            if(size==0){
+                ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
+                liste = new ArrayList<>();
+                liste.add("Il n'y a aucun aliment dans cette boîte pour l'instant");
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+                frigoList.setAdapter(arrayAdapter);
+
+            } else {
+                ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+                frigoList.setAdapter(arrayAdapter);
+                frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                    }
+                });
+
+            }
+        }else{//Si pas de connection à la base de données, on l'indique
             ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
             liste = new ArrayList<>();
-            liste.add("Il n'y a aucun aliment dans cette boîte pour l'instant");
+            liste.add("La base de données n'est pas accessible");
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
             frigoList.setAdapter(arrayAdapter);
-
-        } else {
-            ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
-            frigoList.setAdapter(arrayAdapter);
-            frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                }
-            });
-
         }
+
     }
 }

@@ -31,10 +31,21 @@ public class RefrigerateurActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
 
-        try{chargementRéfrigerateur();}//On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
-        catch (Exception e){
+        try {
+            chargementRéfrigerateur();
+        }//On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
+        catch (Exception e) {
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement frigo", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+        //Toast temporaire
+        Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd",Toast.LENGTH_SHORT).show();
+
+        boolean connection = connectionBDD();
+        if (connection == false) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
 
@@ -67,33 +78,33 @@ public class RefrigerateurActivity extends ActionBarActivity {
         }
     }
 
-    public void openSearch(){
+    public void openSearch() {
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
     }
 
-    public void sendMessageContent(View view){
-        Intent intent = new Intent(this,ListeBoitesActivity.class);
+    public void sendMessageContent(View view) {
+        Intent intent = new Intent(this, ListeBoitesActivity.class);
         startActivity(intent);
     }
 
-    public void sendMessageRecipes(View view){
-        Intent intent = new Intent(this,RecipesActivity.class);
+    public void sendMessageRecipes(View view) {
+        Intent intent = new Intent(this, RecipesActivity.class);
         startActivity(intent);
     }
 
-    public void sendMessageFavorite(View view){
-        Intent intent = new Intent(this,FavoriteActivity.class);
+    public void sendMessageFavorite(View view) {
+        Intent intent = new Intent(this, FavoriteActivity.class);
         startActivity(intent);
     }
 
-    public void sendMessageHistorique(View view){
-        Intent intent = new Intent(this,HistoriqueActivity.class);
+    public void sendMessageHistorique(View view) {
+        Intent intent = new Intent(this, HistoriqueActivity.class);
         startActivity(intent);
     }
 
-    public void sendMessageHelp(View view){
+    public void sendMessageHelp(View view) {
         Uri webpage = Uri.parse("http://www.android-help.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
@@ -116,26 +127,28 @@ public class RefrigerateurActivity extends ActionBarActivity {
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
 
-            while(sc.hasNextLine() == true){//On recrée la liste des boites et la liste des noms des boîtes
+            while (sc.hasNextLine() == true) {//On recrée la liste des boites et la liste des noms des boîtes
 
                 String refBdd = sc.nextLine();
                 String name = sc.nextLine();
                 String type = sc.nextLine();
 
-                Box box = new Box(refBdd,name,type);
+                Box box = new Box(refBdd, name, type);
                 refrigerateur.getBoxes().add(box);
             }
-            
+
         } catch (FileNotFoundException e) {
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement boites", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
+    }
 
-        //On connecte la Bdd et pr chaque boîte on remplit la liste des aliments
-        try{
+    public static boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
+        boolean retour;
+        try {
             int nbBoites = refrigerateur.getBoxes().size();
-            for (int j = 0; j <nbBoites;j++){
+            for (int j = 0; j < nbBoites; j++) {
                 String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
                 //ON SE CONNECTE EN UTILISANT LA REFERENCE...
                 ArrayList<String> aliments = refrigerateur.getBoxes().get(j).getListeAliments();
@@ -144,15 +157,14 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 ArrayList<String> favoris = refrigerateur.getBoxes().get(j).getListeFavoris();
                 //ON REMPLIT LA LISTE
 
-                //Toast temporaire
-                Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd",
-                        Toast.LENGTH_SHORT).show();
+                refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
             }
+            retour = true;
 
-        } catch (Exception e){
-            Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+        } catch (Exception e) {
+            refrigerateur.setConnectionBdd(false);//Permet au reste de l'appli de savoir que la connection à la bdd n'a pas eu lieu
+            retour = false;
         }
+        return retour;
     }
 }
