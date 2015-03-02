@@ -6,9 +6,30 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.delcourt.samuel.accio.RecipesActivity">
 
-    <WebView
-    android:id="@+id/marmiton_web_view"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:id="@+id/vos_recettes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Vos recettes : "/>
+
+    <ListView
+        android:id="@+id/list_recettes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/vos_recettes"
+        android:layout_above="@+id/button_nouvelle_recette">
+    </ListView>
+
+    <Button
+        android:id="@+id/button_nouvelle_recette"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proposer une nouvelle recette"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="sendMessageNouvelleRecette"/>
 
 </RelativeLayout>

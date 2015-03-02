@@ -6,8 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 
 
 public class RecipesActivity extends ActionBarActivity {
@@ -16,11 +19,6 @@ public class RecipesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
-
-        WebView webview = (WebView)findViewById(R.id.marmiton_web_view);
-        webview.setWebViewClient(new WebViewClient());
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.loadUrl("http://www.marmiton.org/");
     }
 
 
@@ -52,5 +50,10 @@ public class RecipesActivity extends ActionBarActivity {
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
+    }
+
+    public void sendMessageNouvelleRecette(View view){
+        Intent intent = new Intent(this,RecetteMarmitonActivity.class);
+        startActivity(intent);
     }
 }
