@@ -137,8 +137,11 @@ public class RefrigerateurActivity extends ActionBarActivity {
             int nbBoites = refrigerateur.getBoxes().size();
             for (int j = 0; j <nbBoites;j++){
                 String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
-                ArrayList<String> listeAliments = refrigerateur.getBoxes().get(j).getListeAliments();
                 //ON SE CONNECTE EN UTILISANT LA REFERENCE...
+                ArrayList<String> aliments = refrigerateur.getBoxes().get(j).getListeAliments();
+                //ON REMPLIT LA LISTE
+
+                ArrayList<String> favoris = refrigerateur.getBoxes().get(j).getListeFavoris();
                 //ON REMPLIT LA LISTE
 
                 //Toast temporaire
