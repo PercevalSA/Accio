@@ -39,7 +39,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         }
 
         TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
-        textElement.setText("Réfrigérateur : " + refrigerateur.name);
+        textElement.setText("Réfrigérateur : " + refrigerateur.getName());
     }
 
 
@@ -106,7 +106,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
         // ATTENTION : les boites ne connaissent pas encore leur référence dans la base de données
 
-        //Lecture de la liste des boîtes
+        //Lecture de la liste des boîtes et création des boîtes (pour l'instant vides)
         InputStream instream = null;
         String nameFrigo = refrigerateur.getName();
         refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur (pour tenir compte d'éventuelles modif
@@ -124,7 +124,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
                 Box box = new Box(refBdd,name,type);
 
-                refrigerateur.boxes.add(box);
+                refrigerateur.getBoxes().add(box);
 
             }
             
@@ -133,5 +133,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
+
+
     }
 }

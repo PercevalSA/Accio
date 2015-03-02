@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Refrigerateur {
 
-    public String name;
-    public ArrayList<Box> boxes;
-    public ArrayList<String> listeBoitesNames;
+    private String name;
+    private ArrayList<Box> boxes;
+    private ArrayList<String> listeBoitesNames;
 
     public Refrigerateur(String name){
         this.name=name;
@@ -22,5 +22,7 @@ public class Refrigerateur {
     public String getName(){
         return name;
     }
+
+    public ArrayList<Box> getBoxes(){return boxes;}
 
 }
