@@ -142,9 +142,8 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 //ON REMPLIT LA LISTE
 
                 //Toast temporaire
-                Toast toast = Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-                toast.show();
+                Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd",
+                        Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e){

@@ -156,8 +156,8 @@ public class NewBoxActivity extends ActionBarActivity {
 
                     //On s'assure qu'aucune boîte du même nom n'a encore été créée
                     int k = 0;
-                    for (int i=0;i< RefrigerateurActivity.refrigerateur.boxes.size();i++){
-                        if (newBoiteName.compareTo(RefrigerateurActivity.refrigerateur.boxes.get(i).getName()) == 0){
+                    for (int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
+                        if (newBoiteName.compareTo(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName()) == 0){
                             k++;
                         }
                     }
@@ -181,7 +181,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
                             //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
                             Box newBox = new Box("Référence Bdd", newBoiteName, newBoiteType);
-                            RefrigerateurActivity.refrigerateur.boxes.add(newBox);
+                            RefrigerateurActivity.refrigerateur.getBoxes().add(newBox);
 
                             Toast.makeText(getApplicationContext(), "Connecter à la bdd : récupérer référence boîte, type, code",
                                     Toast.LENGTH_SHORT).show();

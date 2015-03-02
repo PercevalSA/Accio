@@ -5,13 +5,19 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
+
+import java.util.ArrayList;
 
 public class BoxActivity extends ActionBarActivity {
 
@@ -32,6 +38,8 @@ public class BoxActivity extends ActionBarActivity {
         //A ADAPTER EN FONCTION DU TYPE DE BOITE
         ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxActivity);
         textElement3.setImageResource(R.drawable.ic_launcher);
+
+        afficheAliments();
 
         Toast.makeText(getApplicationContext(), "L'image devra correspondre à la catégorie",
                 Toast.LENGTH_SHORT).show();
@@ -59,5 +67,29 @@ public class BoxActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void afficheAliments(){
+        ArrayList<String> liste = boite.getListeAliments();
+        int size = liste.size();
+        if(size==0){
+            ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
+            liste = new ArrayList<>();
+            liste.add("Il n'y a aucun aliment dans cette boîte pour l'instant");
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+            frigoList.setAdapter(arrayAdapter);
+
+        } else {
+            ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+            frigoList.setAdapter(arrayAdapter);
+            frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                }
+            });
+
+        }
     }
 }

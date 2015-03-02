@@ -10,6 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/entete_liste_aliments"
         >
         <ImageView
             android:id="@+id/imgTypeBoite_boxActivity"
@@ -44,14 +45,17 @@
 
      </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Connecter à la base de données"
-        android:id="@+id/textView3"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp" />
+
+    <ListView
+        android:id="@+id/liste_aliments"
+        android:dividerHeight="0.1dp"
+        android:divider="#0000CC"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="70dp"
+     >
+    </ListView>
+
 
 </RelativeLayout>

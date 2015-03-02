@@ -17,6 +17,7 @@ public class Box {
         this.name=name;
         this.referenceBdd=referenceBdd;
         this.type = type;
+        listeAliments = new ArrayList<>();
     }
 
     public void setName(String name){
