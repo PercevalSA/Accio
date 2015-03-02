@@ -31,19 +31,19 @@ public class RefrigerateurActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
 
-        try {
-            chargementRéfrigerateur();
-        }//On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
-        catch (Exception e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement frigo", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }
         //Toast temporaire
         Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd",Toast.LENGTH_SHORT).show();
 
-        boolean connection = connectionBDD();
-        if (connection == false) {
+        //On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
+        boolean chargementReussi = chargementRéfrigerateur();
+        if (chargementReussi==false){//si le chargement du frigo ou des boîtes a échoué, on affiche un message
+            Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+
+        boolean connectionReussie = connectionBDD();
+        if (connectionReussie == false) {//Si la connection a échoué, on affiche un message
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
@@ -110,7 +110,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public void chargementRéfrigerateur() {
+    public boolean chargementRéfrigerateur() {
 
         //ON RECREE LE REFRIGERATEUR AVEC SES BOITES
         //Le nom du réfrigérateur a été spécifié lors du choix du frigo. On récupère maintenant la liste des boîtes
@@ -118,6 +118,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         // ATTENTION : les boites ne connaissent pas encore leur référence dans la base de données
 
         //Lecture de la liste des boîtes et création des boîtes (pour l'instant vides)
+        boolean chargementReussi;
         InputStream instream = null;
         String nameFrigo = refrigerateur.getName();
         refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur (pour tenir compte d'éventuelles modif)
@@ -136,12 +137,12 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 Box box = new Box(refBdd, name, type);
                 refrigerateur.getBoxes().add(box);
             }
+            chargementReussi = true;
 
         } catch (FileNotFoundException e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement boites", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+            chargementReussi = false;
         }
+        return chargementReussi;
     }
 
     public static boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
