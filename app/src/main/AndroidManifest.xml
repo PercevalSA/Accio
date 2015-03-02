@@ -65,7 +65,8 @@
         </activity>
         <activity
             android:name=".RecetteMarmitonActivity"
-            android:label="@string/title_activity_recette_marmiton" >
+            android:label="@string/title_activity_recette_marmiton"
+            android:parentActivityName=".RecipesActivity">
         </activity>
     </application>
 

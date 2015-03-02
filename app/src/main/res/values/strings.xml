@@ -44,6 +44,6 @@
     <string name="aide_nouvelle_boite_remarque_temporaire">REMARQUE : pour l\'instant, le code de toutes les boîtes est le même : accio</string>
     <string name="aide_nouvelle_boite_2">Le choix du type de boîte est important : Accio ne cherchera à reconnaître que des aliments du type indiqué.
         Vous pourrez changer le type de la boîte par la suite si vous le désirez.</string>
-    <string name="title_activity_recette_marmiton">RecetteMarmitonActivity</string>
+    <string name="title_activity_recette_marmiton">Recette Marmiton</string>
 
 </resources>
