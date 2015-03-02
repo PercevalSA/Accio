@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -32,9 +33,12 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
         int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
-            Toast toast = Toast.makeText(getApplicationContext(), "Ce réfrigérateur ne contient pas encore de boîte Accio", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+            ListView frigoList=(ListView)findViewById(R.id.listeViewBoites);
+            ArrayList<String> liste = new ArrayList<>();
+            liste.add("");
+            liste.add("Ce réfrigérateur ne contient pas encore de boîte Accio");
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+            frigoList.setAdapter(arrayAdapter);
         }
             else {//On affiche la liste des boîtes
 
