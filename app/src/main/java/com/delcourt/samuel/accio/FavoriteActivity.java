@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
 
 
 public class FavoriteActivity extends ActionBarActivity {
@@ -14,6 +15,8 @@ public class FavoriteActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoris);
+
+        afficheListeFavoris();
     }
 
 
@@ -45,5 +48,12 @@ public class FavoriteActivity extends ActionBarActivity {
         Uri webpage = Uri.parse("http://www.google.fr/");
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
+    }
+
+    public void afficheListeFavoris(){
+        /*ExpandableListView expandbleLis = getExpandableListView();
+        expandbleLis.setDividerHeight(2);
+        expandbleLis.setGroupIndicator(null);
+        expandbleLis.setClickable(true);*/
     }
 }
