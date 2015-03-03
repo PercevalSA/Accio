@@ -31,62 +31,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_boites);
 
-        int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
-        if(numberBoxes==0){//Si pas de boîte, on affiche un message
-            ListView frigoList=(ListView)findViewById(R.id.listeViewBoites);
-            ArrayList<String> liste = new ArrayList<>();
-            liste.add("");
-            liste.add("Ce réfrigérateur ne contient pas encore de boîte Accio");
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
-            frigoList.setAdapter(arrayAdapter);
-        }
-            else {//On affiche la liste des boîtes
-
-            //Toast provisoire
-            Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)",
-                    Toast.LENGTH_SHORT).show();
-
-            // Get the reference of listViewFrigos (pour l'affichage de la liste)
-            final ListView listViewBoxes=(ListView)findViewById(R.id.listeViewBoites);
-
-            //Création de la ArrayList qui nous permettra de remplir la listView
-            ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
-
-            //On déclare la HashMap qui contiendra les informations pour un item
-            HashMap<String, String> map;
-
-            for(int i=0;i<numberBoxes;i++){
-                //on insère la référence aux éléments à afficher
-                map = new HashMap<String, String>();
-                map.put("titre", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                map.put("description", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
-                map.put("img", String.valueOf(R.drawable.ic_launcher));
-                //enfin on ajoute cette hashMap dans la arrayList
-                listItem.add(map);
-            }
-
-            //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichage_liste_boites,
-                    new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
-
-            //On attribue à notre listView l'adapter que l'on vient de créer
-            listViewBoxes.setAdapter(mSchedule);
-
-
-            //register onClickListener to handle click events on each item
-            listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {
-                // argument position gives the index of item which is clicked
-
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                    int indexBox = position;
-                    sendMessageBoxSelected(view, indexBox);
-                }
-            });
-
-
-        }
+        affihceListeBoites();
 
         TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
         textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName());
@@ -133,5 +78,80 @@ public class ListeBoitesActivity extends ActionBarActivity {
         Intent intent = new Intent(this, NewBoxActivity.class);
         startActivity(intent);
         }
+
+    public void affihceListeBoites(){
+        int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
+        if(numberBoxes==0){//Si pas de boîte, on affiche un message
+            ListView frigoList=(ListView)findViewById(R.id.listeViewBoites);
+            ArrayList<String> liste = new ArrayList<>();
+            liste.add("");
+            liste.add("Ce réfrigérateur ne contient pas encore de boîte Accio");
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+            frigoList.setAdapter(arrayAdapter);
+        }
+        else {//On affiche la liste des boîtes
+
+            //Toast provisoire
+            Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)",
+                    Toast.LENGTH_SHORT).show();
+
+            // Get the reference of listViewFrigos (pour l'affichage de la liste)
+            final ListView listViewBoxes=(ListView)findViewById(R.id.listeViewBoites);
+
+            //Création de la ArrayList qui nous permettra de remplir la listView
+            ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+            //On déclare la HashMap qui contiendra les informations pour un item
+            HashMap<String, String> map;
+
+
+            for(int i=0;i<numberBoxes;i++){
+
+
+                //on insère la référence aux éléments à afficher
+                map = new HashMap<String, String>();
+                map.put("titre", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
+                map.put("description", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+                //Récupère le nom de l'image à affihcer
+                String type = refrigerateur.getBoxes().get(i).getType();
+                //MODIFIER LES NOMS DES IMAGES A AFFICHER
+                if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
+                    map.put("img", String.valueOf(R.drawable.ic_launcher));
+                    //On affiche un toast
+                    Toast.makeText(getApplicationContext(), "Le type de la boîte n'a pas été reconnu",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                //enfin on ajoute cette hashMap dans la arrayList
+                listItem.add(map);
+            }
+
+            //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichage_liste_boites,
+                    new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
+
+            //On attribue à notre listView l'adapter que l'on vient de créer
+            listViewBoxes.setAdapter(mSchedule);
+
+
+            //register onClickListener to handle click events on each item
+            listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                // argument position gives the index of item which is clicked
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                    int indexBox = position;
+                    sendMessageBoxSelected(view, indexBox);
+                }
+            });
+        }
+    }
 
 }

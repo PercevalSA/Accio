@@ -35,9 +35,22 @@ public class BoxActivity extends ActionBarActivity {
         TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
         textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
 
-        //A ADAPTER EN FONCTION DU TYPE DE BOITE
+        //Affiche l'image du type de la boîte
+        //METTRE LES BONNES IMAGES !
+        String type = boite.getType();
         ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxActivity);
-        textElement3.setImageResource(R.drawable.ic_launcher);
+        if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_launcher);}
+        else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_launcher);}
+        else if (type.compareTo("Produits laitiers")==0){textElement3.setImageResource(R.drawable.ic_launcher);}
+        else if (type.compareTo("Poisson")==0){textElement3.setImageResource(R.drawable.ic_launcher);}
+        else if (type.compareTo("Viande")==0){textElement3.setImageResource(R.drawable.ic_launcher);}
+        else if (type.compareTo("Sauces et condiments")==0){textElement3.setImageResource(R.drawable.ic_launcher);}
+        else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
+            textElement3.setImageResource(R.drawable.ic_launcher);
+            //On affiche un toast
+            Toast.makeText(getApplicationContext(), "Le type de la boîte n'a pas été reconnu",
+                    Toast.LENGTH_SHORT).show();
+        }
 
         afficheAliments();
 

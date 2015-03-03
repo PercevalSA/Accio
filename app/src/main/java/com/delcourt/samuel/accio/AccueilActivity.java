@@ -165,7 +165,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
-                while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
+            while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
                 String name = sc.nextLine();
                 String adresse = sc.nextLine();
                 Recette recette = new Recette(name,adresse);
@@ -173,7 +173,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
             }
             sc.close();
         } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio.
-        // On crée alors deux recettes d'exemple
+            // On crée alors deux recettes d'exemple
             try {
                 OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_APPEND));
                 BufferedWriter bw = new BufferedWriter(outStream);
