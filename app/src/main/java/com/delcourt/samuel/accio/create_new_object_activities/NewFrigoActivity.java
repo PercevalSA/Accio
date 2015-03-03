@@ -54,8 +54,6 @@ public class NewFrigoActivity extends ActionBarActivity {
 
         EditText editText = (EditText) findViewById(R.id.nameFrigo); //Récupère le nom du frigo
         String newFrigoName = editText.getText().toString();
-        int N = AccueilActivity.nombreFrigos + 1;
-
 
         if (newFrigoName.length() == 0){ //Si le nom est vide, envoie un message
             Toast toast = Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_SHORT);
@@ -63,7 +61,7 @@ public class NewFrigoActivity extends ActionBarActivity {
             toast.show();
         }
         else { //On s'assure qu'aucun frigo du même nom n'a encore été créé
-            for (int i=0;i< AccueilActivity.nombreFrigos;i++){
+            for (int i=0;i< AccueilActivity.listeFrigosNames.size();i++){
                 if (newFrigoName.compareTo(AccueilActivity.listeFrigosNames.get(i)) == 0){
                     k++;
                 }

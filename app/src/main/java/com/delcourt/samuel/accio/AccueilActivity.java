@@ -130,12 +130,12 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
 
     public void readFiles(){
         InputStream instream;
+        listeFrigosNames = new ArrayList<>();//réinitialise la liste
         try {
             instream = openFileInput("frigos_file.txt");
             InputStreamReader inputreader = new InputStreamReader(instream);
             BufferedReader buffreader = new BufferedReader(inputreader);
             Scanner sc = new Scanner(buffreader);
-            listeFrigosNames = new ArrayList<>();//réinitialise la liste
             while(sc.hasNextLine() == true){//On recrée la liste des frigos : listeFrigosNames
                 String name = sc.nextLine();
                 listeFrigosNames.add(name);
