@@ -86,6 +86,8 @@
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.3" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="mariadb-java-client-1.1.8" level="project" />
+    <orderEntry type="library" exported="" name="mariadb-java-client-1.1.8-javadoc" level="project" />
   </component>
 </module>
 

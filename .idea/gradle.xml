@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/libs/mariadb-java-client-1.1.8-javadoc.jar" />
           </set>
         </option>
       </GradleProjectSettings>

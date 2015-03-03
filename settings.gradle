@@ -1,1 +1,2 @@
 include ':app'
+include 'libs/mariadb-java-client-1.1.8-javadoc.jar'
