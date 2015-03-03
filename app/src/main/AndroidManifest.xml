@@ -66,6 +66,11 @@
         <activity
             android:name=".RecetteMarmitonActivity"
             android:label="@string/title_activity_recette_marmiton"
+            android:parentActivityName=".OptionsRecettesActivity" >
+        </activity>
+        <activity
+            android:name=".OptionsRecettesActivity"
+            android:label="@string/title_activity_options_recettes"
             android:parentActivityName=".RecipesActivity">
         </activity>
     </application>
