@@ -70,8 +70,7 @@ public class RecipesActivity extends ActionBarActivity {
     }
 
     public void sendMessageNouvelleRecette(View view){
-        RecetteMarmitonActivity.adresseWeb = "http://www.marmiton.org/";
-        Intent intent = new Intent(this,RecetteMarmitonActivity.class);
+        Intent intent = new Intent(this,OptionsRecettesActivity.class);
         startActivity(intent);
     }
 
