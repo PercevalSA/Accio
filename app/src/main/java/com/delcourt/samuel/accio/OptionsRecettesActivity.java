@@ -1,13 +1,19 @@
 package com.delcourt.samuel.accio;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
 
 public class OptionsRecettesActivity extends ActionBarActivity {
+
+    private boolean vegetarien = false;
+    private boolean sansCuisson = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,5 +42,27 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void selectedVegetarien(View view){
+        if(vegetarien==true){vegetarien = false;
+            Toast.makeText(getApplicationContext(), "végétarien décoché",Toast.LENGTH_SHORT).show();
+        } else {vegetarien = true;
+            Toast.makeText(getApplicationContext(), "végétarien coché",Toast.LENGTH_SHORT).show();}
+
+    }
+
+    public void selectedSansCuisson(View view){
+        if (sansCuisson==true){sansCuisson = false;}
+        else {sansCuisson = true;}
+    }
+
+    public void sendMessageAfficheRecette(int position){
+        //RECUPERER L'ADRESSE
+
+        /*String adresseWeb = A RECUPERER;
+        RecetteMarmitonActivity.adresseWeb = adresseWeb;*/
+        Intent intent = new Intent(this,OptionsRecettesActivity.class);
+        startActivity(intent);
     }
 }
