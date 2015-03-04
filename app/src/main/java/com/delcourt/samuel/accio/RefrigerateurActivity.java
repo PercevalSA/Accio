@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -145,18 +147,26 @@ public class RefrigerateurActivity extends ActionBarActivity {
         return chargementReussi;
     }
 
+
+
     public static boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
         boolean retour;
         try {
             int nbBoites = refrigerateur.getBoxes().size();
             for (int j = 0; j < nbBoites; j++) {
                 String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
+
                 //ON SE CONNECTE EN UTILISANT LA REFERENCE...
                 ArrayList<String> aliments = refrigerateur.getBoxes().get(j).getListeAliments();
                 //ON REMPLIT LA LISTE
 
                 ArrayList<String> favoris = refrigerateur.getBoxes().get(j).getListeFavoris();
                 //ON REMPLIT LA LISTE
+
+
+
+
+
 
                 refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
             }
