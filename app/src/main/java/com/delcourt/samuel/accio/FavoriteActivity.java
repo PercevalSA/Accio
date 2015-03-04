@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.delcourt.samuel.accio.interaction.Bdd;
+import com.delcourt.samuel.accio.interaction.BDD;
 
 public class FavoriteActivity extends ActionBarActivity {
 
@@ -15,7 +15,7 @@ public class FavoriteActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoris);
-        Bdd connect = new Bdd();
+        BDD connect = new BDD();
         connect.execute();
 
     }

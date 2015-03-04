@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class Bdd extends AsyncTask<String, Void, String> {
+public class BDD extends AsyncTask<String, Void, String> {
 
     String result = null;
 
@@ -38,7 +38,7 @@ public class Bdd extends AsyncTask<String, Void, String> {
         // Envoi de la requête avec HTTPPost
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://137.194.23.217/pact/connection.php");
+            HttpPost httppost = new HttpPost("http://137.194.22.237/pact/connection.php");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
