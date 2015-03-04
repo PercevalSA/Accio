@@ -178,4 +178,8 @@ public class RefrigerateurActivity extends ActionBarActivity {
         }
         return retour;
     }
+
+    public void sendMessageRecoVocale(View view){
+        
+    }
 }
