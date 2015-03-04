@@ -16,6 +16,8 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     private boolean vegetarien = false;
     private boolean sansCuisson = false;
     private int typePlat=0;
+    private int difficulte=0;
+    private int cout=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,205 @@ public class OptionsRecettesActivity extends ActionBarActivity {
             typePlat = 3;
         } else {//On remet typePlat à 0 :
             typePlat = 0;
+        }
+    }
+
+    public void selectedDifficulte1(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.difficulte1);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.difficulte2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            difficulte = 1;
+        } else {//On remet typePlat à 0 :
+            difficulte = 0;
+        }
+    }
+
+    public void selectedDifficulte2(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.difficulte2);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.difficulte1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            difficulte = 2;
+        } else {//On remet typePlat à 0 :
+            difficulte = 0;
+        }
+    }
+
+    public void selectedDifficulte3(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.difficulte3);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.difficulte2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            difficulte = 3;
+        } else {//On remet typePlat à 0 :
+            difficulte = 0;
+        }
+    }
+
+    public void selectedDifficulte4(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.difficulte4);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.difficulte2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            difficulte = 4;
+        } else {//On remet typePlat à 0 :
+            difficulte = 0;
+        }
+    }
+
+    public void selectedCout1(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.cout1);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.cout2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.cout3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            cout = 1;
+        } else {//On remet typePlat à 0 :
+            cout = 0;
+        }
+    }
+
+    public void selectedCout2(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.cout2);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.cout1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.cout3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            cout = 2;
+        } else {//On remet typePlat à 0 :
+            cout = 0;
+        }
+    }
+
+    public void selectedCout3(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.cout3);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.cout2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.cout1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            cout = 3;
+        } else {//On remet typePlat à 0 :
+            cout = 0;
         }
     }
 
