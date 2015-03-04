@@ -39,6 +39,7 @@
         android:layout_below="@+id/checkBoxSansCuisson"/>
 
     <CheckBox android:layout_height="wrap_content"
+        android:onClick="selectedTypePlat1"
         android:id="@+id/type_plat_type1"
         android:layout_width="fill_parent"
         android:layout_gravity="right"
