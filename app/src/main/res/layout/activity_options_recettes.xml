@@ -50,6 +50,7 @@
         android:text="Entrée"></CheckBox>
     <CheckBox android:layout_height="wrap_content"
         android:id="@+id/type_plat_type2"
+        android:onClick="selectedTypePlat2"
         android:layout_below="@+id/type_plat_type1"
         android:layout_width="fill_parent"
         android:layout_gravity="right"
@@ -59,6 +60,7 @@
         android:text="Plat principal"></CheckBox>
     <CheckBox android:layout_height="wrap_content"
         android:id="@+id/type_plat_type3"
+        android:onClick="selectedTypePlat3"
         android:layout_below="@+id/type_plat_type2"
         android:layout_width="fill_parent"
         android:layout_gravity="right"

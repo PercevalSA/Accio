@@ -82,7 +82,56 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         } else {//On remet typePlat à 0 :
             typePlat = 0;
         }
+    }
 
+    public void selectedTypePlat2(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.type_plat_type2);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.type_plat_type1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.type_plat_type3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            typePlat = 2;
+        } else {//On remet typePlat à 0 :
+            typePlat = 0;
+        }
+    }
+
+    public void selectedTypePlat3(View view){
+        // Is the view now checked?
+        CheckBox checkBox = (CheckBox) findViewById(R.id.type_plat_type3);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.type_plat_type2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.type_plat_type1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            //On indique que typePlat vaut 1:
+            typePlat = 3;
+        } else {//On remet typePlat à 0 :
+            typePlat = 0;
+        }
     }
 
     public void sendMessageAfficheRecette(int position){
