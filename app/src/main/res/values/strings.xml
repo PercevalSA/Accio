@@ -46,5 +46,8 @@
         Vous pourrez changer le type de la boîte par la suite si vous le désirez.</string>
     <string name="title_activity_recette_marmiton">Recette Marmiton</string>
     <string name="title_activity_choix_aliments_recettes">Choix des aliments</string>
+    <string name="title_activity_is_speech_recognition_activity_presented">
+        isSpeechRecognitionActivityPresented
+    </string>
 
 </resources>

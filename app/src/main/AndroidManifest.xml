@@ -76,7 +76,7 @@
         <activity
             android:name=".ChoixAlimentsRecettes"
             android:label="@string/title_activity_choix_aliments_recettes"
-            android:parentActivityName=".RecipesActivity">
+            android:parentActivityName=".RecipesActivity" >
         </activity>
     </application>
 
