@@ -60,21 +60,7 @@ public class BoxActivity extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "L'image devra correspondre à la catégorie",
                 Toast.LENGTH_SHORT).show();
 
-        try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            System.out.println("Driver O.K.");
 
-            String url = "jdbc:mysql://niam.rezel.net:3306/accio";
-            String user = "accio";
-            String passwd = "pact53";
-
-
-            Connection conn = DriverManager.getConnection(url, user, passwd);
-            System.out.println("Connexion effective !");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
