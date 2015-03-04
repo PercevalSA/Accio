@@ -23,7 +23,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         setContentView(R.layout.activity_choix_aliments_recettes);
 
         //Juste pour l'exemple :
-        listeAlimentsProposes.add("pommes");
+        listeAlimentsProposes.add("banane");
 
         //On affiche cette liste :
         afficheListeAlimentsProposes();

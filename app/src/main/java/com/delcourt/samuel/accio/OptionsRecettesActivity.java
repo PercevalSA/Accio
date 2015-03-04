@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +28,6 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     private int cout=0;
     protected static String aliments;//Aliments à rechercher, à mettre sous le bon format (ok pour l'exemple actuel)
 
-    //A VOIR AVEC PERSEVAL
-    //private String page=null;
-    boolean photo = true;
     boolean food=true;
 
     @Override
@@ -271,9 +269,8 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                 checkBox2.setChecked(false);
             }
 
-            //On indique que typePlat vaut 1:
             difficulte = 4;
-        } else {//On remet typePlat à 0 :
+        } else {//On remet difficulte à 0 :
             difficulte = 0;
         }
     }
@@ -354,7 +351,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     }
 
     public void sendMessageAfficheRecette(View view){
-        String adresseWeb = getURL(aliments, photo, vegetarien, sansCuisson, food, cout, difficulte,typePlat);
+        String adresseWeb = getURL(aliments, vegetarien, sansCuisson, food, cout, difficulte,typePlat);
         RecetteMarmitonActivity.adresseWeb = adresseWeb;
 
         Toast toast = Toast.makeText(getApplicationContext(), adresseWeb, Toast.LENGTH_LONG);
@@ -366,7 +363,6 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     }
 
     public static String getURL (String recherche,
-                                 boolean photo,
                                  boolean vegan,
                                  boolean cru,
                                  boolean Food,
@@ -374,36 +370,9 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                                  int difficult,
                                  int typePlat) {
 
-    /*
-    adresse de recherche (uniquement pour les recettes)
-    http://www.marmiton.org/recettes/recherche.aspx?aqt=$MOTS_CLEF*/
+        String url="http://m.marmiton.org/recettes/recherche.aspx?aqt="+recherche;
 
-        String url="http://www.marmiton.org/recettes/recherche.aspx?aqt="+recherche;
-
-    /*
-    Option pour la recherche :
-        photo : &pht=1
-        vegetarien : &veg=1
-        sans cuisson ; &rct=1
-
-        uniquement dans les ingrédients : &st=1
-
-       cout :
-           bon marché : &exp=1
-           moyen : &exp=2
-           assez cher : &exp=3
-
-       difficultée :
-           très facie : &dif=1
-           facile : &dif=2
-           moyenne : &dif=3
-           difficile : &dif=4
-
-       plat principal :
-       entrée : &dt=entree
-       dessert : &dt=dessert
-       plat ppl : &dt=platprincipal
-           */
+//+"&pht=1"
         switch(typePlat){
             case 1 : url+="&dt=entree";
                 break;
@@ -415,15 +384,12 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                 break;
         }
 
-        if (photo == true)
-            url+="&pht=1";
         if (vegan == true)
             url+="&veg=1";
         if (cru == true)
-            url+="rct=1";
-        if (Food == true)
-            url+="st=1";
-
+            url+="&rct=1";
+     //   if (Food == true)
+       //     url+="&st=1";
 
 
         switch (cost) {
@@ -451,12 +417,43 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                 break;
         }
 
+        Log.i("getURL", "URL: "+url);
         return url;
 
 
     }
 
-    public String getAdresseWeb(){//UTILISER LE CODE DE PERSEVAL
-        return "www.http://www.marmiton.org/";
-    }
 }
+
+
+
+
+
+
+/*
+    adresse de recherche (uniquement pour les recettes)
+    http://www.marmiton.org/recettes/recherche.aspx?aqt=$MOTS_CLEF
+
+        Option pour la recherche :
+        photo : &pht=1
+        vegetarien : &veg=1
+        sans cuisson ; &rct=1
+
+        uniquement dans les ingrédients : &st=1
+
+       cout :
+           bon marché : &exp=1
+           moyen : &exp=2
+           assez cher : &exp=3
+
+       difficultée :
+           très facie : &dif=1
+           facile : &dif=2
+           moyenne : &dif=3
+           difficile : &dif=4
+
+       plat principal :
+       entrée : &dt=entree
+       dessert : &dt=dessert
+       plat ppl : &dt=platprincipal
+           */

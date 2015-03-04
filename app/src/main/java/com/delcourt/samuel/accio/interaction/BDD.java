@@ -3,7 +3,6 @@ package com.delcourt.samuel.accio.interaction;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
