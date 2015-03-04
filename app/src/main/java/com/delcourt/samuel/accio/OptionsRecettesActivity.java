@@ -23,6 +23,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options_recettes);
+
     }
 
 
@@ -247,7 +248,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                 checkBox2.setChecked(false);
             }
 
-            checkBox2 = (CheckBox) findViewById(R.id.difficulte1);
+            checkBox2 = (CheckBox) findViewById(R.id.difficulte3);
             checked = checkBox.isChecked();
             if (checked == true) {
                 checkBox2.setChecked(false);
