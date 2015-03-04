@@ -1,0 +1,170 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.delcourt.samuel.accio.OptionsRecettesActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/checkBoxVegetarien"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Végétarien"
+                android:onClick="selectedVegetarien"
+                />
+
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/checkBoxSansCuisson"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/checkBoxVegetarien"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:text="Sans cuisson"
+                android:onClick="selectedSansCuisson"
+                />
+
+            <TextView
+                android:id="@+id/type_plat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type de plat"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/checkBoxSansCuisson"/>
+
+            <CheckBox android:layout_height="wrap_content"
+                android:onClick="selectedTypePlat1"
+                android:id="@+id/type_plat_type1"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:layout_below="@+id/type_plat"
+                android:text="Entrée"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/type_plat_type2"
+                android:onClick="selectedTypePlat2"
+                android:layout_below="@+id/type_plat_type1"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Plat principal"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/type_plat_type3"
+                android:onClick="selectedTypePlat3"
+                android:layout_below="@+id/type_plat_type2"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Dessert"></CheckBox>
+
+
+            <TextView
+                android:id="@+id/difficulte_recette"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Difficulté"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/type_plat_type3"/>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/difficulte1"
+                android:layout_below="@+id/difficulte_recette"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Très facile"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/difficulte2"
+                android:layout_below="@+id/difficulte1"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Facile"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/difficulte3"
+                android:layout_below="@+id/difficulte2"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Intermédiaire"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/type_plat_type4"
+                android:layout_below="@+id/difficulte3"
+                android:layout_width="fill_parent"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Difficile"></CheckBox>
+
+            <TextView
+                android:id="@+id/cout_recette"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coût"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/type_plat_type4"/>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/cout1"
+                android:layout_below="@+id/cout_recette"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Bon marché"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/cout2"
+                android:layout_below="@+id/cout1"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Abordable"></CheckBox>
+            <CheckBox android:layout_height="wrap_content"
+                android:id="@+id/cout3"
+                android:layout_below="@+id/cout2"
+                android:layout_width="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="10sp"
+                android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:text="Assez cher"></CheckBox>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="Ok"/>
+
+</RelativeLayout>

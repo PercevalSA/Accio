@@ -196,4 +196,3 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         }
     }
 }
-
