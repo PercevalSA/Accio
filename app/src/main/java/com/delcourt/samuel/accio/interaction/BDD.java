@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio.interaction;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -82,7 +83,5 @@ public class BDD extends AsyncTask<String, Void, String> {
         } catch (JSONException e) {
             Log.e("log_tag", "Error parsing data " + e.toString());
         }
-
-   // Toast.makeText(getApplicationContext(), "on attend le retour de la BDD", Toast.LENGTH_SHORT).show();
     }
 }
