@@ -344,4 +344,15 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         Intent intent = new Intent(this,OptionsRecettesActivity.class);
         startActivity(intent);
     }
+
+    public void afficherRecette(View view){
+        String adresseWeb = getAdresseWeb();
+        RecetteMarmitonActivity.adresseWeb = adresseWeb;
+        Intent intent = new Intent(this,RecetteMarmitonActivity.class);
+        startActivity(intent);
+    }
+
+    public String getAdresseWeb(){//UTILISER LE CODE DE PERSEVAL
+        return "www.http://www.marmiton.org/";
+    }
 }
