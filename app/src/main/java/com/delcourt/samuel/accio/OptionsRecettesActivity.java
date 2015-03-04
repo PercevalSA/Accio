@@ -354,8 +354,13 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     }
 
     public void sendMessageAfficheRecette(View view){
-        String adresseWeb = getURL(aliments, photo, vegetarien, sansCuisson, food, cout, difficulte);
+        String adresseWeb = getURL(aliments, photo, vegetarien, sansCuisson, food, cout, difficulte,typePlat);
         RecetteMarmitonActivity.adresseWeb = adresseWeb;
+
+        Toast toast = Toast.makeText(getApplicationContext(), adresseWeb, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
+
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
         startActivity(intent);
     }
@@ -366,7 +371,8 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                                  boolean cru,
                                  boolean Food,
                                  int cost,
-                                 int difficult) {
+                                 int difficult,
+                                 int typePlat) {
 
     /*
     adresse de recherche (uniquement pour les recettes)
@@ -392,8 +398,22 @@ public class OptionsRecettesActivity extends ActionBarActivity {
            facile : &dif=2
            moyenne : &dif=3
            difficile : &dif=4
-           */
 
+       plat principal :
+       entrée : &dt=entree
+       dessert : &dt=dessert
+       plat ppl : &dt=platprincipal
+           */
+        switch(typePlat){
+            case 1 : url+="&dt=entree";
+                break;
+
+            case 2 : url+="&dt=platprincipal";
+                break;
+
+            case 3 : url+="&dt=dessert";
+                break;
+        }
 
         if (photo == true)
             url+="&pht=1";
@@ -403,6 +423,8 @@ public class OptionsRecettesActivity extends ActionBarActivity {
             url+="rct=1";
         if (Food == true)
             url+="st=1";
+
+
 
         switch (cost) {
             case 1 : url+="&exp=1";
@@ -428,7 +450,10 @@ public class OptionsRecettesActivity extends ActionBarActivity {
             case 4 : url+="&dif=4";
                 break;
         }
+
         return url;
+
+
     }
 
     public String getAdresseWeb(){//UTILISER LE CODE DE PERSEVAL
