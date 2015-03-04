@@ -1,4 +1,4 @@
-/*package com.delcourt.samuel.accio.interaction;
+package com.delcourt.samuel.accio.interaction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,33 +7,34 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Scanner;
 
+//package pact;
+
+//import com.sun.javafx.css.converters.URLConverter;
+
+import java.net.*;
+import java.io.*;
+import java.util.Scanner;
+
 /**
- * Created by perceval on 03/03/15.
+ * Created by perceval on 03/03/15.*/
 
 public class Marmiton {
 
-    package pact;
-
-    import com.sun.javafx.css.converters.URLConverter;
-
-    import java.net.*;
-    import java.io.*;
-    import java.util.Scanner;
 
 /*
 URLConnectionReader
 http://www.marmiton.org/
 
 page 2 : &start=10
-page 3 : &start=20
+page 3 : &start=20*/
 
 
-    public class getURL {
+    public static class getURL {
 
 
         private String page;
 
-        public static void main(String[] args) throws Exception {
+        /*public static void main(String[] args) throws Exception {
 
             System.out.println("Bonjour nous allons définir quelques options pour votre recherche");
 
@@ -55,7 +56,7 @@ page 3 : &start=20
 
             URL adresse = new URL(url);
             //String page = getPage();
-        }
+        }*/
 
         public String getPage(URL url) throws IOException {
             URLConnection yc = url.openConnection();
@@ -81,7 +82,7 @@ page 3 : &start=20
 
     /*
     adresse de recherche (uniquement pour les recettes)
-    http://www.marmiton.org/recettes/recherche.aspx?aqt=$MOTS_CLEF
+    http://www.marmiton.org/recettes/recherche.aspx?aqt=$MOTS_CLEF*/
 
             String url="http://www.marmiton.org/recettes/recherche.aspx?aqt="+recherche;
 
@@ -103,6 +104,7 @@ page 3 : &start=20
            facile : &dif=2
            moyenne : &dif=3
            difficile : &dif=4
+           */
 
 
             if (photo == true)
@@ -119,18 +121,18 @@ page 3 : &start=20
                     break;
 
                 case 2 : url+="&exp=2";
-                    break
+                    break;
 
                 case 3 : url+="&exp=3";
                     break;
             }
 
             switch (difficult) {
-                ase 1 : url+="&dif=1";
+                case 1 : url+="&dif=1";
                 break;
 
                 case 2 : url+="&dif=2";
-                    break
+                    break;
 
                 case 3 : url+="&dif=3";
                     break;
@@ -154,7 +156,3 @@ page 3 : &start=20
 
 }
 
-
-
-}
-*/

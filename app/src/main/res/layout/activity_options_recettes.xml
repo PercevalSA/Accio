@@ -86,6 +86,7 @@
                 android:layout_below="@+id/type_plat_type3"/>
             <CheckBox android:layout_height="wrap_content"
                 android:id="@+id/difficulte1"
+                android:onClick="selectedDifficulte1"
                 android:layout_below="@+id/difficulte_recette"
                 android:layout_width="fill_parent"
                 android:layout_gravity="right"
@@ -95,6 +96,7 @@
                 android:text="Très facile"></CheckBox>
             <CheckBox android:layout_height="wrap_content"
                 android:id="@+id/difficulte2"
+                android:onClick="selectedDifficulte2"
                 android:layout_below="@+id/difficulte1"
                 android:layout_width="fill_parent"
                 android:layout_gravity="right"
@@ -104,6 +106,7 @@
                 android:text="Facile"></CheckBox>
             <CheckBox android:layout_height="wrap_content"
                 android:id="@+id/difficulte3"
+                android:onClick="selectedDifficulte3"
                 android:layout_below="@+id/difficulte2"
                 android:layout_width="fill_parent"
                 android:layout_gravity="right"
@@ -112,7 +115,8 @@
                 android:textSize="15sp"
                 android:text="Intermédiaire"></CheckBox>
             <CheckBox android:layout_height="wrap_content"
-                android:id="@+id/type_plat_type4"
+                android:id="@+id/difficulte4"
+                android:onClick="selectedDifficulte4"
                 android:layout_below="@+id/difficulte3"
                 android:layout_width="fill_parent"
                 android:layout_marginRight="10sp"
@@ -126,9 +130,10 @@
                 android:layout_height="wrap_content"
                 android:text="Coût"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/type_plat_type4"/>
+                android:layout_below="@+id/difficulte4"/>
             <CheckBox android:layout_height="wrap_content"
                 android:id="@+id/cout1"
+                android:onClick="selectedCout1"
                 android:layout_below="@+id/cout_recette"
                 android:layout_width="fill_parent"
                 android:layout_gravity="right"
@@ -138,6 +143,7 @@
                 android:text="Bon marché"></CheckBox>
             <CheckBox android:layout_height="wrap_content"
                 android:id="@+id/cout2"
+                android:onClick="selectedCout2"
                 android:layout_below="@+id/cout1"
                 android:layout_width="fill_parent"
                 android:layout_gravity="right"
@@ -147,6 +153,7 @@
                 android:text="Abordable"></CheckBox>
             <CheckBox android:layout_height="wrap_content"
                 android:id="@+id/cout3"
+                android:onClick="selectedCout3"
                 android:layout_below="@+id/cout2"
                 android:layout_width="fill_parent"
                 android:layout_gravity="right"
@@ -165,6 +172,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:text="Ok"/>
+        android:text="Ok"
+        android:onClick="sendMessageAfficheRecette"/>
 
 </RelativeLayout>
