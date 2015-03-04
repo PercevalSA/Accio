@@ -71,11 +71,12 @@
         <activity
             android:name=".OptionsRecettesActivity"
             android:label="@string/title_activity_recette_marmiton"
-            android:parentActivityName=".RecipesActivity" >
+            android:parentActivityName=".ChoixAlimentsRecettes" >
         </activity>
         <activity
             android:name=".ChoixAlimentsRecettes"
-            android:label="@string/title_activity_choix_aliments_recettes" >
+            android:label="@string/title_activity_choix_aliments_recettes"
+            android:parentActivityName=".RecipesActivity">
         </activity>
     </application>
 

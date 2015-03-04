@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     private int typePlat=0;
     private int difficulte=0;
     private int cout=0;
+    protected static String aliments;//Aliments à rechercher, à mettre sous le bon format (ok pour l'exemple actuel)
 
     //A VOIR AVEC PERSEVAL
     //private String page=null;
@@ -34,6 +36,10 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options_recettes);
+
+        Toast toast = Toast.makeText(getApplicationContext(), "A adapter", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
 
     }
 
@@ -348,7 +354,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     }
 
     public void sendMessageAfficheRecette(View view){
-        String adresseWeb = getURL(rechercheString,photo,vegetarien,sansCuisson,food,cout,difficulte);
+        String adresseWeb = getURL(aliments, photo, vegetarien, sansCuisson, food, cout, difficulte);
         RecetteMarmitonActivity.adresseWeb = adresseWeb;
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
         startActivity(intent);

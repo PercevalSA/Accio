@@ -70,7 +70,7 @@ public class RecipesActivity extends ActionBarActivity {
     }
 
     public void sendMessageNouvelleRecette(View view){
-        Intent intent = new Intent(this,OptionsRecettesActivity.class);
+        Intent intent = new Intent(this,ChoixAlimentsRecettes.class);
         startActivity(intent);
     }
 
@@ -89,12 +89,12 @@ public class RecipesActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                sendMessageReceetteSelected(position);
+                sendMessageRecetteSelected(position);
             }
         });
     }
 
-    public void sendMessageReceetteSelected(int position){
+    public void sendMessageRecetteSelected(int position){
         String adresseWeb = listeRecettes.get(position).getAdresseWeb();
         RecetteMarmitonActivity.adresseWeb = adresseWeb;
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
