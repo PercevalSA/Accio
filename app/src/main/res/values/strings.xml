@@ -45,5 +45,6 @@
     <string name="aide_nouvelle_boite_2">Le choix du type de boîte est important : Accio ne cherchera à reconnaître que des aliments du type indiqué.
         Vous pourrez changer le type de la boîte par la suite si vous le désirez.</string>
     <string name="title_activity_recette_marmiton">Recette Marmiton</string>
+    <string name="title_activity_choix_aliments_recettes">ChoixAlimentsRecettes</string>
 
 </resources>

@@ -173,6 +173,6 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:text="Ok"
-        android:onClick="afficherRecette"/>
+        android:onClick="sendMessageAfficheRecette"/>
 
 </RelativeLayout>

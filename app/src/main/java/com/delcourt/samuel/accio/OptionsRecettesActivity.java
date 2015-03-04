@@ -11,6 +11,12 @@ import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class OptionsRecettesActivity extends ActionBarActivity {
 
     private boolean vegetarien = false;
@@ -18,6 +24,11 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     private int typePlat=0;
     private int difficulte=0;
     private int cout=0;
+
+    //A VOIR AVEC PERSEVAL
+    //private String page=null;
+    boolean photo = true;
+    boolean food=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -336,20 +347,82 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         }
     }
 
-    public void sendMessageAfficheRecette(int position){
-        //RECUPERER L'ADRESSE
-
-        /*String adresseWeb = A RECUPERER;
-        RecetteMarmitonActivity.adresseWeb = adresseWeb;*/
-        Intent intent = new Intent(this,OptionsRecettesActivity.class);
-        startActivity(intent);
-    }
-
-    public void afficherRecette(View view){
-        String adresseWeb = getAdresseWeb();
+    public void sendMessageAfficheRecette(View view){
+        String adresseWeb = getURL(rechercheString,photo,vegetarien,sansCuisson,food,cout,difficulte);
         RecetteMarmitonActivity.adresseWeb = adresseWeb;
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
         startActivity(intent);
+    }
+
+    public static String getURL (String recherche,
+                                 boolean photo,
+                                 boolean vegan,
+                                 boolean cru,
+                                 boolean Food,
+                                 int cost,
+                                 int difficult) {
+
+    /*
+    adresse de recherche (uniquement pour les recettes)
+    http://www.marmiton.org/recettes/recherche.aspx?aqt=$MOTS_CLEF*/
+
+        String url="http://www.marmiton.org/recettes/recherche.aspx?aqt="+recherche;
+
+    /*
+    Option pour la recherche :
+        photo : &pht=1
+        vegetarien : &veg=1
+        sans cuisson ; &rct=1
+
+        uniquement dans les ingrédients : &st=1
+
+       cout :
+           bon marché : &exp=1
+           moyen : &exp=2
+           assez cher : &exp=3
+
+       difficultée :
+           très facie : &dif=1
+           facile : &dif=2
+           moyenne : &dif=3
+           difficile : &dif=4
+           */
+
+
+        if (photo == true)
+            url+="&pht=1";
+        if (vegan == true)
+            url+="&veg=1";
+        if (cru == true)
+            url+="rct=1";
+        if (Food == true)
+            url+="st=1";
+
+        switch (cost) {
+            case 1 : url+="&exp=1";
+                break;
+
+            case 2 : url+="&exp=2";
+                break;
+
+            case 3 : url+="&exp=3";
+                break;
+        }
+
+        switch (difficult) {
+            case 1 : url+="&dif=1";
+                break;
+
+            case 2 : url+="&dif=2";
+                break;
+
+            case 3 : url+="&dif=3";
+                break;
+
+            case 4 : url+="&dif=4";
+                break;
+        }
+        return url;
     }
 
     public String getAdresseWeb(){//UTILISER LE CODE DE PERSEVAL

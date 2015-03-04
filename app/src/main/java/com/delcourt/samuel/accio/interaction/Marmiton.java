@@ -34,7 +34,7 @@ page 3 : &start=20*/
 
         private String page;
 
-        public static void main(String[] args) throws Exception {
+        /*public static void main(String[] args) throws Exception {
 
             System.out.println("Bonjour nous allons définir quelques options pour votre recherche");
 
@@ -56,7 +56,7 @@ page 3 : &start=20*/
 
             URL adresse = new URL(url);
             //String page = getPage();
-        }
+        }*/
 
         public String getPage(URL url) throws IOException {
             URLConnection yc = url.openConnection();
