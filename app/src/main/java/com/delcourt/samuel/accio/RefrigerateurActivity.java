@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.recovoc.SpeechRecognitionHelper;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
@@ -180,6 +181,6 @@ public class RefrigerateurActivity extends ActionBarActivity {
     }
 
     public void sendMessageRecoVocale(View view){
-        
+        SpeechRecognitionHelper.run();
     }
 }

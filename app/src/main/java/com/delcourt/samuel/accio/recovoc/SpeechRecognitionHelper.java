@@ -30,7 +30,7 @@ public class SpeechRecognitionHelper {
             startRecognition(callingActivity);
         } else {
             // if no, then showing notification to install Voice Search
-            Toast.makeText(callingActivity, "In order to activate speech recognition you must install "Google Voice Search"", Toast.LENGTH_LONG).show();
+            Toast.makeText(callingActivity, "In order to activate speech recognition you must install Google Voice Search", Toast.LENGTH_LONG).show();
             // start installing process
             installGoogleVoiceSearch(callingActivity);
         }
@@ -87,7 +87,7 @@ public class SpeechRecognitionHelper {
     // creating a dialog asking user if he want
     // to install the Voice Search
     Dialog dialog = new AlertDialog.Builder(ownerActivity)
-    .setMessage("For recognition it’s necessary to install "Google Voice Search"")    // dialog message
+    .setMessage("For recognition it’s necessary to install Google Voice Search")    // dialog message
     .setTitle("Install Voice Search from Google Play?")    // dialog header
     .setPositiveButton("Install", new DialogInterface.OnClickListener() {    // confirm button
         // Install Button click handler
