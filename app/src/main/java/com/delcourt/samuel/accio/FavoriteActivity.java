@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.delcourt.samuel.accio.interaction.BDD;
@@ -34,15 +35,26 @@ public class FavoriteActivity extends ActionBarActivity {
 
     String result = null;
     TextView textView;
+    static ArrayList<String> listeAlimentsAffichage = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoris);
-        textView = (TextView) findViewById(R.id.textView);
-        new BDD().execute();
+
+
+        listeAlimentsAffichage = new ArrayList<>();//On réinitialise la liste des aliments à afficher
+
+        new BDD2().execute();//On se connecte à la bdd. Normalement, listeAlimentsAffichage doit se remplir
+
+        //On prépare la ListView
+        ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
+        listAliments.setAdapter(arrayAdapter);
+
     }
 
-    class BDD extends AsyncTask<String, Void, String> {
+    class BDD2 extends AsyncTask<String, Void, String> {
 
         String result = null;
 
@@ -89,7 +101,8 @@ public class FavoriteActivity extends ActionBarActivity {
                 JSONArray jArray = new JSONArray(result);
                 for (int i = 0; i < jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
-                    donnees.add(json_data.getString("Nom"));
+                    FavoriteActivity.listeAlimentsAffichage.add(json_data.getString("Nom"));//On remplit la liste
+                    donnees.add(json_data.getString("Nom"));//On remplit la liste des aliments à afficher
                     Log.i("log_tag", "BoiteID: " + json_data.getInt("BoiteID") +
                                     ", Nom: " + json_data.getString("Nom") +
                                     ", Categorie: " + json_data.getString("Categorie")
@@ -97,11 +110,12 @@ public class FavoriteActivity extends ActionBarActivity {
                     result += "\n\t" + jArray.getJSONObject(i);
 
 
-
+                    
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
             }
+
 
 
                 return result;
