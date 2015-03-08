@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class FavoriteActivity extends ActionBarActivity {
 
     String result = null;
-    ArrayList<String> listeAlimentsAffichage;
+    static ArrayList<String> listeAlimentsAffichage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class FavoriteActivity extends ActionBarActivity {
         ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
         listeAlimentsAffichage = new ArrayList<>();
 
-        new BDD().execute();
+        new BDD2().execute();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
         listAliments.setAdapter(arrayAdapter);
@@ -73,12 +73,8 @@ public class FavoriteActivity extends ActionBarActivity {
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
-                Toast.makeText(getApplicationContext(), "http connexion ok",
-                        Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
+                } catch (Exception e) {
                 Log.e("log_tag", "Error in http connection " + e.toString());
-                Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (http connexion)",
-                        Toast.LENGTH_SHORT).show();
             }
 
             //Conversion de la réponse en chaine
@@ -96,8 +92,6 @@ public class FavoriteActivity extends ActionBarActivity {
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Log.e("log_tag", "Error converting result " + e.toString());
-                Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (conversion)",
-                        Toast.LENGTH_SHORT).show();
             }
 
             //Parsing des données JSON
@@ -113,18 +107,14 @@ public class FavoriteActivity extends ActionBarActivity {
                     );
 
                     //Met les données ds la liste à afficher
-                    listeAlimentsAffichage.add(json_data.getString("Nom"));
+                    FavoriteActivity.listeAlimentsAffichage.add(json_data.getString("Nom"));
 
 
                     result += "\n\t" + jArray.getJSONObject(i);
-                    Toast.makeText(getApplicationContext(), "Création liste aliments : ok", Toast.LENGTH_SHORT).show();
-
 
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
-                Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (parsing data)",
-                        Toast.LENGTH_SHORT).show();
             }
 
 
@@ -136,24 +126,6 @@ public class FavoriteActivity extends ActionBarActivity {
 
         protected void onPostExecute(String result) {
 
-            //Parsing des données JSON
-            /** try {
-             Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
-             JSONArray jArray = new JSONArray(result);
-             for (int i = 0; i < jArray.length(); i++) {
-             JSONObject json_data = jArray.getJSONObject(i);
-             Log.i("log_tag", "BoiteID: " + json_data.getInt("BoiteID") +
-             ", Nom: " + json_data.getString("Nom") +
-             ", Categorie: " + json_data.getString("Categorie")
-             );
-             result += "\n\t" + jArray.getJSONObject(i);
-
-             }
-             } catch (JSONException e) {
-             Log.e("log_tag", "Error parsing data " + e.toString());
-             }
-
-             **/
         }
     }
 
