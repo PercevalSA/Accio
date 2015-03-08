@@ -43,7 +43,7 @@ public class FavoriteActivity extends ActionBarActivity {
         ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
         listeAlimentsAffichage = new ArrayList<>();
 
-        String result = connection();
+        new BDD().execute();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
         listAliments.setAdapter(arrayAdapter);
@@ -51,52 +51,54 @@ public class FavoriteActivity extends ActionBarActivity {
 
     }
 
+    class BDD2 extends AsyncTask<String, Void, String> {
 
-        protected String connection() {
 
-                String result = "";
+        protected String doInBackground(String... urls) {
 
-                InputStream is = null;
+            String result = "";
 
-                // aliment recherché
-                ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
-                ArrayList<String> donnees = new ArrayList<String>();
+            InputStream is = null;
 
-                // Envoi de la requête avec HTTPPost
-                try {
-                    HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost("http://192.168.0.12/pact/connection2.php");
-                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                    HttpResponse response = httpclient.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-                    is = entity.getContent();
-                    Toast.makeText(getApplicationContext(), "http connexion ok",
-                            Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Log.e("log_tag", "Error in http connection " + e.toString());
-                    Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (http connexion)",
-                            Toast.LENGTH_SHORT).show();
+            // aliment recherché
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
+            ArrayList<String> donnees = new ArrayList<String>();
+
+            // Envoi de la requête avec HTTPPost
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost("http://192.168.1.52/pact/connection2.php");
+                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+                Toast.makeText(getApplicationContext(), "http connexion ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+                Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (http connexion)",
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            //Conversion de la réponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
                 }
+                is.close();
 
-                //Conversion de la réponse en chaine
-                try {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line + "\n");
-                    }
-                    is.close();
-
-                    result = sb.toString();
-                    Toast.makeText(getApplicationContext(), "conversion en chaîne : ok",
-                            Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    Log.e("log_tag", "Error converting result " + e.toString());
-                    Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (conversion)",
-                            Toast.LENGTH_SHORT).show();
-                }
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaîne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+                Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (conversion)",
+                        Toast.LENGTH_SHORT).show();
+            }
 
             //Parsing des données JSON
             try {
@@ -115,8 +117,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
 
                     result += "\n\t" + jArray.getJSONObject(i);
-                    Toast.makeText(getApplicationContext(), "Création liste aliments : ok",Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(getApplicationContext(), "Création liste aliments : ok", Toast.LENGTH_SHORT).show();
 
 
                 }
@@ -127,7 +128,7 @@ public class FavoriteActivity extends ActionBarActivity {
             }
 
 
-                return result;
+            return result;
         }
 
 
@@ -136,24 +137,25 @@ public class FavoriteActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
 
             //Parsing des données JSON
-           /** try {
-                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
-                JSONArray jArray = new JSONArray(result);
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    Log.i("log_tag", "BoiteID: " + json_data.getInt("BoiteID") +
-                                    ", Nom: " + json_data.getString("Nom") +
-                                    ", Categorie: " + json_data.getString("Categorie")
-                    );
-                    result += "\n\t" + jArray.getJSONObject(i);
+            /** try {
+             Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
+             JSONArray jArray = new JSONArray(result);
+             for (int i = 0; i < jArray.length(); i++) {
+             JSONObject json_data = jArray.getJSONObject(i);
+             Log.i("log_tag", "BoiteID: " + json_data.getInt("BoiteID") +
+             ", Nom: " + json_data.getString("Nom") +
+             ", Categorie: " + json_data.getString("Categorie")
+             );
+             result += "\n\t" + jArray.getJSONObject(i);
 
-                }
-            } catch (JSONException e) {
-                Log.e("log_tag", "Error parsing data " + e.toString());
-            }
+             }
+             } catch (JSONException e) {
+             Log.e("log_tag", "Error parsing data " + e.toString());
+             }
 
-            **/
+             **/
         }
+    }
 
 
 
