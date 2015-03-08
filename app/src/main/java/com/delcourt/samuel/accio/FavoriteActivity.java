@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.interaction.BDD;
 
@@ -33,20 +35,25 @@ import java.util.ArrayList;
 public class FavoriteActivity extends ActionBarActivity {
 
     String result = null;
-    TextView textView;
+    ArrayList<String> listeAlimentsAffichage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoris);
-        textView = (TextView) findViewById(R.id.textView);
-        new BDD().execute();
+        ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
+        listeAlimentsAffichage = new ArrayList<>();
+
+        String result = connection();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
+        listAliments.setAdapter(arrayAdapter);
+
+
     }
 
-    class BDD extends AsyncTask<String, Void, String> {
 
-        String result = null;
+        protected String connection() {
 
-        protected String doInBackground(String... urls) {
                 String result = "";
 
                 InputStream is = null;
@@ -64,8 +71,12 @@ public class FavoriteActivity extends ActionBarActivity {
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity entity = response.getEntity();
                     is = entity.getContent();
+                    Toast.makeText(getApplicationContext(), "http connexion ok",
+                            Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Log.e("log_tag", "Error in http connection " + e.toString());
+                    Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (http connexion)",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 //Conversion de la réponse en chaine
@@ -79,8 +90,12 @@ public class FavoriteActivity extends ActionBarActivity {
                     is.close();
 
                     result = sb.toString();
+                    Toast.makeText(getApplicationContext(), "conversion en chaîne : ok",
+                            Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Log.e("log_tag", "Error converting result " + e.toString());
+                    Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (conversion)",
+                            Toast.LENGTH_SHORT).show();
                 }
 
             //Parsing des données JSON
@@ -94,13 +109,21 @@ public class FavoriteActivity extends ActionBarActivity {
                                     ", Nom: " + json_data.getString("Nom") +
                                     ", Categorie: " + json_data.getString("Categorie")
                     );
+
+                    //Met les données ds la liste à afficher
+                    listeAlimentsAffichage.add(json_data.getString("Nom"));
+
+
                     result += "\n\t" + jArray.getJSONObject(i);
+                    Toast.makeText(getApplicationContext(), "Création liste aliments : ok",Toast.LENGTH_SHORT).show();
 
 
 
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
+                Toast.makeText(getApplicationContext(), "La connexion à la base de données a échoué (parsing data)",
+                        Toast.LENGTH_SHORT).show();
             }
 
 
@@ -132,7 +155,7 @@ public class FavoriteActivity extends ActionBarActivity {
             **/
         }
 
-    }
+
 
 
 
