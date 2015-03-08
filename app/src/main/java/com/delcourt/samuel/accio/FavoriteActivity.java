@@ -95,7 +95,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requête avec HTTPPost
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://192.168.0.12/pact/connection2.php");
+                HttpPost httppost = new HttpPost("http://192.168.0.42/pact/test.php");
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
@@ -134,7 +134,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
                     //On écrit le nom des aliments dans un fichier texte
                     try {//Crée le fichier contenant la liste des boîtes de ce frigo
-                        OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("aliments.txt",MODE_PRIVATE));
+                        OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("aliments.txt",MODE_APPEND));
                         BufferedWriter bw = new BufferedWriter(outStream);
                         PrintWriter out2 = new PrintWriter(bw);
                         out2.println(json_data.getString("Nom"));
