@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -67,14 +69,22 @@ public class FavoriteActivity extends ActionBarActivity {
             }
             sc.close();
         } catch (FileNotFoundException e) {//A lieu à la première utilisation d'accio. On crée alors le frigo de référence (suite) (utile pour nous)
-            Toast.makeText(getApplicationContext(), "Problème lecture fichier texte",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Problème lecture fichier texte",Toast.LENGTH_SHORT).show();
         }
 
         //On prépare la ListView
         ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
         listAliments.setAdapter(arrayAdapter);
+        listAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            // argument position gives the index of item which is clicked
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+
+            }
+        });
 
     }
 
@@ -119,6 +129,18 @@ public class FavoriteActivity extends ActionBarActivity {
                 Log.e("log_tag", "Error converting result " + e.toString());
             }
 
+            //Supprime le fichier texte précédent
+            try {
+                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("aliments.txt",MODE_PRIVATE));
+                BufferedWriter bw = new BufferedWriter(outStream);
+                PrintWriter out2 = new PrintWriter(bw);
+                out2.close();
+                Log.i("log_tag", "Ecrasement fichier ok");
+
+            } catch (java.io.IOException e) {
+                Log.e("log_tag", "Erreur écrasement fichier");
+            }
+
             //Parsing des données JSON
             try {
                 Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
@@ -132,9 +154,11 @@ public class FavoriteActivity extends ActionBarActivity {
                                     ", Categorie: " + json_data.getString("Categorie")
                     );
 
+
+
                     //On écrit le nom des aliments dans un fichier texte
                     try {//Crée le fichier contenant la liste des boîtes de ce frigo
-                        OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("aliments.txt",MODE_PRIVATE));
+                        OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("aliments.txt",MODE_APPEND));
                         BufferedWriter bw = new BufferedWriter(outStream);
                         PrintWriter out2 = new PrintWriter(bw);
                         out2.println(json_data.getString("Nom"));
@@ -218,4 +242,6 @@ public class FavoriteActivity extends ActionBarActivity {
         Intent help = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(help);
     }
+    
+    public void clickMessage(View view){}
 }
