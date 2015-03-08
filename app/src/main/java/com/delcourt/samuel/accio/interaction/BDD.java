@@ -27,8 +27,10 @@ public class BDD extends AsyncTask<String, Void, String> {
 
     String result = null;
 
+
     protected String doInBackground(String... urls) {
         String result = "";
+
         InputStream is = null;
 
         // aliment recherché
@@ -38,7 +40,7 @@ public class BDD extends AsyncTask<String, Void, String> {
         // Envoi de la requête avec HTTPPost
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://137.194.22.237/pact/connection.php");
+            HttpPost httppost = new HttpPost("http://192.168.0.12/pact/connection2.php");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
@@ -67,10 +69,12 @@ public class BDD extends AsyncTask<String, Void, String> {
 
 
     //This Method is called when Network-Request finished
+    @Override
     protected void onPostExecute(String result) {
 
     //Parsing des données JSON
         try {
+            Log.i("tagconvertstr", "["+result+"]"); // permet de voir ce que retoune le script. un code html pouquoi ?
             JSONArray jArray = new JSONArray(result);
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject json_data = jArray.getJSONObject(i);
@@ -78,9 +82,13 @@ public class BDD extends AsyncTask<String, Void, String> {
                                 ", Nom: " + json_data.getString("Nom") +
                                 ", Categorie: " + json_data.getString("Categorie")
                 );
+                result += "\n\t" + jArray.getJSONObject(i);
+
             }
         } catch (JSONException e) {
             Log.e("log_tag", "Error parsing data " + e.toString());
         }
+
+
     }
 }
