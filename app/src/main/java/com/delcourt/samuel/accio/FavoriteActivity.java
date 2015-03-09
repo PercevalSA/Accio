@@ -68,7 +68,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requête avec HTTPPost
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://192.168.1.52/pact/connection2.php");
+                HttpPost httppost = new HttpPost("http://192.168.0.101/connection2bis.php");
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();

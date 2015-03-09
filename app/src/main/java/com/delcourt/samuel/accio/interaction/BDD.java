@@ -40,7 +40,7 @@ public class BDD extends AsyncTask<String, Void, String> {
         // Envoi de la requête avec HTTPPost
         try {
             HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost("http://192.168.0.12/pact/connection2.php");
+            HttpPost httppost = new HttpPost("http://192.168.0.101/connection2bis.php");
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httppost);
             HttpEntity entity = response.getEntity();
