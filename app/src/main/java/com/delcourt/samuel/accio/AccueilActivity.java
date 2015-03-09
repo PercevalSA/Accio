@@ -34,7 +34,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 public class AccueilActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
 
-    public static int nombreFrigos;
+    //public static int nombreFrigos;
     public static ArrayList<String> listeFrigosNames = new ArrayList<>();
     protected static ArrayList<Recette> listeRecettesEnregistrées;
 
@@ -149,7 +149,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 out2.println("Réfrigérateur essai");
                 out2.close();
 
-                nombreFrigos = 1;//initialise les données locales
+                //nombreFrigos = 1;//initialise les données locales
                 listeFrigosNames.add("Réfrigérateur essai");//initialise les données locales
                 initialisationFrigoExemple();//Permet la suite de l'initialisation du frigo de référence (càd l'exemple)
             } catch (FileNotFoundException e1) {
