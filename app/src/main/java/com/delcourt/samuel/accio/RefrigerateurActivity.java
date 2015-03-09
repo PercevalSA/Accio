@@ -157,11 +157,15 @@ public class RefrigerateurActivity extends ActionBarActivity {
             for (int j = 0; j < nbBoites; j++) {
                 String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
 
-                //Pour chaque aliment de la boîte en question dans la base de donnée, on crée un objet : aliment = new Aliment(nom,favori,historique)
-                // et on l'ajoute à la liste des aliments : refrigerateur.getBoxes().get(j).getListeAliments().add(Aliment)
-                //Remarque : historique est un array-list, il faut peut etre le créer avant
+                String nom = null;
+                boolean favori = false;
+                ArrayList<String> historique = new ArrayList<>();
 
+                // !!!!!!! CONNECTION BDD !!!!!!
+                //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), on crée la liste historique
 
+                Aliment aliment = new Aliment(nom,favori,historique);
+                refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
 
                 refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
             }
