@@ -20,6 +20,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -61,16 +62,16 @@ public class FavoriteActivity extends ActionBarActivity {
             InputStream is = null;
 
             // aliment recherché
-            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
-            ArrayList<String> donnees = new ArrayList<String>();
+            //ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            //nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
+            //ArrayList<String> donnees = new ArrayList<String>();
 
-            // Envoi de la requête avec HTTPPost
+            // Envoi de la requête avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httppost = new HttpPost("http://192.168.0.101/connection2bis.php");
-                httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpclient.execute(httppost);
+                HttpGet httpget = new HttpGet("http://192.168.0.101/connection2ter.php?nomcategorie=Legume");
+                //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
                 } catch (Exception e) {
@@ -97,20 +98,18 @@ public class FavoriteActivity extends ActionBarActivity {
             //Parsing des données JSON
             try {
                 Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
-                JSONArray jArray = new JSONArray(result);
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    donnees.add(json_data.getString("Nom"));
-                    Log.i("log_tag", "BoiteID: " + json_data.getInt("BoiteID") +
-                                    ", Nom: " + json_data.getString("Nom") +
-                                    ", Categorie: " + json_data.getString("Categorie")
-                    );
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
 
                     //Met les données ds la liste à afficher
-                    FavoriteActivity.listeAlimentsAffichage.add(json_data.getString("Nom"));
+                    FavoriteActivity.listeAlimentsAffichage.add(json_data.getString(1));
 
-
-                    result += "\n\t" + jArray.getJSONObject(i);
+                    result += "\n\t" + array.getString(i);
 
                 }
             } catch (JSONException e) {
