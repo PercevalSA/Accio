@@ -146,13 +146,14 @@ public class HttpURLConnectionExample {
     }
 
     //3103220035214
+    //3242272001553
 
     private void addBDD(String name, String b) throws Exception {
 
         String nom = name.replace(" ","+");
         int alim = 6;
         int boite = 7;
-        String urls = "http://192.168.0.101/connection3.php?";
+        String urls = "http://localhost/connection3.php?";
         String urlParameters = "nom="+nom+"&codebarre="+b+"&aliment="+alim+"&boite="+boite;
         String url = urls+urlParameters;
 
