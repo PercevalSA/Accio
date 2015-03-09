@@ -6,13 +6,13 @@ public class Refrigerateur {
 
     private String name;
     private ArrayList<Box> boxes;
-    private ArrayList<String> listeBoitesNames;
+   // private ArrayList<String> listeBoitesNames;
     private boolean connectionBdd;
 
     public Refrigerateur(String name){
         this.name=name;
         boxes = new ArrayList<>();
-        listeBoitesNames = new ArrayList<>();
+        //listeBoitesNames = new ArrayList<>();
         connectionBdd = false;
         }
 

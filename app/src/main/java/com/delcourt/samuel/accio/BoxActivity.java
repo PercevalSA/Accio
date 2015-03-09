@@ -25,6 +25,7 @@ import java.util.ArrayList;
 public class BoxActivity extends ActionBarActivity {
 
     public static Box boite;
+    public ArrayList<String> listeAliments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,19 +92,22 @@ public class BoxActivity extends ActionBarActivity {
     }
 
     public void afficheAliments(){
-        ArrayList<String> liste = boite.getListeAliments();
-        int size = liste.size();
+        listeAliments = new ArrayList<>();
+        for (int i =0;i<boite.getListeAliments().size();i++){
+            listeAliments.add(boite.getListeAliments().get(i).getAlimentName());
+        }
+        int size = listeAliments.size();
         if( RefrigerateurActivity.refrigerateur.getConnectionBdd() == true){//Si on a réussi à se connecter à la base de données
             if(size==0){
                 ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-                liste = new ArrayList<>();
-                liste.add("Il n'y a aucun aliment dans cette boîte pour l'instant");
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+                listeAliments = new ArrayList<>();
+                listeAliments.add("Il n'y a aucun aliment dans cette boîte pour l'instant");
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAliments);
                 frigoList.setAdapter(arrayAdapter);
 
             } else {
                 ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAliments);
                 frigoList.setAdapter(arrayAdapter);
                 frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
                 {
@@ -113,11 +117,11 @@ public class BoxActivity extends ActionBarActivity {
                 });
 
             }
-        }else{//Si pas de connection à la base de données, on l'indique
+        } else {//Si pas de connection à la base de données, on l'indique
             ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-            liste = new ArrayList<>();
-            liste.add("La base de données n'est pas accessible");
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
+            listeAliments = new ArrayList<>();
+            listeAliments.add("La base de données n'est pas accessible");
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAliments);
             frigoList.setAdapter(arrayAdapter);
         }
 
