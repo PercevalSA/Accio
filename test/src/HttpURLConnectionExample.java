@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
+import java.io.DataOutputStream;
 
 public class HttpURLConnectionExample {
 
@@ -64,17 +65,18 @@ public class HttpURLConnectionExample {
         if (name.length > 1) {
             String nom = name[1];
             System.out.println(nom);
+            addBDD(nom, b);
         }
 
         // If it doesn't, then set it
         else {
-            setName(url);
+            setName(url, b);
         }
 
     }
 
     // Set Name of product
-    private void setName(String url) throws Exception {
+    private void setName(String url, String b) throws Exception {
 
         // URL changes for setting name
         String urlb = url.replace("get-product","edit-name");
@@ -139,6 +141,42 @@ public class HttpURLConnectionExample {
         String nomc = namec[1];
         System.out.println(nomc);
 
+        addBDD(nomc, b);
+
     }
 
+    //3103220035214
+
+    private void addBDD(String name, String b) throws Exception {
+
+        String nom = name.replace(" ","+");
+        int alim = 6;
+        int boite = 7;
+        String urls = "http://192.168.0.101/connection3.php?";
+        String urlParameters = "nom="+nom+"&codebarre="+b+"&aliment="+alim+"&boite="+boite;
+        String url = urls+urlParameters;
+
+        URL objs = new URL(url);
+        HttpURLConnection cons = (HttpURLConnection) objs.openConnection();
+
+        // GET request
+        cons.setRequestMethod("GET");
+
+        // add request header
+        cons.setRequestProperty("User-Agent", USER_AGENT);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(cons.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        //print result
+        System.out.println(response.toString());
+
+    }
 }
