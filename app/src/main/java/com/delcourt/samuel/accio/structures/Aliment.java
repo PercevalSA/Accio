@@ -12,10 +12,10 @@ public class Aliment {
     private ArrayList<String> historique;
     //private int alimentID;
 
-    public Aliment(String name){
+    public Aliment(String name, boolean favori,ArrayList<String> historique){
         this.name = name;
-        favori = false;
-        historique = new ArrayList();
+        this.favori = favori;
+        this.historique = historique;
     }
 
     public String getAlimentName(){return name;}

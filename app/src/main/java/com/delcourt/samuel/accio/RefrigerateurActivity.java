@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
@@ -156,15 +157,9 @@ public class RefrigerateurActivity extends ActionBarActivity {
             for (int j = 0; j < nbBoites; j++) {
                 String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
 
-                //ON SE CONNECTE EN UTILISANT LA REFERENCE...
-                ArrayList<String> aliments = refrigerateur.getBoxes().get(j).getListeAliments();
-                //ON REMPLIT LA LISTE
-
-                ArrayList<String> favoris = refrigerateur.getBoxes().get(j).getListeFavoris();
-                //ON REMPLIT LA LISTE
-
-
-
+                //Pour chaque aliment de la boîte en question dans la base de donnée, on crée un objet : aliment = new Aliment(nom,favori,historique)
+                // et on l'ajoute à la liste des aliments : refrigerateur.getBoxes().get(j).getListeAliments().add(Aliment)
+                //Remarque : historique est un array-list, il faut peut etre le créer avant
 
 
 

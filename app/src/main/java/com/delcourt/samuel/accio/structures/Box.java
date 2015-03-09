@@ -11,15 +11,13 @@ public class Box {
     private final String referenceBdd; //référence vers la base de données : permet d'avoir accès aux informations sur la boîte
     private String name;
     private String type;
-    private ArrayList<String> listeAliments;
-    private ArrayList<String> listeFavoris;
+    private ArrayList<Aliment> listeAliments;
 
     public Box(String referenceBdd, String name, String type){
         this.name=name;
         this.referenceBdd=referenceBdd;
         this.type = type;
         listeAliments = new ArrayList<>();
-        listeFavoris = new ArrayList<>();
     }
 
     public void setName(String name){
@@ -34,8 +32,7 @@ public class Box {
 
     public String getReferenceBdd(){return referenceBdd;}
 
-    public ArrayList<String> getListeAliments(){return listeAliments;}
+    public ArrayList<Aliment> getListeAliments(){return listeAliments;}
 
-    public ArrayList<String> getListeFavoris(){return listeFavoris;}
 
 }
