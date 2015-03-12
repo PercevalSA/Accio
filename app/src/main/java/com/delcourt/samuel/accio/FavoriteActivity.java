@@ -61,24 +61,24 @@ public class FavoriteActivity extends ActionBarActivity {
 
             InputStream is = null;
 
-            // aliment recherché
+            // aliment recherchÃ©
             //ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             //nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
             //ArrayList<String> donnees = new ArrayList<String>();
 
-            // Envoi de la requête avec HTTPGet
+            // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://192.168.0.101/connection2ter.php?nomcategorie=Legume");
+                HttpGet httpget = new HttpGet("http://137.194.8.216/connection2ter.php?nomcategorie=Legume");
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
-                } catch (Exception e) {
+            } catch (Exception e) {
                 Log.e("log_tag", "Error in http connection " + e.toString());
             }
 
-            //Conversion de la réponse en chaine
+            //Conversion de la rÃ©ponse en chaine
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
                 StringBuilder sb = new StringBuilder();
@@ -89,13 +89,13 @@ public class FavoriteActivity extends ActionBarActivity {
                 is.close();
 
                 result = sb.toString();
-                Toast.makeText(getApplicationContext(), "conversion en chaîne : ok",
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
                         Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Log.e("log_tag", "Error converting result " + e.toString());
             }
 
-            //Parsing des données JSON
+            //Parsing des donnÃ©es JSON
             try {
                 Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
                 //JSONArray jArray = new JSONArray(result);
@@ -106,7 +106,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 for (int i = 0; i < array.length(); i++) {
                     JSONArray json_data = array.getJSONArray(i);
 
-                    //Met les données ds la liste à afficher
+                    //Met les donnÃ©es ds la liste Ã  afficher
                     FavoriteActivity.listeAlimentsAffichage.add(json_data.getString(1));
 
                     result += "\n\t" + array.getString(i);
@@ -150,7 +150,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 openSearch();
                 return true;
             case R.id.action_settings:
-                // on mettra la méthode openSettings() quand elle sera cree
+                // on mettra la mÃ©thode openSettings() quand elle sera cree
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
