@@ -54,10 +54,13 @@ public class FavoriteActivity extends ActionBarActivity {
 
     class BDD2 extends AsyncTask<String, Void, String> {
 
-
+            ArrayList<String> listAffich = new ArrayList<>();
         protected String doInBackground(String... urls) {
 
             String result = "";
+            String resultat ="";
+
+            //listAffich = new ArrayList<>();
 
             InputStream is = null;
 
@@ -69,7 +72,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/connection2ter.php?nomcategorie=Legume");
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/connection2ter.php?nomcategorie=Legume");
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -97,7 +100,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
             //Parsing des donnÃ©es JSON
             try {
-                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script. un code html pouquoi ?
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
                 //JSONArray jArray = new JSONArray(result);
                 JSONObject object = new JSONObject(result);
                 //Log.i("lol", "COUCOU: "+ object.toString());
@@ -105,25 +108,36 @@ public class FavoriteActivity extends ActionBarActivity {
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONArray json_data = array.getJSONArray(i);
-
-                    //Met les donnÃ©es ds la liste Ã  afficher
-                    FavoriteActivity.listeAlimentsAffichage.add(json_data.getString(1));
+                                        //Met les donnÃ©es ds la liste Ã  afficher
+                     FavoriteActivity.listeAlimentsAffichage.add(json_data.getString(1));
+                      listAffich.add(json_data.getString(1));
 
                     result += "\n\t" + array.getString(i);
-
+                    resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
             }
 
 
-            return result;
+            return resultat;
         }
 
 
         //This Method is called when Network-Request finished
 
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String resultat) {
+            // Permet d'afficher le result dans l'appli malgré les erreurs.
+          TextView textElement = (TextView) findViewById(R.id.resultat);
+           textElement.setText("Résultat :" + resultat);
+
+           /** ListView listAffichage=(ListView)findViewById(R.id.listeViewListeAliments1);
+
+            ArrayAdapter arrayAdapter;
+            arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, listAffich);
+            listAffichage.setAdapter(arrayAdapter); **/
+
+
 
         }
     }
