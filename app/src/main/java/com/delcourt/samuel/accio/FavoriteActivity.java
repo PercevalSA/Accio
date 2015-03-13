@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -41,13 +42,13 @@ public class FavoriteActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoris);
-        ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
+        //ListView listAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
         listeAlimentsAffichage = new ArrayList<>();
 
         new BDD2().execute();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
-        listAliments.setAdapter(arrayAdapter);
+        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAlimentsAffichage);
+        //listAliments.setAdapter(arrayAdapter);
 
 
     }
@@ -72,7 +73,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/connection2ter.php?nomcategorie=Legume");
+                HttpGet httpget = new HttpGet("http://137.194.23.18/pact/connection2ter.php?nomcategorie=Legume");
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -128,14 +129,13 @@ public class FavoriteActivity extends ActionBarActivity {
 
         protected void onPostExecute(String resultat) {
             // Permet d'afficher le result dans l'appli malgré les erreurs.
-          TextView textElement = (TextView) findViewById(R.id.resultat);
-           textElement.setText("Résultat :" + resultat);
+         TextView textElement = (TextView) findViewById(R.id.resultat);
+         textElement.setText(" ");
 
-           /** ListView listAffichage=(ListView)findViewById(R.id.listeViewListeAliments1);
+           ListView listAffichage=(ListView)findViewById(R.id.listeViewListeAliments1);
 
-            ArrayAdapter arrayAdapter;
-            arrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, listAffich);
-            listAffichage.setAdapter(arrayAdapter); **/
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, listeAlimentsAffichage);
+            listAffichage.setAdapter(arrayAdapter);
 
 
 

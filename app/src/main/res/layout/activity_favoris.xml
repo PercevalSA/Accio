@@ -21,6 +21,6 @@
         android:id="@+id/resultat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="resultat"
+        android:text="Chargement ..."
         android:textSize="20dp" />
 </RelativeLayout>
