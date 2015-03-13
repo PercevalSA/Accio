@@ -167,8 +167,9 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 Aliment aliment = new Aliment(nom,favori,historique);
                 refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
 
-                refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
+
             }
+            refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
             retour = true;
 
         } catch (Exception e) {
