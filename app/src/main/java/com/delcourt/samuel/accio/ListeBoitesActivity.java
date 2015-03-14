@@ -91,10 +91,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         }
         else {//On affiche la liste des boîtes
 
-            //Toast provisoire
-            Toast.makeText(getApplicationContext(), "Les images doivent représenter la catégorie (trouver une image par catégorie)",
-                    Toast.LENGTH_SHORT).show();
-
             // Get the reference of listViewFrigos (pour l'affichage de la liste)
             final ListView listViewBoxes=(ListView)findViewById(R.id.listeViewBoites);
 

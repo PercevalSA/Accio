@@ -34,9 +34,6 @@ public class RefrigerateurActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
 
-        //Toast temporaire
-        Toast.makeText(getApplicationContext(), "Pas encore de connexion à la bdd",Toast.LENGTH_SHORT).show();
-
         //On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
         boolean chargementReussi = chargementRéfrigerateur();
         if (chargementReussi==false){//si le chargement du frigo ou des boîtes a échoué, on affiche un message

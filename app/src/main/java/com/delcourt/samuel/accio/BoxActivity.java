@@ -58,10 +58,6 @@ public class BoxActivity extends ActionBarActivity {
         }
 
         afficheAliments();
-
-        Toast.makeText(getApplicationContext(), "L'image devra correspondre à la catégorie",
-                Toast.LENGTH_SHORT).show();
-
     }
 
 
@@ -92,7 +88,6 @@ public class BoxActivity extends ActionBarActivity {
 
     public void afficheAliments(){
         int sizeListAliments = boite.getListeAliments().size();
-        Toast.makeText(getApplicationContext(), "size : " + sizeListAliments,Toast.LENGTH_SHORT).show();
 
         if( RefrigerateurActivity.refrigerateur.getConnectionBdd() == true){//Si on a réussi à se connecter à la base de données
             if(sizeListAliments==0){

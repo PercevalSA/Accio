@@ -237,10 +237,10 @@ public class NewBoxActivity extends ActionBarActivity {
         CheckBox cb = (CheckBox) v;
         int index=listTypesBoxesNames.indexOf(cb.getText());
         if (listTypesBoxes.get(index).isSelected()==false){
-            listTypesBoxes.get(index).selected();//on indique que le frigo a été sélectionné
+            listTypesBoxes.get(index).selected();//on indique que la case a été sélectionnée
             numberBoxesSelected++;
         } else {
-            listTypesBoxes.get(index).unselected();//on indique que le frigo a été désélectionné
+            listTypesBoxes.get(index).unselected();//on indique que la case a été désélectionnée
             numberBoxesSelected--;
         }
     }
