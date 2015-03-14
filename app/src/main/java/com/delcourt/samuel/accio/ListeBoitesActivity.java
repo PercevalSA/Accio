@@ -31,7 +31,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_boites);
 
-        affihceListeBoites();
+        afficheListeBoites();
 
         TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
         textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName());
@@ -79,7 +79,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         startActivity(intent);
         }
 
-    public void affihceListeBoites(){
+    public void afficheListeBoites(){
         int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
 
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
@@ -109,12 +109,12 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 //Récupère le nom de l'image à affihcer
                 String type = refrigerateur.getBoxes().get(i).getType();
                 //MODIFIER LES NOMS DES IMAGES A AFFICHER
-                if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
-                else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
-                else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
-                else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
-                else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
-                else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
+                else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
+                else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
+                else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
+                else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
+                else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
                 else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
                     map.put("img", String.valueOf(R.drawable.ic_launcher));
                     //On affiche un toast
