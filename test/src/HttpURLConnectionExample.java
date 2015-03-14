@@ -7,30 +7,94 @@ import java.io.DataOutputStream;
 
 public class HttpURLConnectionExample {
 
-    private final String USER_AGENT = "Mozilla/5.0";
+    private final static String USER_AGENT = "Mozilla/5.0";
 
     public static void main(String[] args) throws Exception {
 
         HttpURLConnectionExample http = new HttpURLConnectionExample();
 
-        // Getting name of product (and setting it if necessary)
-        http.getName();
+        // Getting barcode of product
+        Scanner inb = new Scanner(System.in);
+        System.out.println("Enter a barcode");
+        String barcode = inb.nextLine();
+
+        // base URL, with API key and barcode
+        String url = "https://www.outpan.com/api/get-product.php?apikey=e6092ddde3f7d36258ea7bfa801017fd&barcode=";
+        url = url+barcode;
+
+        // Getting name of product
+        String nom = http.getName(url);
+
+        // Getting manufacturer of product
+        String manufacturer = http.getManufacturer(url);
+
+        // Adding the product to our local DB
+        // addBDD(nom, manufacturer);
 
     }
 
     // Get Name of product
-    private void getName() throws Exception {
-        // base URL, with API key
-        String url = "http://www.outpan.com/api/get-product.php?apikey=e6092ddde3f7d36258ea7bfa801017fd&barcode=";
+    private String getName(String url) throws Exception {
 
-        Scanner inb = new Scanner(System.in);
-        System.out.println("Enter a barcode");
-        String b = inb.nextLine();
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-        // URL with barcode
-        url = url+b;
+        // optional default is GET
+        con.setRequestMethod("GET");
 
-        // System.out.println(url);
+        //add request header
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        /*int responseCode = con.getResponseCode();
+        System.out.println("\nSending 'GET' request to URL : " + url);
+        System.out.println("Response Code : " + responseCode);*/
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        // System.out.println(response.toString());
+
+        String phrase = response.toString();
+        String delims = "\",";
+        String delimsname = "\"name\": \"";
+        String[] tokens = phrase.split(delims);
+        String[] name = tokens[2].split(delimsname);
+
+
+        /*for (int j = 0; j<manufacturer.length; j++){
+            System.out.println(manufacturer[1]);
+        }*/
+
+        /*for (int i = 0; i<tokens.length; i++){
+            System.out.println(tokens[i]);
+        }*/
+
+        // If name exists, then show it
+        if (name.length > 1) {
+            String nom = name[1];
+            System.out.println("Le nom du produit est : " + nom);
+            String nomf = nom.replace(" ","+");
+            return nomf;
+        }
+
+        // If it doesn't, then set it
+        else {
+            String nom = setName(url);
+            System.out.println("Le nom du produit est : " + nom);
+            String nomf = nom.replace(" ","+");
+            return nomf;
+        }
+
+    }
+
+    private String getManufacturer(String url) throws Exception {
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -57,104 +121,118 @@ public class HttpURLConnectionExample {
 
         String phrase = response.toString();
         String delims = "\",";
-        String delimsb = "\"name\": \"";
-        String[] tokens = phrase.split(delims);
-        String[] name = tokens[2].split(delimsb);
+        String delimsbis = "\"";
+        String delimsman = "\"Manufacturer\": \"";
+        String[] manufacturer = phrase.split(delimsman);
 
-        // If name exists, then show it
-        if (name.length > 1) {
-            String nom = name[1];
-            System.out.println(nom);
-            addBDD(nom, b);
+        // If manufacturer exists, then show it
+        if (manufacturer.length == 2){
+            String[] man = manufacturer[1].split(delims);
+            String[] manbis = man[0].split(delimsbis);
+            String manuf = manbis[0];
+            System.out.println("La marque du produit est : " + manuf);
+            String manufb = manuf.replace(" ","+");
+            return manufb;
         }
 
         // If it doesn't, then set it
         else {
-            setName(url, b);
+            String manuf = setManufacturer(url);
+            System.out.println("La marque du produit est : " + manuf);
+            String manufb = manuf.replace(" ","+");
+            return manufb;
         }
-
     }
 
     // Set Name of product
-    private void setName(String url, String b) throws Exception {
+    private String setName(String url) throws Exception {
 
         // URL changes for setting name
-        String urlb = url.replace("get-product","edit-name");
-        urlb = urlb+"&name=";
+        String urlname = url.replace("get-product","edit-name");
+        urlname = urlname+"&name=";
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter a name");
+        System.out.println("Enter a product name");
         String s = in.nextLine();
 
         // Name of product asked and added to request, with correct HTML form
         String namef = s.replace(" ","+");
-        urlb = urlb+namef;
+        urlname = urlname+namef;
 
-        System.out.println(urlb);
+        // System.out.println(urlname);
 
-        URL objb = new URL(urlb);
-        HttpURLConnection conb = (HttpURLConnection) objb.openConnection();
+        URL objname = new URL(urlname);
+        HttpURLConnection conname = (HttpURLConnection) objname.openConnection();
 
         // optional default is GET
-        conb.setRequestMethod("GET");
+        conname.setRequestMethod("GET");
 
         //add request header
-        conb.setRequestProperty("User-Agent", USER_AGENT);
+        conname.setRequestProperty("User-Agent", USER_AGENT);
 
         /*int responseCode = conb.getResponseCode();
         System.out.println("\nSending 'GET' request to URL : " + url);
         System.out.println("Response Code : " + responseCode);*/
 
-        BufferedReader inb = new BufferedReader(
-                new InputStreamReader(conb.getInputStream()));
+        BufferedReader inname = new BufferedReader(
+                new InputStreamReader(conname.getInputStream()));
         String inputLineb;
         StringBuffer responseb = new StringBuffer();
 
-        while ((inputLineb = inb.readLine()) != null) {
+        while ((inputLineb = inname.readLine()) != null) {
             responseb.append(inputLineb);
         }
-        inb.close();
+        inname.close();
 
-        URL objc = new URL(url);
-        HttpURLConnection conc = (HttpURLConnection) objc.openConnection();
+        return s;
 
-        conc.setRequestMethod("GET");
-        conc.setRequestProperty("User-Agent", USER_AGENT);
+    }
 
-        BufferedReader inc = new BufferedReader(
-                new InputStreamReader(conc.getInputStream()));
-        String inputLinec;
-        StringBuffer responsec = new StringBuffer();
+    private String setManufacturer(String url) throws Exception {
 
-        while ((inputLinec = inc.readLine()) != null) {
-            responsec.append(inputLinec);
+        // URL changes for setting manufacturer name
+        String urlman = url.replace("get-product","edit-attr");
+        urlman = urlman+"&attr_name=Manufacturer&attr_val=";
+
+        Scanner in = new Scanner(System.in);
+        System.out.println("Enter a manufacturer");
+        String s = in.nextLine();
+
+        // Manufacturer of product asked and added to request, with correct HTML form
+        String manf = s.replace(" ","+");
+        urlman = urlman+manf;
+
+        URL objman = new URL(urlman);
+        HttpURLConnection conman = (HttpURLConnection) objman.openConnection();
+
+        // optional default is GET
+        conman.setRequestMethod("GET");
+
+        //add request header
+        conman.setRequestProperty("User-Agent", USER_AGENT);
+
+        BufferedReader inman = new BufferedReader(
+                new InputStreamReader(conman.getInputStream()));
+        String inputLineb;
+        StringBuffer responseman = new StringBuffer();
+
+        while ((inputLineb = inman.readLine()) != null) {
+            responseman.append(inputLineb);
         }
-        inc.close();
+        inman.close();
 
-        String phrasec = responsec.toString();
-        String delims = "\",";
-        String delimsb = "\"name\": \"";
-        String[] tokensc = phrasec.split(delims);
-        String[] namec = tokensc[2].split(delimsb);
-
-        // Name is shown at the end
-        String nomc = namec[1];
-        System.out.println(nomc);
-
-        addBDD(nomc, b);
-
+        return s;
     }
 
     //3103220035214
     //3242272001553
 
-    private void addBDD(String name, String b) throws Exception {
+    private static void addBDD(String nom, String manufacturer, String barcode) throws Exception {
 
-        String nom = name.replace(" ","+");
         int alim = 6;
         int boite = 7;
         String urls = "http://localhost/connection3.php?";
-        String urlParameters = "nom="+nom+"&codebarre="+b+"&aliment="+alim+"&boite="+boite;
+        String urlParameters = "nom="+nom+"&codebarre="+barcode+"&aliment="+alim+"&boite="+boite;
         String url = urls+urlParameters;
 
         URL objs = new URL(url);
