@@ -348,11 +348,6 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     public void sendMessageAfficheRecette(View view){
         String adresseWeb = getURL(aliments, vegetarien, sansCuisson, food, cout, difficulte,typePlat);
         RecetteMarmitonActivity.adresseWeb = adresseWeb;
-
-        Toast toast = Toast.makeText(getApplicationContext(), adresseWeb, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
-
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
         startActivity(intent);
     }
