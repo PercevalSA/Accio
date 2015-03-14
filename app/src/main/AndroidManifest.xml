@@ -66,7 +66,7 @@
         <activity
             android:name=".recettes.RecetteMarmitonActivity"
             android:label="@string/title_activity_recette_marmiton"
-            android:parentActivityName=".recettes.MenuRecettesActivity" >
+            android:parentActivityName=".recettes.OptionsRecettesActivity" >
         </activity>
         <activity
             android:name=".recettes.OptionsRecettesActivity"
@@ -76,7 +76,12 @@
         <activity
             android:name=".recettes.ChoixAlimentsRecettes"
             android:label="@string/title_activity_choix_aliments_recettes"
-            android:parentActivityName=".recettes.MenuRecettesActivity">
+            android:parentActivityName=".recettes.MenuRecettesActivity" >
+        </activity>
+        <activity
+            android:name=".recettes.RecetteEnregistreeActivity"
+            android:label="@string/title_activity_recette_favorie"
+            android:parentActivityName="recettes.MenuRecettesActivity">
         </activity>
     </application>
 

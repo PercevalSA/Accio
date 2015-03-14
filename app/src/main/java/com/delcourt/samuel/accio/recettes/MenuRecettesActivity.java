@@ -90,15 +90,15 @@ public class MenuRecettesActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                sendMessageRecetteSelected(position);
+                sendMessageRecetteEnregistreeSelected(position);
             }
         });
     }
 
-    public void sendMessageRecetteSelected(int position){
+    public void sendMessageRecetteEnregistreeSelected(int position){
         String adresseWeb = listeRecettesEnregistrées.get(position).getAdresseWeb();
-        RecetteMarmitonActivity.adresseWeb = adresseWeb;
-        Intent intent = new Intent(this,RecetteMarmitonActivity.class);
+        RecetteEnregistreeActivity.adresseWeb = adresseWeb;
+        Intent intent = new Intent(this,RecetteEnregistreeActivity.class);
         startActivity(intent);
     }
 
