@@ -157,15 +157,19 @@ public class RefrigerateurActivity extends ActionBarActivity {
             for (int j = 0; j < nbBoites; j++) {
                 String refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
 
-                String nom = null;
-                boolean favori = false;
-                ArrayList<String> historique = new ArrayList<>();
+                // A COMPLETER
+                /*for(Pour tous les aliments){
 
-                // !!!!!!! CONNECTION BDD !!!!!!
-                //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), on crée la liste historique
+                    String nom = null;
+                    boolean favori = false;
+                    ArrayList<String> historique = new ArrayList<>();
 
-                Aliment aliment = new Aliment(nom,favori,historique);
-                refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
+                    // !!!!!!! CONNECTION BDD !!!!!!
+                    //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), on crée la liste historique
+
+                    Aliment aliment = new Aliment(nom, favori, historique);
+                    refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
+                }*/
 
 
             }

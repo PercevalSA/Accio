@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +22,11 @@ import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoxActivity extends ActionBarActivity {
 
     public static Box boite;
-    public ArrayList<String> listeAliments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,6 @@ public class BoxActivity extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "L'image devra correspondre à la catégorie",
                 Toast.LENGTH_SHORT).show();
 
-
-
     }
 
 
@@ -92,38 +91,63 @@ public class BoxActivity extends ActionBarActivity {
     }
 
     public void afficheAliments(){
-        listeAliments = new ArrayList<>();
-        for (int i =0;i<boite.getListeAliments().size();i++){
-            listeAliments.add(boite.getListeAliments().get(i).getAlimentName());
-        }
-        int size = listeAliments.size();
-        if( RefrigerateurActivity.refrigerateur.getConnectionBdd() == true){//Si on a réussi à se connecter à la base de données
-            if(size==0){
-                ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-                listeAliments = new ArrayList<>();
-                listeAliments.add("Il n'y a aucun aliment dans cette boîte pour l'instant");
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAliments);
-                frigoList.setAdapter(arrayAdapter);
+        int sizeListAliments = boite.getListeAliments().size();
+        Toast.makeText(getApplicationContext(), "size : " + sizeListAliments,Toast.LENGTH_SHORT).show();
 
-            } else {
-                ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAliments);
-                frigoList.setAdapter(arrayAdapter);
-                frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        if( RefrigerateurActivity.refrigerateur.getConnectionBdd() == true){//Si on a réussi à se connecter à la base de données
+            if(sizeListAliments==0){
+                TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
+                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
+            }
+            else{
+                // Get the reference of listViewFrigos (pour l'affichage de la liste)
+                final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
+
+                //Création de la ArrayList qui nous permettra de remplir la listView
+                ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+                HashMap<String, String> map;
+
+                for (int i =0;i<sizeListAliments;i++){
+                    //on insère la référence aux éléments à afficher
+                    map = new HashMap<String, String>();
+                    map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
+
+                    //enfin on ajoute cette hashMap dans la arrayList
+                    listItem.add(map);
+
+                }
+
+                //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+                SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichage_liste_boites,
+                        new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
+
+                //On attribue à notre listView l'adapter que l'on vient de créer
+                listViewAliments.setAdapter(mSchedule);
+
+
+                //register onClickListener to handle click events on each item
+                listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
                 {
+                    // argument position gives the index of item which is clicked
+
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                        int indexBox = position;
+                        sendMessageAlimentSelected(view, indexBox);
                     }
                 });
-
             }
-        } else {//Si pas de connection à la base de données, on l'indique
-            ListView frigoList=(ListView)findViewById(R.id.liste_aliments);
-            listeAliments = new ArrayList<>();
-            listeAliments.add("La base de données n'est pas accessible");
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeAliments);
-            frigoList.setAdapter(arrayAdapter);
+
         }
+        else {//C'est le cas où l'on n'a pas pu se connecter à la BDD
+            TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
+            textElement.setText("Impossible de se connecter à la base de données");
+        }
+
+    }
+
+    public void sendMessageAlimentSelected(View view, int index){
 
     }
 }
