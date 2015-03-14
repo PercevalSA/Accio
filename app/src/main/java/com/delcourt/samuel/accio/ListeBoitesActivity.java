@@ -81,14 +81,12 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
     public void affihceListeBoites(){
         int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
+
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
-            ListView frigoList=(ListView)findViewById(R.id.listeViewBoites);
-            ArrayList<String> liste = new ArrayList<>();
-            liste.add("");
-            liste.add("Ce réfrigérateur ne contient pas encore de boîte Accio");
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, liste);
-            frigoList.setAdapter(arrayAdapter);
+            TextView textElement = (TextView) findViewById(R.id.message_liste_boites);
+            textElement.setText("Ce réfrigérateur ne contient pas encore de boîte Accio");
         }
+
         else {//On affiche la liste des boîtes
 
             // Get the reference of listViewFrigos (pour l'affichage de la liste)
