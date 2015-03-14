@@ -29,7 +29,7 @@
             android:parentActivityName=".RefrigerateurActivity" >
         </activity>
         <activity
-            android:name=".RecipesActivity"
+            android:name=".recettes.MenuRecettesActivity"
             android:label="@string/title_activity_recipes"
             android:parentActivityName=".RefrigerateurActivity" >
         </activity>
@@ -64,19 +64,19 @@
             android:parentActivityName=".create_new_object_activities.NewBoxActivity" >
         </activity>
         <activity
-            android:name=".RecetteMarmitonActivity"
+            android:name=".recettes.RecetteMarmitonActivity"
             android:label="@string/title_activity_recette_marmiton"
-            android:parentActivityName=".RecipesActivity" >
+            android:parentActivityName=".recettes.MenuRecettesActivity" >
         </activity>
         <activity
-            android:name=".OptionsRecettesActivity"
+            android:name=".recettes.OptionsRecettesActivity"
             android:label="@string/title_activity_recette_marmiton"
-            android:parentActivityName=".ChoixAlimentsRecettes" >
+            android:parentActivityName=".recettes.ChoixAlimentsRecettes" >
         </activity>
         <activity
-            android:name=".ChoixAlimentsRecettes"
+            android:name=".recettes.ChoixAlimentsRecettes"
             android:label="@string/title_activity_choix_aliments_recettes"
-            android:parentActivityName=".RecipesActivity">
+            android:parentActivityName=".recettes.MenuRecettesActivity">
         </activity>
     </application>
 

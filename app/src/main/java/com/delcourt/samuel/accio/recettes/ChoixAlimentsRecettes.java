@@ -1,4 +1,4 @@
-package com.delcourt.samuel.accio;
+package com.delcourt.samuel.accio.recettes;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.recettes.OptionsRecettesActivity;
 
 import java.util.ArrayList;
 

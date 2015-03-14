@@ -8,18 +8,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.AideNouvelleBoiteActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
-import com.delcourt.samuel.accio.RecipesActivity;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.ItemTypeBox;

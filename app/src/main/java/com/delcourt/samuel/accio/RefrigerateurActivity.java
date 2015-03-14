@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.delcourt.samuel.accio.structures.Aliment;
+import com.delcourt.samuel.accio.recettes.MenuRecettesActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
@@ -19,9 +19,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -90,7 +87,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
     }
 
     public void sendMessageRecipes(View view) {
-        Intent intent = new Intent(this, RecipesActivity.class);
+        Intent intent = new Intent(this, MenuRecettesActivity.class);
         startActivity(intent);
     }
 

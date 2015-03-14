@@ -1,4 +1,4 @@
-package com.delcourt.samuel.accio;
+package com.delcourt.samuel.accio.recettes;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -12,12 +12,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
+import com.delcourt.samuel.accio.recettes.RecetteMarmitonActivity;
 
 public class OptionsRecettesActivity extends ActionBarActivity {
 
