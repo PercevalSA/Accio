@@ -114,11 +114,11 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("Réfrigérateur essaiBoxes.txt",MODE_APPEND));
         BufferedWriter bw = new BufferedWriter(outStream);
         PrintWriter out2 = new PrintWriter(bw);
-        out2.println("Ref bdd à mettre");//Référence vers la bdd
+        out2.println("3");//Référence vers la bdd
         out2.println("Fruits (exemple)");//Nom de la boite
         out2.println("Fruits");//Catégorie
 
-        out2.println("Ref bdd à mettre");
+        out2.println("4");
         out2.println("Légumes (exemple)");
         out2.println("Légumes");
 

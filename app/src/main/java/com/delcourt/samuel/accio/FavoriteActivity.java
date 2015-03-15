@@ -61,14 +61,13 @@ public class FavoriteActivity extends ActionBarActivity {
             String result = "";
             String resultat ="";
 
-            //listAffich = new ArrayList<>();
+
 
             InputStream is = null;
 
             // aliment recherchÃ©
-            //ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            //nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
-            //ArrayList<String> donnees = new ArrayList<String>();
+
+
 
             // Envoi de la requÃªte avec HTTPGet
             try {
