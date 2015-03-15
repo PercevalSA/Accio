@@ -1,5 +1,7 @@
 package com.delcourt.samuel.accio.options_activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -78,9 +80,24 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
     public void sendMessageRename(View view){
         EditText editText = (EditText) findViewById(R.id.edit_text_renommer_boite);
-        String newName = editText.getText().toString();
+        final String newName = editText.getText().toString();
 
-        rename(newName);
+        //on créé une boite de dialogue
+        AlertDialog.Builder adb = new AlertDialog.Builder(BoxOptionsActivity.this);
+        //on attribue un titre à notre boite de dialogue
+        adb.setTitle("Confirmation");
+        //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        adb.setMessage("Voulez-vous renommer la boîte ''" + boite.getName() + "'' en : ''" + newName + "'' ?");
+        //on indique que l'on veut le bouton ok à notre boite de dialogue
+        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                rename(newName);
+            }
+        });
+        //on affiche la boite de dialogue
+        adb.show();
+
+
     }
 
     public void rename(String newName){
