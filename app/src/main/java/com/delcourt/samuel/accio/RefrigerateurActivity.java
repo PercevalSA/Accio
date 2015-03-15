@@ -134,6 +134,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 Box box = new Box(refBdd, name, type);
                 refrigerateur.getBoxes().add(box);
             }
+            sc.close();
             chargementReussi = true;
 
         } catch (FileNotFoundException e) {

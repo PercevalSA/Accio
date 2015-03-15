@@ -146,7 +146,6 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 out2.println("Réfrigérateur essai");
                 out2.close();
 
-                //nombreFrigos = 1;//initialise les données locales
                 listeFrigosNames.add("Réfrigérateur essai");//initialise les données locales
                 initialisationFrigoExemple();//Permet la suite de l'initialisation du frigo de référence (càd l'exemple)
             } catch (FileNotFoundException e1) {

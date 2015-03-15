@@ -6,7 +6,6 @@ public class Refrigerateur {
 
     private String name;
     private ArrayList<Box> boxes;
-   // private ArrayList<String> listeBoitesNames;
     private boolean connectionBdd;
 
     public Refrigerateur(String name){
