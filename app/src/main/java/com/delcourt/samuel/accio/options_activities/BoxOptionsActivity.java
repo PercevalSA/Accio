@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.BoxActivity;
+import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Box;
@@ -82,57 +83,102 @@ public class BoxOptionsActivity extends ActionBarActivity {
         EditText editText = (EditText) findViewById(R.id.edit_text_renommer_boite);
         final String newName = editText.getText().toString();
 
+        if(newName.length()==0){
+            Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nouveau nom", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }else {
+            //on créé une boite de dialogue
+            AlertDialog.Builder adb = new AlertDialog.Builder(BoxOptionsActivity.this);
+            //on attribue un titre à notre boite de dialogue
+            adb.setTitle("Confirmation");
+            //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+            adb.setMessage("Voulez-vous renommer la boîte ''" + boite.getName() + "'' en : ''" + newName + "'' ?");
+            //on indique que l'on veut le bouton ok à notre boite de dialogue
+            adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    rename(newName);
+                }
+            });
+            //on affiche la boite de dialogue
+            adb.show();
+        }
+
+
+    }
+
+    public void sendMessageDelete(View view){
         //on créé une boite de dialogue
         AlertDialog.Builder adb = new AlertDialog.Builder(BoxOptionsActivity.this);
         //on attribue un titre à notre boite de dialogue
         adb.setTitle("Confirmation");
         //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        adb.setMessage("Voulez-vous renommer la boîte ''" + boite.getName() + "'' en : ''" + newName + "'' ?");
+        adb.setMessage("Voulez-vous vraiment supprimer la boite " + boite.getName()+" ? \nLes informations correspondantes seront perdues");
         //on indique que l'on veut le bouton ok à notre boite de dialogue
         adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                rename(newName);
+                delete();
             }
         });
         //on affiche la boite de dialogue
         adb.show();
-
-
     }
 
     public void rename(String newName){
-
-        if(newName.length()==0){
-            Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nouveau nom", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }else{
-            String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
-            //On change le nom de la boîte dans la liste dynamique :
-            String nameBoite = boite.getName();
-            for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
-                if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
-                    RefrigerateurActivity.refrigerateur.getBoxes().get(j).setName(newName);
-                }
+        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+        //On change le nom de la boîte dans la liste dynamique :
+        String nameBoite = boite.getName();
+        for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
+            if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
+                RefrigerateurActivity.refrigerateur.getBoxes().get(j).setName(newName);
             }
-            try {
-                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
-                BufferedWriter bw = new BufferedWriter(outStream);
-                PrintWriter out2 = new PrintWriter(bw);
-                for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-                    out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
-                    out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                    out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
-                }
-                out2.close();
-
-            } catch (FileNotFoundException e1) {
-                Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
+        }
+        //On adapte le fichier texte
+        try {
+            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
+            BufferedWriter bw = new BufferedWriter(outStream);
+            PrintWriter out2 = new PrintWriter(bw);
+            for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
+                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
+                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
+                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
             }
+            out2.close();
 
-            Intent intent = new Intent(this,BoxActivity.class);
-            startActivity(intent);
+        } catch (FileNotFoundException e1) {
+            Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
         }
 
+        Intent intent = new Intent(this,BoxActivity.class);
+        startActivity(intent);
+    }
+
+    public void delete(){
+        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+        String nameBoite = boite.getName();
+        //On supprime la boîte dans la liste dynamique :
+        for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
+            if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
+                RefrigerateurActivity.refrigerateur.getBoxes().remove(j);
+            }
+        }
+        //On adapte le fichier texte
+        try {
+            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
+            BufferedWriter bw = new BufferedWriter(outStream);
+            PrintWriter out2 = new PrintWriter(bw);
+            for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
+                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
+                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
+                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+            }
+            out2.close();
+
+        } catch (FileNotFoundException e1) {
+            Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
+        }
+
+        Intent intent = new Intent(this,ListeBoitesActivity.class);
+        startActivity(intent);
     }
 }
