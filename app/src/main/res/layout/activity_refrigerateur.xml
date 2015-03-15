@@ -66,5 +66,16 @@
         android:layout_marginBottom="42dp"
         android:onClick="sendMessageHelp"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Options"
+        android:id="@+id/options_refrigerateur"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="42dp"/>
+
 
 </RelativeLayout>
