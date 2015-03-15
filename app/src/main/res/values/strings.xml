@@ -47,5 +47,8 @@
     <string name="title_activity_recette_marmiton">Recette Marmiton</string>
     <string name="title_activity_choix_aliments_recettes">Choix des aliments</string>
     <string name="title_activity_recette_favorie">Recette Marmiton</string>
+    <string name="title_activity_enregistrer_recette">Enregistrer une recette</string>
+    <string name="new_recette_name">Nom de la recette</string>
+
 
 </resources>

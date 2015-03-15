@@ -19,6 +19,16 @@
         android:id="@+id/marmiton_web_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/bouton_enregistrer_recette"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bouton_enregistrer_recette"
+        android:text="Enregistrer"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="sendMessageEnregistrerRecette"/>
 
 </RelativeLayout>

@@ -81,6 +81,11 @@
         <activity
             android:name=".recettes.RecetteEnregistreeActivity"
             android:label="@string/title_activity_recette_favorie"
+            android:parentActivityName=".recettes.MenuRecettesActivity" >
+        </activity>
+        <activity
+            android:name=".recettes.EnregistrerRecetteActivity"
+            android:label="@string/title_activity_enregistrer_recette"
             android:parentActivityName=".recettes.MenuRecettesActivity">
         </activity>
     </application>

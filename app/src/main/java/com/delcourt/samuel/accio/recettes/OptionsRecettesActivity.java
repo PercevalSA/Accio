@@ -59,12 +59,12 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void selectedVegetarien(View view){
-        if(vegetarien==true){vegetarien = false;
-            Toast.makeText(getApplicationContext(), "végétarien décoché",Toast.LENGTH_SHORT).show();
-        } else {vegetarien = true;
-            Toast.makeText(getApplicationContext(), "végétarien coché",Toast.LENGTH_SHORT).show();}
-
+    public void selectedVegetarien(View view) {
+        if (vegetarien == true) {
+            vegetarien = false;
+        } else {
+            vegetarien = true;
+        }
     }
 
     public void selectedSansCuisson(View view){

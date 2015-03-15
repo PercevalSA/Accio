@@ -1,10 +1,13 @@
 package com.delcourt.samuel.accio.recettes;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
@@ -51,5 +54,10 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendMessageEnregistrerRecette(View view){
+        Intent intent = new Intent(this,EnregistrerRecetteActivity.class);
+        startActivity(intent);
     }
 }
