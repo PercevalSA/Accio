@@ -1,14 +1,26 @@
 package com.delcourt.samuel.accio.recettes;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.structures.Recette;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class EnregistrerRecetteActivity extends ActionBarActivity {
+
+    protected static String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +51,29 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newRecette(View view){
+    public void newRecette(View view) {
+        EditText editText = (EditText) findViewById(R.id.nameRecette);
+        String recetteName = editText.getText().toString();
 
+
+        if (recetteName.length() == 0) { //Si le nom est vide, envoie un message
+            Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nom", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        } else {
+            try {
+                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_APPEND));
+                BufferedWriter bw = new BufferedWriter(outStream);
+                PrintWriter out2 = new PrintWriter(bw);
+                out2.println(recetteName);
+                out2.println(url);
+                out2.close();
+            } catch (FileNotFoundException e1) {
+                Toast.makeText(getApplicationContext(), "liste recettes not found", Toast.LENGTH_SHORT).show();
+            }
+
+            Intent intent = new Intent(this,MenuRecettesActivity.class);
+            startActivity(intent);
+        }
     }
 }

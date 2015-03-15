@@ -57,6 +57,10 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
     }
 
     public void sendMessageEnregistrerRecette(View view){
+        //Transmet l'adresse à enregistrer
+        WebView webview = (WebView)findViewById(R.id.marmiton_web_view);
+        EnregistrerRecetteActivity.url = webview.getOriginalUrl();
+
         Intent intent = new Intent(this,EnregistrerRecetteActivity.class);
         startActivity(intent);
     }
