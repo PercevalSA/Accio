@@ -7,69 +7,29 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.delcourt.samuel.accio.AideNouvelleBoiteActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Box;
-import com.delcourt.samuel.accio.structures.ItemTypeBox;
-
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class NewBoxActivity extends ActionBarActivity {
 
-    public ArrayList<String> listTypesBoxesNames;
-    public ArrayList<ItemTypeBox> listTypesBoxes;
-    public int numberBoxesSelected = 0;
+    private String typeBox = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_box);
 
-        ListView typesList = (ListView) findViewById(R.id.listViewTypeBox);
-
-        // Création de la ArrayList qui nous permettra de remplir la listView
-        ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
-
-        // On déclare la HashMap qui contiendra les informations pour un item
-        HashMap<String, String> map;
-
-        listTypesBoxes = new ArrayList<>();
-        listTypesBoxesNames = new ArrayList<>();
         getTypes();
-        for (int i = 0; i < listTypesBoxesNames.size(); i++) {
-            map = new HashMap<String, String>();
-            map.put("check", listTypesBoxesNames.get(i));
-            map.put("img2",String.valueOf(R.drawable.ic_launcher));
-            listItem.add(map);
-        }
-
-        //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-        SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_categories,
-                new String[] {"check","img2"}, new int[] {R.id.check,R.id.img2});
-
-        //On attribue à notre listView l'adapter que l'on vient de créer
-        typesList.setAdapter(mSchedule);
-
-        //register onClickListener to handle click events on each item
-        typesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            // argument position gives the index of item which is clicked
-            public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
-            {}
-        });
     }
 
 
@@ -115,41 +75,27 @@ public class NewBoxActivity extends ActionBarActivity {
 
             //ON S'ASSURE QUE LES INFOS SONT COHERENTES
 
-        if (newBoiteName.length() == 0 || numeroBoite.length() == 0 || codeBoite.length() == 0 ){ //Si l'un des champs n'a pas été renseigné
-            Toast toast = Toast.makeText(getApplicationContext(), "L'un des champs n'a pas été renseigné", Toast.LENGTH_SHORT);
+        if (numeroBoite.length() == 0 || codeBoite.compareTo("accio") != 0){//Le code entré est incorrect ou le numéro de la boîte n'a pas été saisi
+            //REMARQUE : pour l'instant, le code de toutes les boîtes est : accio
+            Toast toast = Toast.makeText(getApplicationContext(), "Le code entré est incorrect", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
-        }
-        else { //On s'assure que le code de la boîte est correct. REMARQUE : pour l'instant, le code de toutes les boîtes est : accio
 
-            //Il faut ici se connecter à la bdd afin de récupérer les infos (notamment le code attendu)
-            if (codeBoite.compareTo("accio") != 0){//Le code entré est incorrect
-                Toast toast = Toast.makeText(getApplicationContext(), "Le code entré est incorrect", Toast.LENGTH_SHORT);
+        }
+        else {
+            if (newBoiteName.length() == 0){ //Si le nom est vide
+                Toast toast = Toast.makeText(getApplicationContext(), "Le nom de la nouvelle boîte n'a pas été renseigné", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
             }
 
             else{//On s'assure qu'un seul type de boîte a été déclaré
-                if (numberBoxesSelected==0){
+                if (typeBox==null){
                     Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas choisi le type de la boîte", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
                 }
-                else if (numberBoxesSelected>1){
-                    Toast toast = Toast.makeText(getApplicationContext(), "Vous devez choisir un seul type de boîte", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
-                }
-                else{
-                    //on récupère le type de la boîte
-                    int index = 0;
-                    while(listTypesBoxes.get(index).isSelected()==false){
-                        index++;
-                    }
-
-                    String newBoiteType=listTypesBoxes.get(index).getType();
-
-                    //IL FAUT COMMUNIQUER CETTE INFO A LA BDD !
+                else{//IL FAUT COMMUNIQUER CETTE INFO A LA BDD !
 
                     //On s'assure qu'aucune boîte du même nom n'a encore été créée
                     int k = 0;
@@ -173,11 +119,11 @@ public class NewBoxActivity extends ActionBarActivity {
                             PrintWriter out2 = new PrintWriter(bw);
                             out2.println("Ref bdd à mettre");
                             out2.println(newBoiteName);
-                            out2.println(newBoiteType);
+                            out2.println(typeBox);
                             out2.close();
 
                             //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
-                            Box newBox = new Box("Référence Bdd", newBoiteName, newBoiteType);
+                            Box newBox = new Box("Référence Bdd", newBoiteName, typeBox);
                             RefrigerateurActivity.refrigerateur.getBoxes().add(newBox);
 
                             Toast.makeText(getApplicationContext(), "Connecter à la bdd : récupérer référence boîte, type, code",
@@ -205,40 +151,275 @@ public class NewBoxActivity extends ActionBarActivity {
     }
 
     void getTypes() {
-        ItemTypeBox fruits = new ItemTypeBox("Fruits");
-        listTypesBoxes.add(fruits);
-        listTypesBoxesNames.add("Fruits");
 
-        ItemTypeBox legumes = new ItemTypeBox("Légumes");
-        listTypesBoxes.add(legumes);
-        listTypesBoxesNames.add("Légumes");
+        ImageView imFruits = (ImageView) findViewById(R.id.imgNewBox1);
+        imFruits.setImageResource(R.drawable.ic_fruit);
+        CheckBox fruits = (CheckBox) findViewById(R.id.checkNewBox1);
+        fruits.setText("Fruits");
 
-        ItemTypeBox laitier = new ItemTypeBox("Produits laitiers");
-        listTypesBoxes.add(laitier);
-        listTypesBoxesNames.add("Produits laitiers");
+        ImageView imLegumes = (ImageView) findViewById(R.id.imgNewBox2);
+        imLegumes.setImageResource(R.drawable.ic_legume);
+        CheckBox legumes = (CheckBox) findViewById(R.id.checkNewBox2);
+        legumes.setText("Légumes");
 
-        ItemTypeBox poisson = new ItemTypeBox("Poisson");
-        listTypesBoxes.add(poisson);
-        listTypesBoxesNames.add("Poisson");
+        ImageView imProdLait = (ImageView) findViewById(R.id.imgNewBox3);
+        imProdLait.setImageResource(R.drawable.ic_produit_laitier);
+        CheckBox prodLait = (CheckBox) findViewById(R.id.checkNewBox3);
+        prodLait.setText("Produits laitiers");
 
-        ItemTypeBox viande = new ItemTypeBox("Viande");
-        listTypesBoxes.add(viande);
-        listTypesBoxesNames.add("Viande");
+        ImageView imFish = (ImageView) findViewById(R.id.imgNewBox4);
+        imFish.setImageResource(R.drawable.ic_poisson);
+        CheckBox fish = (CheckBox) findViewById(R.id.checkNewBox4);
+        fish.setText("Poisson");
 
-        ItemTypeBox sauces = new ItemTypeBox("Sauces et condiments");
-        listTypesBoxes.add(sauces);
-        listTypesBoxesNames.add("Sauces et condiments");
+        ImageView imViande = (ImageView) findViewById(R.id.imgNewBox5);
+        imViande.setImageResource(R.drawable.ic_viande);
+        CheckBox viande = (CheckBox) findViewById(R.id.checkNewBox5);
+        viande.setText("Viande");
+
+        ImageView imCond = (ImageView) findViewById(R.id.imgNewBox6);
+        imCond.setImageResource(R.drawable.ic_condiment);
+        CheckBox condiments = (CheckBox) findViewById(R.id.checkNewBox6);
+        condiments.setText("Sauces et condiments");
     }
 
-    public void selectedBox(View v) {
-        CheckBox cb = (CheckBox) v;
-        int index=listTypesBoxesNames.indexOf(cb.getText());
-        if (listTypesBoxes.get(index).isSelected()==false){
-            listTypesBoxes.get(index).selected();//on indique que la case a été sélectionnée
-            numberBoxesSelected++;
-        } else {
-            listTypesBoxes.get(index).unselected();//on indique que la case a été désélectionnée
-            numberBoxesSelected--;
+    public void selectedBox1(View v) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox1);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+            typeBox="Fruits";
+        } else {//On remet typeBox à null :
+            typeBox=null;
+        }
+    }
+
+    public void selectedBox2(View v) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox2);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+            typeBox="Légumes";
+        } else {//On remet typeBox à null :
+            typeBox=null;
+        }
+    }
+
+    public void selectedBox3(View v) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox3);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+            typeBox="Produits laitiers";
+        } else {//On remet typeBox à null :
+            typeBox=null;
+        }
+    }
+
+    public void selectedBox4(View v) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox4);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+            typeBox="Poisson";
+        } else {//On remet typeBox à null :
+            typeBox=null;
+        }
+    }
+
+    public void selectedBox5(View v) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox5);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+            typeBox="Viande";
+        } else {//On remet typeBox à null :
+            typeBox=null;
+        }
+    }
+
+    public void selectedBox6(View v) {
+        CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox6);
+        boolean checked = checkBox.isChecked();
+        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+
+            CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+
+            checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
+            checked = checkBox.isChecked();
+            if (checked == true) {
+                checkBox2.setChecked(false);
+            }
+            typeBox="Sauces et condiments";
+        } else {//On remet typeBox à null :
+            typeBox=null;
         }
     }
 
