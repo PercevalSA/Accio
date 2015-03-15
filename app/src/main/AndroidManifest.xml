@@ -86,7 +86,12 @@
         <activity
             android:name=".recettes.EnregistrerRecetteActivity"
             android:label="@string/title_activity_enregistrer_recette"
-            android:parentActivityName=".recettes.MenuRecettesActivity">
+            android:parentActivityName=".recettes.MenuRecettesActivity" >
+        </activity>
+        <activity
+            android:name=".options_activities.BoxOptionsActivity"
+            android:label="@string/title_activity_box_options"
+            android:parentActivityName=".BoxActivity">
         </activity>
     </application>
 

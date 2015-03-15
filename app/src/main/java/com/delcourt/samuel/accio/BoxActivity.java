@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio;
 
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import java.sql.*;
 
 
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.options_activities.BoxOptionsActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
@@ -144,5 +147,10 @@ public class BoxActivity extends ActionBarActivity {
 
     public void sendMessageAlimentSelected(View view, int index){
 
+    }
+
+    public void sendMessageOptionsBox(View view){
+        Intent intent = new Intent(this,BoxOptionsActivity.class);
+        startActivity(intent);
     }
 }
