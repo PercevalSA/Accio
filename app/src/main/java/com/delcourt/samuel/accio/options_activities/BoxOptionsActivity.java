@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio.options_activities;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,30 +85,37 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
     public void rename(String newName){
 
-        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
-        //On change le nom de la boîte dans la liste dynamique :
-        String nameBoite = boite.getName();
-        for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
-            if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
-                RefrigerateurActivity.refrigerateur.getBoxes().get(j).setName(newName);
+        if(newName.length()==0){
+            Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nouveau nom", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }else{
+            String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+            //On change le nom de la boîte dans la liste dynamique :
+            String nameBoite = boite.getName();
+            for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
+                if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
+                    RefrigerateurActivity.refrigerateur.getBoxes().get(j).setName(newName);
+                }
             }
-        }
-        try {
-            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
-            BufferedWriter bw = new BufferedWriter(outStream);
-            PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+            try {
+                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
+                BufferedWriter bw = new BufferedWriter(outStream);
+                PrintWriter out2 = new PrintWriter(bw);
+                for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
+                    out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
+                    out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
+                    out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+                }
+                out2.close();
+
+            } catch (FileNotFoundException e1) {
+                Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
             }
-            out2.close();
 
-        } catch (FileNotFoundException e1) {
-            Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,BoxActivity.class);
+            startActivity(intent);
         }
 
-        Intent intent = new Intent(this,BoxActivity.class);
-        startActivity(intent);
     }
 }
