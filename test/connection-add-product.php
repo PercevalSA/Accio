@@ -11,7 +11,6 @@
 
   $nom = $_GET['nom'];
   $codebarre = $_GET['codebarre'];
-	$aliment = $_GET['aliment'];
 	$boite = $_GET['boite'];
 	$marque = $_GET['marque'];
 

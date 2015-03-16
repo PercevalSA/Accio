@@ -284,10 +284,9 @@ public class HttpURLConnectionExample {
 
         // Add the product to our DB, with its corresponding manufacturer
 
-        int alim = 6;
         int boite = 7;
         String urladd = "http://localhost/connection-add-product.php?";
-        String urlParameters = "nom="+nom+"&codebarre="+barcode+"&aliment="+alim+"&boite="+boite+"&marque="+marqueid;
+        String urlParameters = "nom="+nom+"&codebarre="+barcode+"&boite="+boite+"&marque="+marqueid;
         String urladdbis = urladd+urlParameters;
 
         URL objadd = new URL(urladdbis);
