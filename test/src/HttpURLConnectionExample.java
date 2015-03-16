@@ -3,7 +3,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
-import java.io.DataOutputStream;
 
 public class HttpURLConnectionExample {
 
@@ -29,7 +28,7 @@ public class HttpURLConnectionExample {
         String manufacturer = http.getManufacturer(url);
 
         // Adding the product to our local DB
-        // addBDD(nom, manufacturer);
+        addBDD(nom, manufacturer, barcode);
 
     }
 
@@ -229,11 +228,7 @@ public class HttpURLConnectionExample {
 
     private static void addBDD(String nom, String manufacturer, String barcode) throws Exception {
 
-        int alim = 6;
-        int boite = 7;
-        String urls = "http://localhost/connection3.php?";
-        String urlParameters = "nom="+nom+"&codebarre="+barcode+"&aliment="+alim+"&boite="+boite;
-        String url = urls+urlParameters;
+        String url = "http://localhost/connection-check-manufacturer.php?manufacturer="+manufacturer;
 
         URL objs = new URL(url);
         HttpURLConnection cons = (HttpURLConnection) objs.openConnection();
@@ -254,8 +249,69 @@ public class HttpURLConnectionExample {
         }
         in.close();
 
-        //print result
-        System.out.println(response.toString());
+        String marqueid = response.toString();
+
+        // System.out.println(marqueid);
+
+        // If manufacturer doesn't exist in our DB, add it
+
+        if (marqueid.equals("no")){
+            String urlbis="http://localhost/connection-add-manufacturer.php?manufacturer="+manufacturer;
+
+            URL objsbis = new URL(urlbis);
+            HttpURLConnection consbis = (HttpURLConnection) objsbis.openConnection();
+
+            // GET request
+            consbis.setRequestMethod("GET");
+
+            // add request header
+            consbis.setRequestProperty("User-Agent", USER_AGENT);
+
+            BufferedReader inbis = new BufferedReader(
+                    new InputStreamReader(consbis.getInputStream()));
+            String inputLinebis;
+            StringBuffer responsebis = new StringBuffer();
+
+            while ((inputLinebis = inbis.readLine()) != null) {
+                responsebis.append(inputLinebis);
+            }
+            inbis.close();
+
+            marqueid = responsebis.toString();
+
+            System.out.println(responsebis.toString());
+        }
+
+        // Add the product to our DB, with its corresponding manufacturer
+
+        int alim = 6;
+        int boite = 7;
+        String urladd = "http://localhost/connection-add-product.php?";
+        String urlParameters = "nom="+nom+"&codebarre="+barcode+"&aliment="+alim+"&boite="+boite+"&marque="+marqueid;
+        String urladdbis = urladd+urlParameters;
+
+        URL objadd = new URL(urladdbis);
+        HttpURLConnection conadd = (HttpURLConnection) objadd.openConnection();
+
+        // GET request
+        conadd.setRequestMethod("GET");
+
+        // add request header
+        conadd.setRequestProperty("User-Agent", USER_AGENT);
+
+        BufferedReader inadd = new BufferedReader(
+                new InputStreamReader(conadd.getInputStream()));
+        String inputLineadd;
+        StringBuffer responseadd = new StringBuffer();
+
+        while ((inputLineadd = inadd.readLine()) != null) {
+            responseadd.append(inputLineadd);
+        }
+        inadd.close();
+
+        String out = responseadd.toString();
+
+        System.out.println(out);
 
     }
 }
