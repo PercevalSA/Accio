@@ -207,6 +207,8 @@ public class BoxActivity extends ActionBarActivity {
                 textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
             }
             else{
+                TextView textElement = (TextView) findViewById(R.id.resultat2);
+                textElement.setText(" ");
                 ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, listeNomAliment);
                 listAffichage.setAdapter(arrayAdapter);
