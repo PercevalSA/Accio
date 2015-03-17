@@ -65,10 +65,6 @@ public class BoxActivity extends ActionBarActivity {
 
         refBdd = boite.getReferenceBdd();
         new RecupalimBDD().execute();
-
-
-
-        afficheAliments();
     }
 
 
@@ -95,58 +91,6 @@ public class BoxActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void afficheAliments(){
-        int sizeListAliments = boite.getListeAliments().size();
-        Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
-
-
-            if(sizeListAliments==0){
-                TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
-                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
-            }
-            else{
-                // Get the reference of listViewFrigos (pour l'affichage de la liste)
-                final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
-
-                //Création de la ArrayList qui nous permettra de remplir la listView
-                ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
-
-                HashMap<String, String> map;
-
-                for (int i =0;i<sizeListAliments;i++){
-                    //on insère la référence aux éléments à afficher
-                    map = new HashMap<String, String>();
-                    map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
-
-                    //enfin on ajoute cette hashMap dans la arrayList
-                    listItem.add(map);
-
-                }
-
-                //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-                SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichage_liste_boites,
-                        new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
-
-                //On attribue à notre listView l'adapter que l'on vient de créer
-                listViewAliments.setAdapter(mSchedule);
-
-
-                //register onClickListener to handle click events on each item
-                listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                {
-                    // argument position gives the index of item which is clicked
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                        int indexBox = position;
-                        sendMessageAlimentSelected(view, indexBox);
-                    }
-                });
-            }
-
     }
 
     public void sendMessageAlimentSelected(View view, int index){
@@ -260,6 +204,56 @@ public class BoxActivity extends ActionBarActivity {
 
                 Aliment aliment = new Aliment(nom,marque, favori, historique);
                 boite.getListeAliments().add(aliment);
+            }
+
+            //Affichage des aliments
+            int sizeListAliments = boite.getListeAliments().size();
+            Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
+
+
+            if(sizeListAliments==0){
+                TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
+                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
+            }
+            else{
+                // Get the reference of listViewFrigos (pour l'affichage de la liste)
+                final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
+
+                //Création de la ArrayList qui nous permettra de remplir la listView
+                ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+                HashMap<String, String> map;
+
+                for (int i =0;i<sizeListAliments;i++){
+                    //on insère la référence aux éléments à afficher
+                    map = new HashMap<String, String>();
+                    map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
+
+                    //enfin on ajoute cette hashMap dans la arrayList
+                    listItem.add(map);
+
+                }
+
+                //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_liste_boites,
+                        new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
+
+                //On attribue à notre listView l'adapter que l'on vient de créer
+                listViewAliments.setAdapter(mSchedule);
+
+
+                //register onClickListener to handle click events on each item
+                listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    // argument position gives the index of item which is clicked
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                        int indexBox = position;
+                        sendMessageAlimentSelected(view, indexBox);
+                    }
+                });
             }
 
         }
