@@ -53,6 +53,7 @@ public class BoxActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
         listeNomAliment = new ArrayList<>();
+        boite.reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
 
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
@@ -197,6 +198,7 @@ public class BoxActivity extends ActionBarActivity {
             }
 
             //Affichage des aliments
+
             int sizeListAliments = boite.getListeAliments().size();
             Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
             Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();

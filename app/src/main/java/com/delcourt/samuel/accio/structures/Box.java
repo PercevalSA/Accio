@@ -34,5 +34,9 @@ public class Box {
 
     public ArrayList<Aliment> getListeAliments(){return listeAliments;}
 
+    public void reinitialiseListeAliments(){
+        listeAliments = new ArrayList<>();
+    }
+
 
 }
