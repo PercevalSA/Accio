@@ -209,10 +209,11 @@ public class BoxActivity extends ActionBarActivity {
             else{
                 TextView textElement = (TextView) findViewById(R.id.resultat2);
                 textElement.setText(" ");
-                ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
+                /*ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, listeNomAliment);
-                listAffichage.setAdapter(arrayAdapter);
-/*
+                listAffichage.setAdapter(arrayAdapter);*/
+
+
                 // Get the reference of listViewFrigos (pour l'affichage de la liste)
                 final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
 
@@ -232,8 +233,8 @@ public class BoxActivity extends ActionBarActivity {
                 }
 
                 //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_liste_boites,
-                        new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
+                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
+                        new String[] {"aliment"}, new int[] {R.id.nom_aliment_affiche});
 
                 //On attribue à notre listView l'adapter que l'on vient de créer
                 listViewAliments.setAdapter(mSchedule);
@@ -249,7 +250,7 @@ public class BoxActivity extends ActionBarActivity {
                         int indexBox = position;
                         sendMessageAlimentSelected(view, indexBox);
                     }
-                });*/
+                });
             }
 
         }
