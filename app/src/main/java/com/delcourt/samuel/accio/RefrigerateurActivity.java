@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.options_activities.FrigoOptionsActivity;
 import com.delcourt.samuel.accio.recettes.MenuRecettesActivity;
 import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
@@ -258,13 +259,6 @@ public class RefrigerateurActivity extends ActionBarActivity {
     }
 
 
-
-
-
-
-
-
-
     public boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
         boolean retour;
         try {
@@ -307,5 +301,10 @@ public class RefrigerateurActivity extends ActionBarActivity {
             retour = false;
         }
         return retour;
+    }
+
+    public void sendMessageOptionsFrigo(View view){
+        Intent intent = new Intent(this, FrigoOptionsActivity.class);
+        startActivity(intent);
     }
 }

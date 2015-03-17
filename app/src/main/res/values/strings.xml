@@ -50,5 +50,6 @@
     <string name="title_activity_enregistrer_recette">Enregistrer une recette</string>
     <string name="new_recette_name">Nom de la recette</string>
     <string name="title_activity_box_options">Options de la boîte</string>
+    <string name="title_activity_frigo_options">Options du frigo</string>
 
 </resources>

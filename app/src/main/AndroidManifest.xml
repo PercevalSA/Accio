@@ -91,7 +91,12 @@
         <activity
             android:name=".options_activities.BoxOptionsActivity"
             android:label="@string/title_activity_box_options"
-            android:parentActivityName=".BoxActivity">
+            android:parentActivityName=".BoxActivity" >
+        </activity>
+        <activity
+            android:name=".options_activities.FrigoOptionsActivity"
+            android:label="@string/title_activity_frigo_options"
+            android:parentActivityName=".RefrigerateurActivity">
         </activity>
     </application>
 
