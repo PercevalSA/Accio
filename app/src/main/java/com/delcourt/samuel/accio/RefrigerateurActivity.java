@@ -60,7 +60,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             toast.show();
         }
 
-        boolean connectionReussie = true; // boolean connectionReussie = connectionBdd();
+        /*boolean connectionReussie = true; // boolean connectionReussie = connectionBdd();
         if (connectionReussie == false) {//Si la connection a échoué, on affiche un message
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -70,7 +70,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Connexion réussi à la base de données", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
-        }
+        }*/
 
         TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
         textElement.setText("Réfrigérateur : " + refrigerateur.getName());

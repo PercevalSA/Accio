@@ -61,22 +61,9 @@ public class BoxActivity extends ActionBarActivity {
         TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
         textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
 
-        //Affiche l'image du type de la boîte
-        //METTRE LES BONNES IMAGES !
-        String type = boite.getType();
-        ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxActivity);
-        if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
-        else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
-        else if (type.compareTo("Produits laitiers")==0){textElement3.setImageResource(R.drawable.ic_produit_laitier);}
-        else if (type.compareTo("Poisson")==0){textElement3.setImageResource(R.drawable.ic_poisson);}
-        else if (type.compareTo("Viande")==0){textElement3.setImageResource(R.drawable.ic_viande);}
-        else if (type.compareTo("Sauces et condiments")==0){textElement3.setImageResource(R.drawable.ic_condiment);}
-        else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
-            textElement3.setImageResource(R.drawable.ic_launcher);
-            //On affiche un toast
-            Toast.makeText(getApplicationContext(), "Le type de la boîte n'a pas été reconnu",
-                    Toast.LENGTH_SHORT).show();
-        }
+        afficheImage();
+
+        recupAliment();
 
         afficheAliments();
     }
@@ -173,7 +160,7 @@ public class BoxActivity extends ActionBarActivity {
     }
 
 
-    class Recupalim extends AsyncTask<String, Void, String> {
+    class RecupalimBDD extends AsyncTask<String, Void, String> {
 
         // ArrayList<String> listAffich = new ArrayList<>(); Pas besoin on affiche pas
 
@@ -274,33 +261,28 @@ public class BoxActivity extends ActionBarActivity {
 
 
 
-    public boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
+    public boolean recupAliment() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
         boolean retour;
         try {
-            int nbBoites = RefrigerateurActivity.refrigerateur.getBoxes().size();
-            Log.e("log_if", "Nombres de boites: " + nbBoites);
-            for (int j = 0; j < nbBoites; j++) {
-                refBdd = RefrigerateurActivity.refrigerateur.getBoxes().get(j).getReferenceBdd();
+
+                refBdd = boite.getReferenceBdd();
                     Toast toast3 = Toast.makeText(getApplicationContext(), refBdd, Toast.LENGTH_LONG);
                     toast3.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast3.show();
                 // A COMPLETER
-                new Recupalim().execute();
+                new RecupalimBDD().execute();
 
                 int nbAliment = listeNomAliment.size();
                 Toast toast = Toast.makeText(getApplicationContext(), nbAliment, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
 
-
                 for(int k =0; k < nbAliment; k++){
 
-                    String nom = null;
+                    String nom = listeNomAliment.get(k);;
                     String marque = null;
                     boolean favori = false;
                     ArrayList<String> historique = new ArrayList<>();
-
-                    nom = listeNomAliment.get(k);
 
                     Toast toast2 = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
                     toast2.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -311,11 +293,9 @@ public class BoxActivity extends ActionBarActivity {
                     //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
 
                     Aliment aliment = new Aliment(nom,marque, favori, historique);
-                    RefrigerateurActivity.refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
+                    boite.getListeAliments().add(aliment);
                 }
 
-
-            }
             RefrigerateurActivity.refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
             retour = true;
 
@@ -327,12 +307,23 @@ public class BoxActivity extends ActionBarActivity {
         return retour;
    }
 
-
-
-
-
-
-
-
+    public void afficheImage(){
+        //Affiche l'image du type de la boîte
+        //METTRE LES BONNES IMAGES !
+        String type = boite.getType();
+        ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxActivity);
+        if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
+        else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
+        else if (type.compareTo("Produits laitiers")==0){textElement3.setImageResource(R.drawable.ic_produit_laitier);}
+        else if (type.compareTo("Poisson")==0){textElement3.setImageResource(R.drawable.ic_poisson);}
+        else if (type.compareTo("Viande")==0){textElement3.setImageResource(R.drawable.ic_viande);}
+        else if (type.compareTo("Sauces et condiments")==0){textElement3.setImageResource(R.drawable.ic_condiment);}
+        else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
+            textElement3.setImageResource(R.drawable.ic_launcher);
+            //On affiche un toast
+            Toast.makeText(getApplicationContext(), "Le type de la boîte n'a pas été reconnu",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
