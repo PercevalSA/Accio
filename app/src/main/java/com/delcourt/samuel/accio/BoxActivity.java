@@ -124,7 +124,7 @@ public class BoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.20.223/pact/alimrecup.php?boiteid="+refBdd);
+                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -180,17 +180,7 @@ public class BoxActivity extends ActionBarActivity {
 
         protected void onPostExecute(String resultat) {
 
-           /* Pas bsoin car normalement pas d'affichage quand on récupère les trucs de la BDD.
-            // Permet d'afficher le result dans l'appli malgré les erreurs.
-            TextView textElement = (TextView) findViewById(R.id.resultat);
-            textElement.setText(" ");
 
-            ListView listAffichage = (ListView) findViewById(R.id.listeViewListeAliments1);
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listeAlimentsAffichage);
-            listAffichage.setAdapter(arrayAdapter);
-
-           */
             int nbAliment = listeNomAliment.size();
             for(int k =0; k < nbAliment; k++){
 
@@ -218,11 +208,10 @@ public class BoxActivity extends ActionBarActivity {
             }
             else{
                 ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
-
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, listeNomAliment);
                 listAffichage.setAdapter(arrayAdapter);
-
-                /*// Get the reference of listViewFrigos (pour l'affichage de la liste)
+/*
+                // Get the reference of listViewFrigos (pour l'affichage de la liste)
                 final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
 
                 //Création de la ArrayList qui nous permettra de remplir la listView
