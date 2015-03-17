@@ -96,8 +96,9 @@ public class BoxActivity extends ActionBarActivity {
 
     public void afficheAliments(){
         int sizeListAliments = boite.getListeAliments().size();
+        Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
 
-        if( RefrigerateurActivity.refrigerateur.getConnectionBdd() == true){//Si on a réussi à se connecter à la base de données
+
             if(sizeListAliments==0){
                 TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
                 textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
@@ -142,12 +143,6 @@ public class BoxActivity extends ActionBarActivity {
                 });
             }
 
-        }
-        else {//C'est le cas où l'on n'a pas pu se connecter à la BDD
-            TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
-            textElement.setText("Impossible de se connecter à la base de données");
-        }
-
     }
 
     public void sendMessageAlimentSelected(View view, int index){
@@ -182,7 +177,7 @@ public class BoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid=3");
+                HttpGet httpget = new HttpGet("http://137.194.20.223/pact/alimrecup.php?boiteid=3");
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
