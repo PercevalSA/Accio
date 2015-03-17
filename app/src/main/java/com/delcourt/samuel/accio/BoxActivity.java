@@ -165,7 +165,7 @@ public class BoxActivity extends ActionBarActivity {
                     // Ici pas besoin d'afficher les données
                     //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
                     result += "\n\t" + array.getString(i);
-                    BoxActivity.listeNomAliment.add(array.getString(i));
+                    BoxActivity.listeNomAliment.add(json_data.getString(1));
 
                     // resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
                 }
