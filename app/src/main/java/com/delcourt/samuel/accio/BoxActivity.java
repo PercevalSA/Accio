@@ -96,6 +96,7 @@ public class BoxActivity extends ActionBarActivity {
 
     public void afficheAliments(){
         int sizeListAliments = boite.getListeAliments().size();
+        Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
         Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
 
 
@@ -177,7 +178,7 @@ public class BoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.20.223/pact/alimrecup.php?boiteid=3");
+                HttpGet httpget = new HttpGet("http://137.194.20.223/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -268,9 +269,6 @@ public class BoxActivity extends ActionBarActivity {
                 new RecupalimBDD().execute();
 
                 int nbAliment = listeNomAliment.size();
-                Toast toast = Toast.makeText(getApplicationContext(), nbAliment, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                toast.show();
 
                 for(int k =0; k < nbAliment; k++){
 
@@ -278,10 +276,6 @@ public class BoxActivity extends ActionBarActivity {
                     String marque = null;
                     boolean favori = false;
                     ArrayList<String> historique = new ArrayList<>();
-
-                    Toast toast2 = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
-                    toast2.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast2.show();
 
                     //marque = listeMarqueAliment.get(k);
                     // !!!!!!! CONNECTION BDD !!!!!!
