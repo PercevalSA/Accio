@@ -225,7 +225,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
                     //Met les donnÃ©es ds la liste Ã  afficher
                     // Ici pas besoin d'afficher les données
-                    //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
+                    RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
                     result += "\n\t" + array.getString(i);
 
 
@@ -234,8 +234,6 @@ public class RefrigerateurActivity extends ActionBarActivity {
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
             }
-
-
             return result;
         }
 
@@ -286,6 +284,11 @@ public class RefrigerateurActivity extends ActionBarActivity {
                     ArrayList<String> historique = new ArrayList<>();
 
                     nom = listeNomAliment.get(k);
+
+                    Toast toast = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+
                     //marque = listeMarqueAliment.get(k);
                     // !!!!!!! CONNECTION BDD !!!!!!
                     //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
