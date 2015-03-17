@@ -63,7 +63,10 @@ public class BoxActivity extends ActionBarActivity {
 
         afficheImage();
 
-        recupAliment();
+        refBdd = boite.getReferenceBdd();
+        new RecupalimBDD().execute();
+
+
 
         afficheAliments();
     }
@@ -164,7 +167,6 @@ public class BoxActivity extends ActionBarActivity {
         protected String doInBackground(String... urls) {
 
             String result = "";
-            String resultat = "";
 
             //listAffich = new ArrayList<>();
 
@@ -178,7 +180,7 @@ public class BoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.20.223/pact/alimrecup.php?boiteid="+refBdd);
+                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -245,56 +247,23 @@ public class BoxActivity extends ActionBarActivity {
             listAffichage.setAdapter(arrayAdapter);
 
            */
+            int nbAliment = listeNomAliment.size();
+            for(int k =0; k < nbAliment; k++){
+
+                String nom = listeNomAliment.get(k);;
+                String marque = null;
+                boolean favori = false;
+                ArrayList<String> historique = new ArrayList<>();
+                //marque = listeMarqueAliment.get(k);
+                // !!!!!!! CONNECTION BDD !!!!!!
+                //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
+
+                Aliment aliment = new Aliment(nom,marque, favori, historique);
+                boite.getListeAliments().add(aliment);
+            }
 
         }
     }
-
-
-
-
-
-
-
-
-
-    public boolean recupAliment() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
-        boolean retour;
-        try {
-
-                refBdd = boite.getReferenceBdd();
-                    Toast toast3 = Toast.makeText(getApplicationContext(), refBdd, Toast.LENGTH_LONG);
-                    toast3.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast3.show();
-                // A COMPLETER
-                new RecupalimBDD().execute();
-
-                int nbAliment = listeNomAliment.size();
-
-                for(int k =0; k < nbAliment; k++){
-
-                    String nom = listeNomAliment.get(k);;
-                    String marque = null;
-                    boolean favori = false;
-                    ArrayList<String> historique = new ArrayList<>();
-
-                    //marque = listeMarqueAliment.get(k);
-                    // !!!!!!! CONNECTION BDD !!!!!!
-                    //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
-
-                    Aliment aliment = new Aliment(nom,marque, favori, historique);
-                    boite.getListeAliments().add(aliment);
-                }
-
-            RefrigerateurActivity.refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
-            retour = true;
-
-        } catch (Exception e) {
-            Log.e("log_tag", "Erreur dans la récupération des aliments : " + e.toString());
-            RefrigerateurActivity.refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli de savoir que la connection à la bdd n'a pas eu lieu
-            retour = true;
-        }
-        return retour;
-   }
 
     public void afficheImage(){
         //Affiche l'image du type de la boîte
