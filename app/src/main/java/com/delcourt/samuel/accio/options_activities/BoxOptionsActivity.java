@@ -80,14 +80,28 @@ public class BoxOptionsActivity extends ActionBarActivity {
     }
 
     public void sendMessageRename(View view){
+        int k = 0;
+
         EditText editText = (EditText) findViewById(R.id.edit_text_renommer_boite);
         final String newName = editText.getText().toString();
+
+        //On s'assure qu'aucun frigo du même nom n'a encore été créé
+        for (int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
+            if (newName.compareTo(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName()) == 0){
+                k++;
+            }
+        }
 
         if(newName.length()==0){
             Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nouveau nom", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
-        }else {
+        }else if (k > 0){
+            Toast toast = Toast.makeText(getApplicationContext(), "Une boîte Accio possédant ce nom existe déjà dans ce réfrigérateur", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+        else{
             //on créé une boite de dialogue
             AlertDialog.Builder adb = new AlertDialog.Builder(BoxOptionsActivity.this);
             //on attribue un titre à notre boite de dialogue
@@ -126,8 +140,11 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
     public void rename(String newName){
         String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+
         //On change le nom de la boîte dans la liste dynamique :
         String nameBoite = boite.getName();
+
+
         for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
                 RefrigerateurActivity.refrigerateur.getBoxes().get(j).setName(newName);
@@ -151,6 +168,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this,BoxActivity.class);
         startActivity(intent);
+
+
     }
 
     public void delete(){
