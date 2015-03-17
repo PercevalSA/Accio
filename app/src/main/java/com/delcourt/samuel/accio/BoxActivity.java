@@ -206,7 +206,7 @@ public class BoxActivity extends ActionBarActivity {
 
             if(sizeListAliments==0){
                 TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
-                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
+                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant, ou erreur de connection à la base de données");
 
                 TextView textElement2 = (TextView) findViewById(R.id.resultat2);
                 textElement2.setText(" ");
