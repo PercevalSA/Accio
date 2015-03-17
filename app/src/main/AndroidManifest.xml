@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.delcourt.samuel.accio" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_menu"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".ContentActivity"
+            android:label="@string/title_activity_content"
+            android:parentActivityName=".MenuActivity" >
+        </activity>
+        <activity
+            android:name=".RecipesActivity"
+            android:label="@string/title_activity_recipes"
+            android:parentActivityName=".MenuActivity" >
+        </activity>
+        <activity
+            android:name=".FavoriteActivity"
+            android:label="@string/title_activity_favoris"
+            android:parentActivityName=".MenuActivity" >
+        </activity>
+        <activity
+            android:name=".HistoriqueActivity"
+            android:label="@string/title_activity_historique"
+            android:parentActivityName=".MenuActivity" >
+        </activity>
+        <activity
+            android:name=".create_new_object_activities.NewFrigoActivity"
+            android:label="@string/title_activity_new_frigo"
+            android:parentActivityName=".MainActivity" >
+        </activity>
+        <activity
+            android:name=".create_new_object_activities.NewBoxActivity"
+            android:label="@string/title_activity_new_box"
+            android:parentActivityName=".ContentActivity">
+        </activity>
+        <activity
+            android:name=".BoxActivity"
+            android:label="@string/title_activity_box"
+            android:parentActivityName=".ContentActivity">
+        </activity>
+    </application>
+
+</manifest>
