@@ -200,13 +200,16 @@ public class BoxActivity extends ActionBarActivity {
             //Affichage des aliments
 
             int sizeListAliments = boite.getListeAliments().size();
-            Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
-            Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
 
 
             if(sizeListAliments==0){
                 TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
                 textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
+
+                TextView textElement2 = (TextView) findViewById(R.id.resultat2);
+                textElement2.setText(" ");
             }
             else{
                 TextView textElement = (TextView) findViewById(R.id.resultat2);
