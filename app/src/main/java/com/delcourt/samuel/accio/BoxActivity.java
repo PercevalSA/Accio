@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,26 +17,42 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.*;
 
 
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.options_activities.BoxOptionsActivity;
+import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
-
+import android.os.AsyncTask;
+import org.json.JSONObject;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BoxActivity extends ActionBarActivity {
 
     public static Box boite;
-
+    static ArrayList<String> listeNomAliment;
+    static ArrayList<String> listeMarqueAliment;
+    public String refBdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
+        listeNomAliment = new ArrayList<>();
 
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
@@ -153,4 +171,168 @@ public class BoxActivity extends ActionBarActivity {
         Intent intent = new Intent(this,BoxOptionsActivity.class);
         startActivity(intent);
     }
+
+
+    class Recupalim extends AsyncTask<String, Void, String> {
+
+        // ArrayList<String> listAffich = new ArrayList<>(); Pas besoin on affiche pas
+
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+            String resultat = "";
+
+            //listAffich = new ArrayList<>();
+
+            InputStream is = null;
+
+            // aliment recherchÃ©
+            //ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            //nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
+            //ArrayList<String> donnees = new ArrayList<String>();
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid=3");
+                //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+
+                    //Met les donnÃ©es ds la liste Ã  afficher
+                    // Ici pas besoin d'afficher les données
+                    //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
+                    result += "\n\t" + array.getString(i);
+                    BoxActivity.listeNomAliment.add(array.getString(i));
+
+                    // resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+            }
+            return result;
+        }
+
+
+        //This Method is called when Network-Request finished
+
+        protected void onPostExecute(String resultat) {
+
+           /* Pas bsoin car normalement pas d'affichage quand on récupère les trucs de la BDD.
+            // Permet d'afficher le result dans l'appli malgré les erreurs.
+            TextView textElement = (TextView) findViewById(R.id.resultat);
+            textElement.setText(" ");
+
+            ListView listAffichage = (ListView) findViewById(R.id.listeViewListeAliments1);
+
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listeAlimentsAffichage);
+            listAffichage.setAdapter(arrayAdapter);
+
+           */
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+    public boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
+        boolean retour;
+        try {
+            int nbBoites = RefrigerateurActivity.refrigerateur.getBoxes().size();
+            Log.e("log_if", "Nombres de boites: " + nbBoites);
+            for (int j = 0; j < nbBoites; j++) {
+                refBdd = RefrigerateurActivity.refrigerateur.getBoxes().get(j).getReferenceBdd();
+                    Toast toast3 = Toast.makeText(getApplicationContext(), refBdd, Toast.LENGTH_LONG);
+                    toast3.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast3.show();
+                // A COMPLETER
+                new Recupalim().execute();
+
+                int nbAliment = listeNomAliment.size();
+                Toast toast = Toast.makeText(getApplicationContext(), nbAliment, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+
+
+                for(int k =0; k < nbAliment; k++){
+
+                    String nom = null;
+                    String marque = null;
+                    boolean favori = false;
+                    ArrayList<String> historique = new ArrayList<>();
+
+                    nom = listeNomAliment.get(k);
+
+                    Toast toast2 = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
+                    toast2.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast2.show();
+
+                    //marque = listeMarqueAliment.get(k);
+                    // !!!!!!! CONNECTION BDD !!!!!!
+                    //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
+
+                    Aliment aliment = new Aliment(nom,marque, favori, historique);
+                    RefrigerateurActivity.refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
+                }
+
+
+            }
+            RefrigerateurActivity.refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
+            retour = true;
+
+        } catch (Exception e) {
+            Log.e("log_tag", "Erreur dans la récupération des aliments : " + e.toString());
+            RefrigerateurActivity.refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli de savoir que la connection à la bdd n'a pas eu lieu
+            retour = true;
+        }
+        return retour;
+   }
+
+
+
+
+
+
+
+
+
 }

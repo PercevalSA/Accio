@@ -42,15 +42,15 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
     public static Refrigerateur refrigerateur;
     //static ArrayList<String> listeAlimentsAffichage; Utile lorsqu'on a besoin d'afficher, mais pas ici
-    static ArrayList<String> listeNomAliment;
+    /**static ArrayList<String> listeNomAliment;  TRANSFERT DANS BOXACTIVITY
     static ArrayList<String> listeMarqueAliment;
-    public String refBdd;
+    public String refBdd;**/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
-        listeNomAliment = new ArrayList<>();
+        //listeNomAliment = new ArrayList<>();
 
         //On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
         boolean chargementReussi = chargementRéfrigerateur();
@@ -60,9 +60,14 @@ public class RefrigerateurActivity extends ActionBarActivity {
             toast.show();
         }
 
-        boolean connectionReussie = connectionBDD();
+        boolean connectionReussie = true; // boolean connectionReussie = connectionBdd();
         if (connectionReussie == false) {//Si la connection a échoué, on affiche un message
             Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+        else  {
+            Toast toast = Toast.makeText(getApplicationContext(), "Connexion réussi à la base de données", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }
@@ -164,7 +169,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         return chargementReussi;
     }
 
-
+        /*
     class Recupalim extends AsyncTask<String, Void, String> {
 
        // ArrayList<String> listAffich = new ArrayList<>(); Pas besoin on affiche pas
@@ -226,9 +231,9 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
                     //Met les donnÃ©es ds la liste Ã  afficher
                     // Ici pas besoin d'afficher les données
-                    RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
+                    //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
                     result += "\n\t" + array.getString(i);
-
+                    RefrigerateurActivity.listeNomAliment.add(array.getString(i));
 
                    // resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
                 }
@@ -253,7 +258,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listeAlimentsAffichage);
             listAffichage.setAdapter(arrayAdapter);
 
-            */
+
 
         }
     }
@@ -263,13 +268,21 @@ public class RefrigerateurActivity extends ActionBarActivity {
         boolean retour;
         try {
             int nbBoites = refrigerateur.getBoxes().size();
+            Log.e("log_if", "Nombres de boites: " + nbBoites);
             for (int j = 0; j < nbBoites; j++) {
                 refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
-
+                    Toast toast3 = Toast.makeText(getApplicationContext(), refBdd, Toast.LENGTH_LONG);
+                    toast3.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast3.show();
                 // A COMPLETER
                 new Recupalim().execute();
 
                 int nbAliment = listeNomAliment.size();
+                Toast toast = Toast.makeText(getApplicationContext(), nbAliment, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+
+
                 for(int k =0; k < nbAliment; k++){
 
                     String nom = null;
@@ -279,9 +292,9 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
                     nom = listeNomAliment.get(k);
 
-                    Toast toast = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast.show();
+                    Toast toast2 = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
+                    toast2.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast2.show();
 
                     //marque = listeMarqueAliment.get(k);
                     // !!!!!!! CONNECTION BDD !!!!!!
@@ -297,14 +310,19 @@ public class RefrigerateurActivity extends ActionBarActivity {
             retour = true;
 
         } catch (Exception e) {
-            refrigerateur.setConnectionBdd(false);//Permet au reste de l'appli de savoir que la connection à la bdd n'a pas eu lieu
-            retour = false;
+            Log.e("log_tag", "Erreur dans la récupération des aliments : " + e.toString());
+            refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli de savoir que la connection à la bdd n'a pas eu lieu
+            retour = true;
         }
         return retour;
-    }
+
+    }*/
 
     public void sendMessageOptionsFrigo(View view){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
         startActivity(intent);
     }
-}
+
+   }
+
+
