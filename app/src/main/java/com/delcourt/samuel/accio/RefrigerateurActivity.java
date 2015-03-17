@@ -49,6 +49,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
+        listeNomAliment = new ArrayList<>();
 
         //On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
         boolean chargementReussi = chargementRéfrigerateur();
@@ -185,7 +186,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://192.168.1.25/pact/alimrecup.php?boiteid=3");
+                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid=3");
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -224,9 +225,8 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
                     //Met les donnÃ©es ds la liste Ã  afficher
                     // Ici pas besoin d'afficher les données
-                    //FavoriteActivity.listeAlimentsAffichage.add(json_data.getString(1));
-                    RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
-
+                    //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
+                    result += "\n\t" + array.getString(i);
 
 
                    // resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
@@ -236,7 +236,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             }
 
 
-            return resultat;
+            return result;
         }
 
 
@@ -286,7 +286,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
                     ArrayList<String> historique = new ArrayList<>();
 
                     nom = listeNomAliment.get(k);
-                    marque = listeMarqueAliment.get(k);
+                    //marque = listeMarqueAliment.get(k);
                     // !!!!!!! CONNECTION BDD !!!!!!
                     //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
 

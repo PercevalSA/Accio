@@ -72,7 +72,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://192.168.1.25/pact/connection2ter.php?nomcategorie=Legume");
+                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/connection2ter.php?nomcategorie=Legume");
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();

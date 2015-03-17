@@ -38,7 +38,7 @@ public class BoxActivity extends ActionBarActivity {
 
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
-        textElement.setText(boite.getName());
+        textElement.setText(boite.getName() + " " + boite.getReferenceBdd());
 
         TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
         textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
