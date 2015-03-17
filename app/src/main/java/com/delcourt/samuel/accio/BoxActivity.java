@@ -124,7 +124,7 @@ public class BoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid="+refBdd);
+                HttpGet httpget = new HttpGet("http://137.194.20.223/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -194,7 +194,7 @@ public class BoxActivity extends ActionBarActivity {
             int nbAliment = listeNomAliment.size();
             for(int k =0; k < nbAliment; k++){
 
-                String nom = listeNomAliment.get(k);;
+                String nom = listeNomAliment.get(k);
                 String marque = null;
                 boolean favori = false;
                 ArrayList<String> historique = new ArrayList<>();
@@ -217,7 +217,12 @@ public class BoxActivity extends ActionBarActivity {
                 textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
             }
             else{
-                // Get the reference of listViewFrigos (pour l'affichage de la liste)
+                ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, listeNomAliment);
+                listAffichage.setAdapter(arrayAdapter);
+
+                /*// Get the reference of listViewFrigos (pour l'affichage de la liste)
                 final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
 
                 //Création de la ArrayList qui nous permettra de remplir la listView
@@ -253,7 +258,7 @@ public class BoxActivity extends ActionBarActivity {
                         int indexBox = position;
                         sendMessageAlimentSelected(view, indexBox);
                     }
-                });
+                });*/
             }
 
         }
