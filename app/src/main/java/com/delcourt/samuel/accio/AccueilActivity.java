@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.Recette;
@@ -43,6 +44,12 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         setContentView(R.layout.activity_accueil);
 
         readFiles(); //Lecture des fichiers et récupération des infos sur le frigo
+
+        //Si pas de frigo, on affiche un message
+        if(listeFrigosNames.size()==0){
+            TextView textElement = (TextView) findViewById(R.id.message_pas_de_frigo);
+            textElement.setText("Vous n'avez pour l'instant aucun réfrigérateur");
+        }
 
         //On affiche :
         // Get the reference of listViewFrigos (pour l'affichage de la liste)
