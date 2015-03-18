@@ -53,8 +53,6 @@ public class BoxActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
         listeNomAliment = new ArrayList<>();
-        boite.reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
-
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
         textElement.setText(boite.getName() + " " + boite.getReferenceBdd());
@@ -65,7 +63,23 @@ public class BoxActivity extends ActionBarActivity {
         afficheImage();
 
         refBdd = boite.getReferenceBdd();
-        new RecupalimBDD().execute();
+
+        if(boite.getConnectedBdd()== false){//On se connecte à la BDD et on affiche les aliments
+            boite.reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
+            new RecupalimBDD().execute();
+        } else{
+            if(boite.getListeAliments().size()==0){//Si la liste est vide, on affiche un message
+                TextView textElement3 = (TextView) findViewById(R.id.message_BoxActivity);
+                textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
+
+                TextView textElement4 = (TextView) findViewById(R.id.resultat2);
+                textElement4.setText(" ");
+            }
+            else{//On affiche les aliments déjà contenus dans la boîte
+                afficheListeAliments();
+            }
+        }
+
     }
 
 
@@ -212,6 +226,8 @@ public class BoxActivity extends ActionBarActivity {
                 textElement2.setText(" ");
             }
             else{
+                boite.setConnectedBDD(true);//On indique que la connection a réussi
+
                 TextView textElement = (TextView) findViewById(R.id.resultat2);
                 textElement.setText(" ");
                 /*ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
@@ -278,6 +294,53 @@ public class BoxActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Le type de la boîte n'a pas été reconnu",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void afficheListeAliments(){
+        TextView textElement = (TextView) findViewById(R.id.resultat2);
+        textElement.setText(" ");
+                /*ListView listAffichage=(ListView)findViewById(R.id.liste_aliments);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, listeNomAliment);
+                listAffichage.setAdapter(arrayAdapter);*/
+
+
+        // Get the reference of listViewFrigos (pour l'affichage de la liste)
+        final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
+
+        //Création de la ArrayList qui nous permettra de remplir la listView
+        ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+        HashMap<String, String> map;
+
+        for (int i =0;i<boite.getListeAliments().size();i++){
+            //on insère la référence aux éléments à afficher
+            map = new HashMap<String, String>();
+            map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
+
+            //enfin on ajoute cette hashMap dans la arrayList
+            listItem.add(map);
+
+        }
+
+        //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+        SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
+                new String[] {"aliment"}, new int[] {R.id.nom_aliment_affiche});
+
+        //On attribue à notre listView l'adapter que l'on vient de créer
+        listViewAliments.setAdapter(mSchedule);
+
+
+        //register onClickListener to handle click events on each item
+        listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            // argument position gives the index of item which is clicked
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                int indexBox = position;
+                sendMessageAlimentSelected(view, indexBox);
+            }
+        });
     }
 
 }
