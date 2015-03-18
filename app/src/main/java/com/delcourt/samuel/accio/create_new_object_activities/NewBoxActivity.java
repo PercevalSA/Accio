@@ -1,28 +1,49 @@
 package com.delcourt.samuel.accio.create_new_object_activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AideNouvelleBoiteActivity;
+import com.delcourt.samuel.accio.FavoriteActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Box;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class NewBoxActivity extends ActionBarActivity {
 
     private String typeBox = null;
+    private String newBoiteName= null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +135,10 @@ public class NewBoxActivity extends ActionBarActivity {
                         try {//Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
                             String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
 
+                            // C'est ici qu'il faut connecter à la bdd
+
+
+
                             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_APPEND));
                             BufferedWriter bw = new BufferedWriter(outStream);
                             PrintWriter out2 = new PrintWriter(bw);
@@ -128,6 +153,9 @@ public class NewBoxActivity extends ActionBarActivity {
 
                             Toast.makeText(getApplicationContext(), "Connecter à la bdd : récupérer référence boîte, type, code",
                                     Toast.LENGTH_SHORT).show();
+
+
+
                         } catch (java.io.IOException e) {
                             Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();
                         }
@@ -144,6 +172,105 @@ public class NewBoxActivity extends ActionBarActivity {
         }
 
     }
+
+    class CreaBoite extends AsyncTask<String, Void, String> {
+
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+            String resultat ="";
+
+
+
+            InputStream is = null;
+
+            // aliment recherchÃ©
+
+
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/creaboite.php?nomBoite=" +newBoiteName+ "&cateBoite=" + typeBox);
+                //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+                    //Met les donnÃ©es ds la liste Ã  afficher
+
+
+                    result += "\n\t" + array.getString(i);
+                    resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+            }
+
+
+            return resultat;
+        }
+
+
+        //This Method is called when Network-Request finished
+
+        protected void onPostExecute(String resultat) {
+            // Permet d'afficher le result dans l'appli malgré les erreurs.
+            TextView textElement = (TextView) findViewById(R.id.resultat);
+            textElement.setText(" ");
+
+
+
+
+
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void sendMessageHelp(View view){
         Intent intent = new Intent(this,AideNouvelleBoiteActivity.class);
