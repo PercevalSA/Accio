@@ -12,14 +12,14 @@ public class Box {
     private String name;
     private String type;
     private ArrayList<Aliment> listeAliments;
-    private boolean connectedBDD;
+    private boolean connectedBdd;
 
     public Box(String referenceBdd, String name, String type){
         this.name=name;
         this.referenceBdd=referenceBdd;
         this.type = type;
         listeAliments = new ArrayList<>();
-        connectedBDD = false;
+        connectedBdd = false;
     }
 
     public void setName(String name){
@@ -40,9 +40,9 @@ public class Box {
         listeAliments = new ArrayList<>();
     }
 
-    public boolean getConnectedBdd(){return connectedBDD;}
+    public boolean getConnectedBdd(){return connectedBdd;}
 
-    public void setConnectedBDD(boolean b){connectedBDD=b;}
+    public void setConnectedBdd(boolean b){connectedBdd=b;}
 
 
 }

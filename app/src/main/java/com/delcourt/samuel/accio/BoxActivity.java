@@ -226,7 +226,7 @@ public class BoxActivity extends ActionBarActivity {
                 textElement2.setText(" ");
             }
             else{
-                boite.setConnectedBDD(true);//On indique que la connection a réussi
+                boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
 
                 TextView textElement = (TextView) findViewById(R.id.resultat2);
                 textElement.setText(" ");
@@ -341,6 +341,12 @@ public class BoxActivity extends ActionBarActivity {
                 sendMessageAlimentSelected(view, indexBox);
             }
         });
+    }
+
+    public void sendMessageActualiseBox(View view){
+        boite.setConnectedBdd(false);//On passe connectedBdd à false, puis on relance l'activité. Ainsi, on se connecte à la bdd
+        Intent intent = new Intent(this,BoxActivity.class);
+        startActivity(intent);
     }
 
 }
