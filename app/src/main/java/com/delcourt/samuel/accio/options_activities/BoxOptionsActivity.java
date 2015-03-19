@@ -247,16 +247,6 @@ public class BoxOptionsActivity extends ActionBarActivity {
             return result;
         }
 
-
-        //This Method is called when Network-Request finished
-
-        protected void onPostExecute(String result) {
-
-
-
-
-
-        }
     }
 
 
@@ -264,6 +254,10 @@ public class BoxOptionsActivity extends ActionBarActivity {
     public void delete(){
         String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
         String nameBoite = boite.getName();
+        boiteID = boite.getReferenceBdd();
+
+        new DeleteBoite().execute();
+
         //On supprime la boîte dans la liste dynamique :
         for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
@@ -289,4 +283,66 @@ public class BoxOptionsActivity extends ActionBarActivity {
         Intent intent = new Intent(this,ListeBoitesActivity.class);
         startActivity(intent);
     }
+
+    class DeleteBoite extends AsyncTask<String, Void, String> {
+
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+            InputStream is = null;
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/deleteboite.php?boiteID=" + boiteID);
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+                    //Met les donnÃ©es ds la liste Ã  afficher
+                    result += "\n\t" + array.getString(i);
+
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+            }
+
+
+            return result;
+        }
+
+    }
+
+
 }
