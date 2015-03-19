@@ -41,12 +41,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class BoxOptionsActivity extends ActionBarActivity {
 
     private Box boite = BoxActivity.boite;
     private String boiteID = null;
     private String newName = null;
+    private String newNameEnco = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +163,11 @@ public class BoxOptionsActivity extends ActionBarActivity {
         //On change le nom de la boîte dans la liste dynamique :
         String nameBoite = boite.getName();
         boiteID = boite.getReferenceBdd();
+        try {
+            newNameEnco = URLEncoder.encode(newName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         new RenameBoite().execute();
 
 
@@ -200,7 +208,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/renameboite.php?newNomBoite=" +newName+ "&boiteID=" + boiteID);
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/renameboite.php?newNomBoite=" +newNameEnco+ "&boiteID=" + boiteID);
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
