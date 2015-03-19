@@ -138,31 +138,12 @@ public class NewBoxActivity extends ActionBarActivity {
                             nameFrigo = RefrigerateurActivity.refrigerateur.getName();
                             newBoiteNameEnco = URLEncoder.encode(newBoiteName, "UTF-8");
                             typeBoxEnco = URLEncoder.encode(typeBox,"UTF-8");
-                        // C'est ici qu'il faut connecter à la bdd
+                        // C'est ici qu'on se connecte à la BDD
                             new CreaBoite().execute();
 
 
-                           /* OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_APPEND));
-                            BufferedWriter bw = new BufferedWriter(outStream);
-                            PrintWriter out2 = new PrintWriter(bw);
-                            out2.println("Ref bdd à mettre");
-                            out2.println(newBoiteName);
-                            out2.println(typeBox);
-                            out2.close();
-
-                            //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
-                            Box newBox = new Box("Référence Bdd", newBoiteName, typeBox);
-                            RefrigerateurActivity.refrigerateur.getBoxes().add(newBox);
-
-                            Toast.makeText(getApplicationContext(), "Connecter à la bdd : récupérer référence boîte, type, code",
-                                    Toast.LENGTH_SHORT).show();
-
-                            */
-
-
-
                         //la boîte a été crée, on retourne sur l'activité précédente :
-                        startActivity(intent);
+                       startActivity(intent);
                     }
 
 
@@ -186,7 +167,6 @@ public class NewBoxActivity extends ActionBarActivity {
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpGet httpget = new HttpGet("http://137.194.8.216/pact/creaboite.php?nomBoite=" +newBoiteNameEnco+ "&cateBoite=" + typeBoxEnco);
-                //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
@@ -239,9 +219,6 @@ public class NewBoxActivity extends ActionBarActivity {
         //This Method is called when Network-Request finished
 
         protected void onPostExecute(String result) {
-            // Permet d'afficher le result dans l'appli malgré les erreurs.
-           // TextView textElement = (TextView) findViewById(R.id.resultat);
-           // textElement.setText(" ");
 
             String RefBdd = listeRefBdd.get(0);
 

@@ -3,8 +3,10 @@ package com.delcourt.samuel.accio.options_activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,15 +24,29 @@ import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 public class BoxOptionsActivity extends ActionBarActivity {
 
     private Box boite = BoxActivity.boite;
+    private String boiteID = null;
+    private String newName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +99,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
         int k = 0;
 
         EditText editText = (EditText) findViewById(R.id.edit_text_renommer_boite);
-        final String newName = editText.getText().toString();
+        newName = editText.getText().toString();
 
         //On s'assure qu'aucun frigo du même nom n'a encore été créé
         for (int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
@@ -143,6 +159,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
         //On change le nom de la boîte dans la liste dynamique :
         String nameBoite = boite.getName();
+        boiteID = boite.getReferenceBdd();
+        new RenameBoite().execute();
 
 
         for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
@@ -168,9 +186,80 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this,BoxActivity.class);
         startActivity(intent);
-
-
     }
+
+
+    class RenameBoite extends AsyncTask<String, Void, String> {
+
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+            InputStream is = null;
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/renameboite.php?newNomBoite=" +newName+ "&boiteID=" + boiteID);
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+                    //Met les donnÃ©es ds la liste Ã  afficher
+                    result += "\n\t" + array.getString(i);
+
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+            }
+
+
+            return result;
+        }
+
+
+        //This Method is called when Network-Request finished
+
+        protected void onPostExecute(String result) {
+
+
+
+
+
+        }
+    }
+
+
 
     public void delete(){
         String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
