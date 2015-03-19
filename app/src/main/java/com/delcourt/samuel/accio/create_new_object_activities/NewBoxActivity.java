@@ -34,6 +34,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class NewBoxActivity extends ActionBarActivity {
@@ -42,6 +44,8 @@ public class NewBoxActivity extends ActionBarActivity {
     private String newBoiteName= null;
     static ArrayList<String> listeRefBdd;
     private String nameFrigo = null;
+    private String newBoiteNameEnco= null;
+    private String typeBoxEnco = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +78,7 @@ public class NewBoxActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendMessageNewBox(View view){
+    public void sendMessageNewBox(View view) throws UnsupportedEncodingException {
 
         Intent intent = new Intent(this,ListeBoitesActivity.class);
 
@@ -132,8 +136,9 @@ public class NewBoxActivity extends ActionBarActivity {
                     else {//Dans ce cas, c'est bon, on peut créer la nouvelle boîte
                             //Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
                             nameFrigo = RefrigerateurActivity.refrigerateur.getName();
-
-                            // C'est ici qu'il faut connecter à la bdd
+                            newBoiteNameEnco = URLEncoder.encode(newBoiteName, "UTF-8");
+                            typeBoxEnco = URLEncoder.encode(typeBox,"UTF-8");
+                        // C'est ici qu'il faut connecter à la bdd
                             new CreaBoite().execute();
 
 
@@ -180,7 +185,7 @@ public class NewBoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/creaboite.php?nomBoite=" +newBoiteName+ "&cateBoite=" + typeBox);
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/creaboite.php?nomBoite=" +newBoiteNameEnco+ "&cateBoite=" + typeBoxEnco);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
