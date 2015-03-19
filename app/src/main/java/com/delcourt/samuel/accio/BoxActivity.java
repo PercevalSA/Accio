@@ -106,26 +106,17 @@ public class BoxActivity extends ActionBarActivity {
 
     class RecupalimBDD extends AsyncTask<String, Void, String> {
 
-        // ArrayList<String> listAffich = new ArrayList<>(); Pas besoin on affiche pas
-
 
         protected String doInBackground(String... urls) {
 
             String result = "";
 
-            //listAffich = new ArrayList<>();
-
             InputStream is = null;
-
-            // aliment recherchÃ©
-            //ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            //nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
-            //ArrayList<String> donnees = new ArrayList<String>();
 
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid="+refBdd);
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -156,7 +147,6 @@ public class BoxActivity extends ActionBarActivity {
                 Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
                 //JSONArray jArray = new JSONArray(result);
                 JSONObject object = new JSONObject(result);
-                //Log.i("lol", "COUCOU: "+ object.toString());
                 JSONArray array = object.getJSONArray("testData");
 
                 for (int i = 0; i < array.length(); i++) {
@@ -164,11 +154,11 @@ public class BoxActivity extends ActionBarActivity {
 
                     //Met les donnÃ©es ds la liste Ã  afficher
                     // Ici pas besoin d'afficher les données
-                    //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
+
                     result += "\n\t" + array.getString(i);
                     BoxActivity.listeNomAliment.add(json_data.getString(1));
 
-                    // resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
+
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
@@ -190,8 +180,6 @@ public class BoxActivity extends ActionBarActivity {
                 boolean favori = false;
                 ArrayList<String> historique = new ArrayList<>();
                 //marque = listeMarqueAliment.get(k);
-                // !!!!!!! CONNECTION BDD !!!!!!
-                //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
 
                 Aliment aliment = new Aliment(nom,marque, favori, historique);
                 boite.getListeAliments().add(aliment);

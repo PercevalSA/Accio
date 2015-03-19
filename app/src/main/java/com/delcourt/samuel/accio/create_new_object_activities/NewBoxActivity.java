@@ -9,15 +9,11 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AideNouvelleBoiteActivity;
-import com.delcourt.samuel.accio.FavoriteActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
@@ -44,12 +40,14 @@ public class NewBoxActivity extends ActionBarActivity {
 
     private String typeBox = null;
     private String newBoiteName= null;
+    static ArrayList<String> listeRefBdd;
+    private String nameFrigo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_box);
-
+        listeRefBdd = new ArrayList<>();
         getTypes();
     }
 
@@ -84,7 +82,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
         //Récupère le nom de la boîte
         EditText editText = (EditText) findViewById(R.id.name_boite);
-        String newBoiteName = editText.getText().toString();
+        newBoiteName = editText.getText().toString();
 
         //Récupère le numéro (identifiant de la boîte)
         EditText editText2 = (EditText) findViewById(R.id.numero_boite);
@@ -132,14 +130,14 @@ public class NewBoxActivity extends ActionBarActivity {
                     }
 
                     else {//Dans ce cas, c'est bon, on peut créer la nouvelle boîte
-                        try {//Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
-                            String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+                            //Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
+                            nameFrigo = RefrigerateurActivity.refrigerateur.getName();
 
                             // C'est ici qu'il faut connecter à la bdd
+                            new CreaBoite().execute();
 
 
-
-                            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_APPEND));
+                           /* OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_APPEND));
                             BufferedWriter bw = new BufferedWriter(outStream);
                             PrintWriter out2 = new PrintWriter(bw);
                             out2.println("Ref bdd à mettre");
@@ -154,11 +152,9 @@ public class NewBoxActivity extends ActionBarActivity {
                             Toast.makeText(getApplicationContext(), "Connecter à la bdd : récupérer référence boîte, type, code",
                                     Toast.LENGTH_SHORT).show();
 
+                            */
 
 
-                        } catch (java.io.IOException e) {
-                            Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();
-                        }
 
                         //la boîte a été crée, on retourne sur l'activité précédente :
                         startActivity(intent);
@@ -179,20 +175,12 @@ public class NewBoxActivity extends ActionBarActivity {
         protected String doInBackground(String... urls) {
 
             String result = "";
-            String resultat ="";
-
-
-
             InputStream is = null;
-
-            // aliment recherchÃ©
-
-
 
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/creaboite.php?nomBoite=" +newBoiteName+ "&cateBoite=" + typeBox);
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/creaboite.php?nomBoite=" +newBoiteName+ "&cateBoite=" + typeBox);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -229,45 +217,48 @@ public class NewBoxActivity extends ActionBarActivity {
                 for (int i = 0; i < array.length(); i++) {
                     JSONArray json_data = array.getJSONArray(i);
                     //Met les donnÃ©es ds la liste Ã  afficher
-
+                    NewBoxActivity.listeRefBdd.add(json_data.getString(0));
 
                     result += "\n\t" + array.getString(i);
-                    resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
+
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
             }
 
 
-            return resultat;
+            return result;
         }
 
 
         //This Method is called when Network-Request finished
 
-        protected void onPostExecute(String resultat) {
+        protected void onPostExecute(String result) {
             // Permet d'afficher le result dans l'appli malgré les erreurs.
-            TextView textElement = (TextView) findViewById(R.id.resultat);
-            textElement.setText(" ");
+           // TextView textElement = (TextView) findViewById(R.id.resultat);
+           // textElement.setText(" ");
 
+            String RefBdd = listeRefBdd.get(0);
 
+            try {
+                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt", MODE_APPEND));
+                BufferedWriter bw = new BufferedWriter(outStream);
+                PrintWriter out2 = new PrintWriter(bw);
+                out2.println(RefBdd);
+                out2.println(newBoiteName);
+                out2.println(typeBox);
+                out2.close();
 
+                //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
+                Box newBox = new Box(RefBdd, newBoiteName, typeBox);
+                RefrigerateurActivity.refrigerateur.getBoxes().add(newBox);
 
+            } catch (java.io.IOException e) {
+                Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();
+            }
 
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
