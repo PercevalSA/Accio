@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AideNouvelleBoiteActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
@@ -80,7 +81,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
     public void sendMessageNewBox(View view) throws UnsupportedEncodingException {
 
-        Intent intent = new Intent(this,ListeBoitesActivity.class);
+
 
             //RECUPERE LES DIFFERENTES INFOS
 
@@ -141,9 +142,9 @@ public class NewBoxActivity extends ActionBarActivity {
                         // C'est ici qu'on se connecte à la BDD
                             new CreaBoite().execute();
 
+                        TextView textElement = (TextView) findViewById(R.id.message_new_box);
+                        textElement.setText("Connexion à la base de données");
 
-                        //la boîte a été crée, on retourne sur l'activité précédente :
-                       startActivity(intent);
                     }
 
 
@@ -221,6 +222,7 @@ public class NewBoxActivity extends ActionBarActivity {
         protected void onPostExecute(String result) {
 
             String RefBdd = listeRefBdd.get(0);
+            Intent intent = new Intent(getApplicationContext(),ListeBoitesActivity.class);
 
             try {
                 OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt", MODE_APPEND));
@@ -234,6 +236,9 @@ public class NewBoxActivity extends ActionBarActivity {
                 //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
                 Box newBox = new Box(RefBdd, newBoiteName, typeBox);
                 RefrigerateurActivity.refrigerateur.getBoxes().add(newBox);
+
+                //la boîte a été crée, on retourne sur l'activité précédente :
+                startActivity(intent);
 
             } catch (java.io.IOException e) {
                 Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();

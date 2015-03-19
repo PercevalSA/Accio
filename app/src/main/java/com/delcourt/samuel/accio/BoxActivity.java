@@ -55,7 +55,7 @@ public class BoxActivity extends ActionBarActivity {
         listeNomAliment = new ArrayList<>();
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
-        textElement.setText(boite.getName() + " " + boite.getReferenceBdd());
+        textElement.setText(boite.getName());
 
         TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
         textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
@@ -208,7 +208,7 @@ public class BoxActivity extends ActionBarActivity {
 
             if(sizeListAliments==0){
                 TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
-                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant, ou erreur de connection à la base de données");
+                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
 
                 TextView textElement2 = (TextView) findViewById(R.id.resultat2);
                 textElement2.setText(" ");

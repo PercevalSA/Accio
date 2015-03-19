@@ -224,6 +224,11 @@
         android:layout_alignParentEnd="true"
         android:onClick="sendMessageHelp"/>
 
+    <TextView
+        android:id="@+id/message_new_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 
 
 </RelativeLayout>
