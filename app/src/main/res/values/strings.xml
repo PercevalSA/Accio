@@ -52,5 +52,7 @@
     <string name="title_activity_box_options">Options de la boîte</string>
     <string name="title_activity_frigo_options">Options du frigo</string>
     <string name="title_activity_aliment">Aliment</string>
+    <string name="title_activity_aide_aliment">Aide</string>
+    <string name="aide_aliment">Pour rendre l\'aliment favori ou le supprimer de la liste des favoris, cliquer sur l\'image</string>
 
 </resources>

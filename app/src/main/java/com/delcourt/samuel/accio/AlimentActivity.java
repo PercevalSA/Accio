@@ -1,12 +1,16 @@
 package com.delcourt.samuel.accio;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.delcourt.samuel.accio.help_activities.AideAliment;
+import com.delcourt.samuel.accio.options_activities.BoxOptionsActivity;
 import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
 
@@ -60,4 +64,10 @@ public class AlimentActivity extends ActionBarActivity {
         TextView textElement3 = (TextView) findViewById(R.id.nameAliment);
         textElement3.setText(aliment.getAlimentName());
     }
+
+    public void sendMessageHelp(View view){
+        Intent intent = new Intent(this,AideAliment.class);
+        startActivity(intent);
+    }
+
 }

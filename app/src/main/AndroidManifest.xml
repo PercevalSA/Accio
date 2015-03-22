@@ -59,7 +59,7 @@
             android:parentActivityName=".ListeBoitesActivity" >
         </activity>
         <activity
-            android:name=".AideNouvelleBoiteActivity"
+            android:name=".help_activities.AideNouvelleBoiteActivity"
             android:label="@string/title_activity_aide_nouvelle_boite"
             android:parentActivityName=".create_new_object_activities.NewBoxActivity" >
         </activity>
@@ -101,7 +101,12 @@
         <activity
             android:name=".AlimentActivity"
             android:label="@string/title_activity_aliment"
-            android:parentActivityName=".BoxActivity">
+            android:parentActivityName=".BoxActivity" >
+        </activity>
+        <activity
+            android:name=".help_activities.AideAliment"
+            android:label="@string/title_activity_aide_aliment"
+            android:parentActivityName=".AlimentActivity">
         </activity>
     </application>
 
