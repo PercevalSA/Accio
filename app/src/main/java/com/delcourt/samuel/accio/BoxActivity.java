@@ -70,7 +70,7 @@ public class BoxActivity extends ActionBarActivity {
         } else{
             if(boite.getListeAliments().size()==0){//Si la liste est vide, on affiche un message
                 TextView textElement3 = (TextView) findViewById(R.id.message_BoxActivity);
-                textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
+                textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant2");
 
                 TextView textElement4 = (TextView) findViewById(R.id.resultat2);
                 textElement4.setText(" ");
@@ -212,6 +212,34 @@ public class BoxActivity extends ActionBarActivity {
 
                 TextView textElement2 = (TextView) findViewById(R.id.resultat2);
                 textElement2.setText(" ");
+
+                //PARTIE TEMPORAIRE : on affiche un aliment d'exemple
+                ArrayList<String> historique = new ArrayList<>();
+                Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique);
+                boite.getListeAliments().add(aliment);
+                final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
+                //Création de la ArrayList qui nous permettra de remplir la listView
+                ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+                HashMap<String, String> map;
+                map = new HashMap<String, String>();
+                map.put("aliment", boite.getListeAliments().get(0).getAlimentName());
+                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
+                        new String[] {"aliment"}, new int[] {R.id.nom_aliment_affiche});
+                listItem.add(map);
+                listViewAliments.setAdapter(mSchedule);
+                listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                {
+                    // argument position gives the index of item which is clicked
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                        int indexBox = position;
+                        sendMessageAlimentSelected(view, indexBox);
+                    }
+                });
+
+                //FIN PARTIE TEMPORAIRE
             }
             else{
                 boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
