@@ -196,7 +196,7 @@ public class BoxActivity extends ActionBarActivity {
                 ArrayList<String> historique = new ArrayList<>();
                 //marque = listeMarqueAliment.get(k);
 
-                Aliment aliment = new Aliment(nom,marque, favori, historique);
+                Aliment aliment = new Aliment(nom,marque, favori, historique,boite.getName());
                 boite.getListeAliments().add(aliment);
             }
 
@@ -216,7 +216,7 @@ public class BoxActivity extends ActionBarActivity {
 
                 //PARTIE TEMPORAIRE : on affiche un aliment d'exemple
                 ArrayList<String> historique = new ArrayList<>();
-                Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique);
+                Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique,boite.getName());
                 boite.getListeAliments().add(aliment);
                 final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
                 //Création de la ArrayList qui nous permettra de remplir la listView
