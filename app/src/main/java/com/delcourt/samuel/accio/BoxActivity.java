@@ -24,6 +24,7 @@ import java.sql.*;
 
 
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.options_activities.BoxOptionsActivity;
 import com.delcourt.samuel.accio.structures.Aliment;
@@ -83,10 +84,6 @@ public class BoxActivity extends ActionBarActivity {
 
     }
 
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -110,8 +107,10 @@ public class BoxActivity extends ActionBarActivity {
     }
 
     public void sendMessageAlimentSelected(View view, int index){
-
-
+        AlimentActivity.boiteName = boite.getName();
+        AlimentActivity.aliment=boite.getListeAliments().get(index);
+        Intent intent = new Intent(this, AlimentActivity.class);
+        startActivity(intent);
     }
 
     public void sendMessageOptionsBox(View view){
