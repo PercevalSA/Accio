@@ -79,7 +79,7 @@ public class AlimentActivity extends ActionBarActivity {
         adb.setTitle("Favori");
 
         if(aliment.isAlimentFavori()==false){
-            adb.setMessage("Voulez-vous déclarer l'aliment : "+aliment.getAlimentName()+" comme favori ?");
+            adb.setMessage("Voulez-vous ajouter l'aliment : "+aliment.getAlimentName()+" à la liste des favoris ?");
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     declareFavori();
