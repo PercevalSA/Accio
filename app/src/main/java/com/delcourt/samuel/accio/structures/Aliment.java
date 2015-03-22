@@ -26,5 +26,7 @@ public class Aliment {
 
     public boolean isAlimentFavori(){return favori;}
 
+    public void setFavori(boolean b){favori = b;}
+
     public ArrayList<String> getAlimentHistorique(){return historique;}
 }
