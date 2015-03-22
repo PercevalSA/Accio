@@ -52,6 +52,7 @@ public class BoxActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
+        Toast.makeText(getApplicationContext(), "Les images doivent indiquer si favori ou pas (genre une étoile)",Toast.LENGTH_SHORT).show();
         listeNomAliment = new ArrayList<>();
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
@@ -109,6 +110,7 @@ public class BoxActivity extends ActionBarActivity {
     }
 
     public void sendMessageAlimentSelected(View view, int index){
+
 
     }
 
@@ -224,8 +226,9 @@ public class BoxActivity extends ActionBarActivity {
                 HashMap<String, String> map;
                 map = new HashMap<String, String>();
                 map.put("aliment", boite.getListeAliments().get(0).getAlimentName());
+                map.put("img", String.valueOf(R.drawable.ic_launcher));
                 SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
-                        new String[] {"aliment"}, new int[] {R.id.nom_aliment_affiche});
+                        new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
                 listItem.add(map);
                 listViewAliments.setAdapter(mSchedule);
                 listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -263,15 +266,16 @@ public class BoxActivity extends ActionBarActivity {
                     //on insère la référence aux éléments à afficher
                     map = new HashMap<String, String>();
                     map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
-
+                    if(boite.getListeAliments().get(i).isAlimentFavori()==true){
+                        map.put("img", String.valueOf(R.drawable.ic_launcher));
+                    } else {map.put("img", String.valueOf(R.drawable.ic_launcher));}
                     //enfin on ajoute cette hashMap dans la arrayList
                     listItem.add(map);
-
                 }
 
                 //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
                 SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
-                        new String[] {"aliment"}, new int[] {R.id.nom_aliment_affiche});
+                        new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
 
                 //On attribue à notre listView l'adapter que l'on vient de créer
                 listViewAliments.setAdapter(mSchedule);
