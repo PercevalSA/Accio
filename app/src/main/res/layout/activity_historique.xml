@@ -10,10 +10,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Connecter à la base de données"
-        android:id="@+id/textView4"
+        android:text="Choisissez la boîte dont vous souhaitez afficher l'historique :"
+        android:id="@+id/text_historique"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="154dp" />
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/message_historique"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="20dp" />
+
+    <ListView
+        android:id="@+id/listeViewBoitesHistorique"
+        android:dividerHeight="0.1dp"
+        android:divider="#0000CC"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_historique"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+    </ListView>
 
 </RelativeLayout>

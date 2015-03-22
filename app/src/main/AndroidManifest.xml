@@ -106,7 +106,12 @@
         <activity
             android:name=".help_activities.AideAliment"
             android:label="@string/title_activity_aide_aliment"
-            android:parentActivityName=".AlimentActivity">
+            android:parentActivityName=".AlimentActivity" >
+        </activity>
+        <activity
+            android:name=".HistoriqueBoiteActivity"
+            android:label="@string/title_activity_historique_boite"
+            android:parentActivityName=".HistoriqueActivity">
         </activity>
     </application>
 
