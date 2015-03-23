@@ -61,8 +61,8 @@ public class AlimentActivity extends ActionBarActivity {
         textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
 
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        if(aliment.isAlimentFavori()==true){image.setImageResource(R.drawable.ic_launcher);
-        }else{image.setImageResource(R.drawable.ic_launcher);}
+        if(aliment.isAlimentFavori()==true){image.setImageResource(R.drawable.fav);
+        }else{image.setImageResource(R.drawable.favn);}
 
         TextView textElement3 = (TextView) findViewById(R.id.nameAliment);
         textElement3.setText(aliment.getAlimentName());
@@ -100,14 +100,14 @@ public class AlimentActivity extends ActionBarActivity {
     public void declareFavori(){
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
         aliment.setFavori(true);
-        image.setImageResource(R.drawable.ic_launcher);
+        image.setImageResource(R.drawable.fav);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - ajouté aux favoris",Toast.LENGTH_SHORT).show();
     }
 
     public void declareNonFavori(){
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
         aliment.setFavori(false);
-        image.setImageResource(R.drawable.ic_launcher);
+        image.setImageResource(R.drawable.favn);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - retiré des favoris",Toast.LENGTH_SHORT).show();
     }
 

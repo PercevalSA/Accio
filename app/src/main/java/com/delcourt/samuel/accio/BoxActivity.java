@@ -266,8 +266,8 @@ public class BoxActivity extends ActionBarActivity {
                     map = new HashMap<String, String>();
                     map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
                     if(boite.getListeAliments().get(i).isAlimentFavori()==true){
-                        map.put("img", String.valueOf(R.drawable.ic_launcher));
-                    } else {map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                        map.put("img", String.valueOf(R.drawable.fav));
+                    } else {map.put("img", String.valueOf(R.drawable.favn));}
                     //enfin on ajoute cette hashMap dans la arrayList
                     listItem.add(map);
                 }
