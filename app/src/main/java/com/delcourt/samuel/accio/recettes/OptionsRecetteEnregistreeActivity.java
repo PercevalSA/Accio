@@ -108,11 +108,11 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
         adb.setMessage("Voulez-vous vraiment supprimer la boite " + recetteName+" ? \nLes informations correspondantes seront perdues");
         //on indique que l'on veut le bouton ok à notre boite de dialogue
-        /*adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 delete();
             }
-        });*/
+        });
         //on affiche la boite de dialogue
         adb.show();
     }
@@ -145,28 +145,21 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    /*public void delete(){
-        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
-        String nameBoite = boite.getName();
-        boiteID = boite.getReferenceBdd();
-
-        new DeleteBoite().execute();
-
+    public void delete(){
         //On supprime la boîte dans la liste dynamique :
-        for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
-            if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
-                RefrigerateurActivity.refrigerateur.getBoxes().remove(j);
+        for(int j =0;j<MenuRecettesActivity.listeRecettesEnregistrées.size();j++){
+            if(MenuRecettesActivity.listeRecettesEnregistrées.get(j).getName() == recetteName){
+                MenuRecettesActivity.listeRecettesEnregistrées.remove(j);
             }
         }
         //On adapte le fichier texte
         try {
-            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
+            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_PRIVATE));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+            for(int i=0;i<MenuRecettesActivity.listeRecettesEnregistrées.size();i++){
+                out2.println(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getName());
+                out2.println(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getAdresseWeb());
             }
             out2.close();
 
@@ -174,8 +167,8 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
         }
 
-        Intent intent = new Intent(this,ListeBoitesActivity.class);
+        Intent intent = new Intent(this,MenuRecettesActivity.class);
         startActivity(intent);
-    }*/
+    }
 
 }
