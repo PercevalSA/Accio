@@ -167,7 +167,7 @@ public class NewBoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/creaboite.php?nomBoite=" +newBoiteNameEnco+ "&cateBoite=" + typeBoxEnco);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/creaboite.php?nomBoite=" +newBoiteNameEnco+ "&cateBoite=" + typeBoxEnco);
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();

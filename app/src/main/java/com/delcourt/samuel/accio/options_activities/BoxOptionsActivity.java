@@ -208,7 +208,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/renameboite.php?newNomBoite=" +newNameEnco+ "&boiteID=" + boiteID);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/renameboite.php?newNomBoite=" +newNameEnco+ "&boiteID=" + boiteID);
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
@@ -303,7 +303,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/deleteboite.php?boiteID=" + boiteID);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/deleteboite.php?boiteID=" + boiteID);
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();

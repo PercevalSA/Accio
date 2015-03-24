@@ -130,7 +130,7 @@ public class BoxActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/alimrecup.php?boiteid="+refBdd);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
