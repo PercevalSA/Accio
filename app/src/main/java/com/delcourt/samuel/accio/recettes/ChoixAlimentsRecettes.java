@@ -3,11 +3,13 @@ package com.delcourt.samuel.accio.recettes;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -31,13 +33,10 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choix_aliments_recettes);
 
-        //Juste pour l'exemple :
-        AlimentRecette exemple = new AlimentRecette("banane (exemple)","Fruits");
-        listeAlimentsProposes.add(exemple);
-        createListeAlimentsProposes();
-
         //On affiche cette liste :
         afficheListeAlimentsProposes();
+
+        Toast.makeText(getApplicationContext(), "images à adapter",Toast.LENGTH_SHORT).show();
     }
 
 
@@ -84,6 +83,13 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         //On déclare la HashMap qui contiendra les informations pour un item
         HashMap<String, String> map;
 
+        if(listeAlimentsProposes.size()==0){
+            //Juste pour l'exemple :
+            AlimentRecette exemple = new AlimentRecette("banane","a");
+            listeAlimentsProposes.add(exemple);
+            createListeAlimentsProposes();
+        }
+
 
         for(int i=0;i<listeAlimentsProposes.size();i++){
 
@@ -98,11 +104,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
             else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
             else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
-            else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
+            else {//Sinon (type non reconnu, ne devrait jamais arriver) - c'est le cas de l'aliment banane mis par défaut
                 map.put("img", String.valueOf(R.drawable.ic_launcher));
-                //On affiche un toast
-                Toast.makeText(getApplicationContext(), "Le type de la boîte n'a pas été reconnu",
-                        Toast.LENGTH_SHORT).show();
             }
 
             if(listeAlimentsProposes.get(i).isSelected()==true) {
@@ -129,7 +132,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
                 int indexBox = position;
-                sendMessageBoxSelected(indexBox);
+                boxSelected(indexBox);
             }
         });
     }
@@ -145,5 +148,88 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         }
     }
 
-    public void sendMessageBoxSelected(int index){}
+    public void boxSelected(int index){
+        if(listeAlimentsProposes.get(index).isSelected()==false){
+            listeAlimentsProposes.get(index).setSelected(true);
+            afficheListeAlimentsProposes();
+        }else{
+            listeAlimentsProposes.get(index).setSelected(false);
+            afficheListeAlimentsProposes();
+        }
+    }
+
+    public void sendMessageChercher(View view){
+        String aliments=prepareRechercheAliments();
+        if (aliments.length()==0){
+            Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas choisi d'aliments", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), aliments, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        }
+
+    }
+
+    public String prepareRechercheAliments(){
+        String aliments=null;
+        ArrayList<String> alimentsSelected = new ArrayList<>();
+
+        //Récupère ce qui a été coché
+        EditText editText = (EditText) findViewById(R.id.edit_text_recette);
+        String recup = editText.getText().toString();
+
+        for(int i=0;i<listeAlimentsProposes.size();i++){
+            if(listeAlimentsProposes.get(i).isSelected()==true){
+                alimentsSelected.add(listeAlimentsProposes.get(i).getName());
+            }
+        }
+
+        if(recup == null && alimentsSelected == null)
+            return aliments;
+
+        else if (recup==null){
+            aliments=alimentsSelected.get(0);
+                for(int j=1;j<alimentsSelected.size()-1;j++){
+                    aliments=aliments + alimentsSelected.get(j)+"-";
+                }
+                aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);
+        }
+
+        else if(alimentsSelected.size()==0){
+            aliments=recup;
+        }
+
+        else if(recup != null && alimentsSelected.size()!=0){
+            aliments = recup;
+            for(int j=0;j<alimentsSelected.size();j++){
+                aliments=aliments+"-"+ alimentsSelected.get(j);
+            }
+        }
+
+
+
+        /*if(recup == null){} else{alimentsSelected.add(recup);}
+
+        if(alimentsSelected.size()==0){}
+        else{
+            if(recup==null){
+                aliments=alimentsSelected.get(0)+"-";
+                for(int j=1;j<alimentsSelected.size()-1;j++){
+                    aliments=aliments + alimentsSelected.get(j)+"-";
+                }
+                aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);
+            }else{
+                for(int j=0;j<alimentsSelected.size()-1;j++){
+                    aliments=aliments + alimentsSelected.get(j)+"-";
+                }
+                aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);
+            }
+
+
+        }*/
+
+        return aliments;
+    }
 }

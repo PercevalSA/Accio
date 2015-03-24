@@ -352,7 +352,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public static String getURL (String recherche,
+    public static String getURL (String aliments,
                                  boolean vegan,
                                  boolean cru,
                                  boolean Food,
@@ -360,7 +360,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
                                  int difficult,
                                  int typePlat) {
 
-        String url="http://m.marmiton.org/recettes/recherche.aspx?aqt="+recherche;
+        String url="http://m.marmiton.org/recettes/recherche.aspx?aqt="+aliments;
 
 //+"&pht=1"
         switch(typePlat){

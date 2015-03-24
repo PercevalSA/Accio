@@ -34,15 +34,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Autres aliments"
-        android:layout_above="@+id/bouton_ok_recette"/>
+        android:layout_above="@+id/bouton_ok_recette"
+        android:textColor="#000000"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/bouton_ok_recette"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:text="Chercher"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:onClick="sendMessageChercher"/>
 
 
 
