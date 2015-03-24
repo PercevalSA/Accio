@@ -312,42 +312,4 @@ public class loadImage {
 		}
 		return barycentre;		
 	}
-
-
-	public static int getBlue(IplImage img, int x, int y){
-		ByteBuffer rgb_data = img.getByteBuffer();
-
-		int width = img.width();
-		int blue = rgb_data.get(3*x + 3*width*y);
-
-		if(blue<0)
-			return blue + 256;
-		else
-			return blue;
-	}
-
-	public static int getGreen(IplImage img, int x, int y){
-		ByteBuffer rgb_data = img.getByteBuffer();
-
-		int width = img.width();
-		int green = rgb_data.get(3*x + 3*width*y + 1);
-
-		if(green<0)
-			return green + 256;
-		else
-			return green;
-	}
-
-	public static int getRed(IplImage img, int x, int y){
-		ByteBuffer rgb_data = img.getByteBuffer();
-
-		int width = img.width();
-		int red = rgb_data.get(3*x + 3*width*y + 2);
-
-		if(red<0)
-			return red + 256;
-		else
-			return red;
-	}
 }
-//
