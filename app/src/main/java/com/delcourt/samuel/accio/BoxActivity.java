@@ -225,7 +225,7 @@ public class BoxActivity extends ActionBarActivity {
                 HashMap<String, String> map;
                 map = new HashMap<String, String>();
                 map.put("aliment", boite.getListeAliments().get(0).getAlimentName());
-                map.put("img", String.valueOf(R.drawable.ic_launcher));
+                map.put("img", String.valueOf(R.drawable.fav));
                 SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
                         new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
                 listItem.add(map);
@@ -335,7 +335,9 @@ public class BoxActivity extends ActionBarActivity {
             //on insère la référence aux éléments à afficher
             map = new HashMap<String, String>();
             map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
-
+            if(boite.getListeAliments().get(i).isAlimentFavori()==true){
+                map.put("img", String.valueOf(R.drawable.fav));
+            } else {map.put("img", String.valueOf(R.drawable.favn));}
             //enfin on ajoute cette hashMap dans la arrayList
             listItem.add(map);
 
