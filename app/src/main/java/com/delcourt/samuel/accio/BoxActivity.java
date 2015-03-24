@@ -53,7 +53,6 @@ public class BoxActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
-        Toast.makeText(getApplicationContext(), "Les images doivent indiquer si favori ou pas (genre une étoile)",Toast.LENGTH_SHORT).show();
         listeNomAliment = new ArrayList<>();
         //Récupère les informations de la boîte pour les afficher :
         TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
@@ -345,7 +344,7 @@ public class BoxActivity extends ActionBarActivity {
 
         //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
         SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
-                new String[] {"aliment"}, new int[] {R.id.nom_aliment_affiche});
+                new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
 
         //On attribue à notre listView l'adapter que l'on vient de créer
         listViewAliments.setAdapter(mSchedule);
@@ -362,6 +361,7 @@ public class BoxActivity extends ActionBarActivity {
                 sendMessageAlimentSelected(view, indexBox);
             }
         });
+        Toast.makeText(getApplicationContext(), "méthode affiche image",Toast.LENGTH_SHORT).show();
     }
 
     public void sendMessageActualiseBox(View view){
