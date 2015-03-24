@@ -3,8 +3,10 @@ package com.delcourt.samuel.accio;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,11 +19,26 @@ import com.delcourt.samuel.accio.options_activities.BoxOptionsActivity;
 import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 
 public class AlimentActivity extends ActionBarActivity {
 
     public static String boiteName;
     public static Aliment aliment;
+    private static String alimID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +119,9 @@ public class AlimentActivity extends ActionBarActivity {
         aliment.setFavori(true);
         image.setImageResource(R.drawable.fav);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - ajouté aux favoris",Toast.LENGTH_SHORT).show();
+        alimID=aliment.getalimID();
+        new DeclareFavori().execute();
+
     }
 
     public void declareNonFavori(){
@@ -109,6 +129,131 @@ public class AlimentActivity extends ActionBarActivity {
         aliment.setFavori(false);
         image.setImageResource(R.drawable.favn);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - retiré des favoris",Toast.LENGTH_SHORT).show();
+        alimID = aliment.getalimID();
+        new DeclareNonFavori().execute();
+
     }
+
+    class DeclareFavori extends AsyncTask<String, Void, String> {
+
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+            InputStream is = null;
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/declarefavori.php?alimID="+ alimID);
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+                    //Met les donnÃ©es ds la liste Ã  afficher
+                    result += "\n\t" + array.getString(i);
+
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+            }
+
+
+            return result;
+        }
+
+    }
+
+
+    class DeclareNonFavori extends AsyncTask<String, Void, String> {
+
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+            InputStream is = null;
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/declarenonfavori.php?alimID="+ alimID);
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+
+                result = sb.toString();
+                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                //Log.i("lol", "COUCOU: "+ object.toString());
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+                    //Met les donnÃ©es ds la liste Ã  afficher
+                    result += "\n\t" + array.getString(i);
+
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+            }
+
+
+            return result;
+        }
+
+    }
+
 
 }
