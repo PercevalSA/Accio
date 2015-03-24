@@ -25,9 +25,24 @@
         android:layout_below="@id/text_choix_aliments"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
->
-        >
+        android:layout_above="@+id/edit_text_recette">
     </ListView>
+
+    <EditText
+        android:id="@+id/edit_text_recette"
+        android:layout_marginTop="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Autres aliments"
+        android:layout_above="@+id/bouton_ok_recette"/>
+
+    <Button
+        android:id="@+id/bouton_ok_recette"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"/>
 
 
 

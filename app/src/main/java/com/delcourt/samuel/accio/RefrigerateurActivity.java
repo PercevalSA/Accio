@@ -47,8 +47,10 @@ public class RefrigerateurActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
 
-        if(refrigerateur.getConnectionBdd()==false){//Si le frigo n'a pas encore été créé, on le crée.
+        if(refrigerateur.isRefrigerateurCreated()==false){//Si le frigo n'a pas encore été créé, on le crée.
+
             boolean chargementReussi = creationRéfrigerateur();
+
             if (chargementReussi == false) {//si le chargement du frigo ou des boîtes a échoué, on affiche un message
                 Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
