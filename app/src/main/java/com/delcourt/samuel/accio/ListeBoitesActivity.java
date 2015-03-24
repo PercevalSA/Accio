@@ -77,7 +77,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     public void sendMessageNewBox(View view){
         Intent intent = new Intent(this, NewBoxActivity.class);
         startActivity(intent);
-        }
+    }
 
     public void afficheListeBoites(){
         int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();

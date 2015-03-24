@@ -55,5 +55,6 @@
     <string name="title_activity_aide_aliment">Aide</string>
     <string name="aide_aliment">Pour rendre l\'aliment favori ou le supprimer de la liste des favoris, cliquer sur l\'image</string>
     <string name="title_activity_historique_boite">Historique de la boîte</string>
+    <string name="title_activity_options_recette_enregistree">Options Recette</string>
 
 </resources>

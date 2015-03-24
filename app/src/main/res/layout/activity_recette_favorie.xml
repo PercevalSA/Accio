@@ -19,6 +19,16 @@
         android:id="@+id/marmiton_web_view_favori"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/bouton_options_recette"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bouton_options_recette"
+        android:text="Options"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="sendMessageOptionsRecette"/>
 
 </RelativeLayout>
