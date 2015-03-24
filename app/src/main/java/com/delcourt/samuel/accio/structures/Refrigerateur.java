@@ -7,12 +7,14 @@ public class Refrigerateur {
     private String name;
     private ArrayList<Box> boxes;
     private boolean connectionBdd;
+    private boolean refrigerateurCreated;
 
     public Refrigerateur(String name){
         this.name=name;
         boxes = new ArrayList<>();
         //listeBoitesNames = new ArrayList<>();
         connectionBdd = false;
+        refrigerateurCreated = false;
         }
 
     public void setName(String name)
@@ -29,5 +31,9 @@ public class Refrigerateur {
     public boolean getConnectionBdd(){return connectionBdd;}
 
     public void setConnectionBdd(boolean b){connectionBdd = b;}
+
+    public boolean isRefrigerateurCreated(){return refrigerateurCreated;}
+
+    public void setRefrigerateurCreated(){refrigerateurCreated=true;}
 
 }

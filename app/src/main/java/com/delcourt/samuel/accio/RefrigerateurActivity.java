@@ -41,36 +41,20 @@ import java.util.Scanner;
 public class RefrigerateurActivity extends ActionBarActivity {
 
     public static Refrigerateur refrigerateur;
-    //static ArrayList<String> listeAlimentsAffichage; Utile lorsqu'on a besoin d'afficher, mais pas ici
-    /**static ArrayList<String> listeNomAliment;  TRANSFERT DANS BOXACTIVITY
-    static ArrayList<String> listeMarqueAliment;
-    public String refBdd;**/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refrigerateur);
-        //listeNomAliment = new ArrayList<>();
 
-        //On récupère toutes les infos du frigo en accédant à la mémoire de l'appli(fichiers textes)
-        boolean chargementReussi = chargementRéfrigerateur();
-        if (chargementReussi == false) {//si le chargement du frigo ou des boîtes a échoué, on affiche un message
-            Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+        if(refrigerateur.getConnectionBdd()==false){//Si le frigo n'a pas encore été créé, on le crée.
+            boolean chargementReussi = creationRéfrigerateur();
+            if (chargementReussi == false) {//si le chargement du frigo ou des boîtes a échoué, on affiche un message
+                Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
         }
-
-        /*boolean connectionReussie = true; // boolean connectionReussie = connectionBdd();
-        if (connectionReussie == false) {//Si la connection a échoué, on affiche un message
-            Toast toast = Toast.makeText(getApplicationContext(), "Erreur de connexion à la base de données", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }
-        else  {
-            Toast toast = Toast.makeText(getApplicationContext(), "Connexion réussi à la base de données", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
-        }*/
 
         TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
         textElement.setText("Réfrigérateur : " + refrigerateur.getName());
@@ -133,7 +117,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public boolean chargementRéfrigerateur() {
+    public boolean creationRéfrigerateur() {
 
         //ON RECREE LE REFRIGERATEUR AVEC SES BOITES
         //Le nom du réfrigérateur a été spécifié lors du choix du frigo. On récupère maintenant la liste des boîtes
@@ -141,10 +125,10 @@ public class RefrigerateurActivity extends ActionBarActivity {
         // ATTENTION : les boites ne connaissent pas encore leur référence dans la base de données
 
         //Lecture de la liste des boîtes et création des boîtes (pour l'instant vides)
-        boolean chargementReussi;
+        boolean creationReussie;
         InputStream instream = null;
         String nameFrigo = refrigerateur.getName();
-        refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur (pour tenir compte d'éventuelles modif)
+        refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur
         try {
             instream = openFileInput(nameFrigo + "Boxes.txt");
             InputStreamReader inputreader = new InputStreamReader(instream);
@@ -161,162 +145,15 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 refrigerateur.getBoxes().add(box);
             }
             sc.close();
-            chargementReussi = true;
+            creationReussie = true;
+            refrigerateur.setRefrigerateurCreated();
 
         } catch (FileNotFoundException e) {
-            chargementReussi = false;
+            creationReussie = false;
         }
-        return chargementReussi;
+        return creationReussie;
     }
 
-        /*
-    class Recupalim extends AsyncTask<String, Void, String> {
-
-       // ArrayList<String> listAffich = new ArrayList<>(); Pas besoin on affiche pas
-
-
-        protected String doInBackground(String... urls) {
-
-            String result = "";
-            String resultat = "";
-
-            //listAffich = new ArrayList<>();
-
-            InputStream is = null;
-
-            // aliment recherchÃ©
-            //ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            //nameValuePairs.add(new BasicNameValuePair("nomCategorie", "Legume"));
-            //ArrayList<String> donnees = new ArrayList<String>();
-
-            // Envoi de la requÃªte avec HTTPGet
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.22.176/pact/alimrecup.php?boiteid=3");
-                //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-                HttpResponse response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-            } catch (Exception e) {
-                Log.e("log_tag", "Error in http connection " + e.toString());
-            }
-
-            //Conversion de la rÃ©ponse en chaine
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                is.close();
-
-                result = sb.toString();
-                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
-                        Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Log.e("log_tag", "Error converting result " + e.toString());
-            }
-
-            //Parsing des donnÃ©es JSON
-            try {
-                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
-                //JSONArray jArray = new JSONArray(result);
-                JSONObject object = new JSONObject(result);
-                //Log.i("lol", "COUCOU: "+ object.toString());
-                JSONArray array = object.getJSONArray("testData");
-
-                for (int i = 0; i < array.length(); i++) {
-                    JSONArray json_data = array.getJSONArray(i);
-
-                    //Met les donnÃ©es ds la liste Ã  afficher
-                    // Ici pas besoin d'afficher les données
-                    //RefrigerateurActivity.listeNomAliment.add(json_data.getString(1));
-                    result += "\n\t" + array.getString(i);
-                    RefrigerateurActivity.listeNomAliment.add(array.getString(i));
-
-                   // resultat += "\n\t" + "ID: " + json_data.getInt(0) + ", Nom: " + json_data.getString(1) + ", Catégorie: " + json_data.getString(2);
-                }
-            } catch (JSONException e) {
-                Log.e("log_tag", "Error parsing data " + e.toString());
-            }
-            return result;
-        }
-
-
-        //This Method is called when Network-Request finished
-
-        protected void onPostExecute(String resultat) {
-
-           /* Pas bsoin car normalement pas d'affichage quand on récupère les trucs de la BDD.
-            // Permet d'afficher le result dans l'appli malgré les erreurs.
-            TextView textElement = (TextView) findViewById(R.id.resultat);
-            textElement.setText(" ");
-
-            ListView listAffichage = (ListView) findViewById(R.id.listeViewListeAliments1);
-
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, listeAlimentsAffichage);
-            listAffichage.setAdapter(arrayAdapter);
-
-
-
-        }
-    }
-
-
-    public boolean connectionBDD() {//On connecte la Bdd et pr chaque boîte on remplit la liste des aliments et celle des favoris
-        boolean retour;
-        try {
-            int nbBoites = refrigerateur.getBoxes().size();
-            Log.e("log_if", "Nombres de boites: " + nbBoites);
-            for (int j = 0; j < nbBoites; j++) {
-                refBdd = refrigerateur.getBoxes().get(j).getReferenceBdd();
-                    Toast toast3 = Toast.makeText(getApplicationContext(), refBdd, Toast.LENGTH_LONG);
-                    toast3.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast3.show();
-                // A COMPLETER
-                new Recupalim().execute();
-
-                int nbAliment = listeNomAliment.size();
-                Toast toast = Toast.makeText(getApplicationContext(), nbAliment, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                toast.show();
-
-
-                for(int k =0; k < nbAliment; k++){
-
-                    String nom = null;
-                    String marque = null;
-                    boolean favori = false;
-                    ArrayList<String> historique = new ArrayList<>();
-
-                    nom = listeNomAliment.get(k);
-
-                    Toast toast2 = Toast.makeText(getApplicationContext(), nom, Toast.LENGTH_LONG);
-                    toast2.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    toast2.show();
-
-                    //marque = listeMarqueAliment.get(k);
-                    // !!!!!!! CONNECTION BDD !!!!!!
-                    //On se connecte à la bdd et on récupère les infos : nom, favori (mettre true ou false), marque, on crée la liste historique
-
-                    Aliment aliment = new Aliment(nom,marque, favori, historique);
-                    refrigerateur.getBoxes().get(j).getListeAliments().add(aliment);
-                }
-
-
-            }
-            refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli que la connection à la base de données a bien eu lieu
-            retour = true;
-
-        } catch (Exception e) {
-            Log.e("log_tag", "Erreur dans la récupération des aliments : " + e.toString());
-            refrigerateur.setConnectionBdd(true);//Permet au reste de l'appli de savoir que la connection à la bdd n'a pas eu lieu
-            retour = true;
-        }
-        return retour;
-
-    }*/
 
     public void sendMessageOptionsFrigo(View view){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);

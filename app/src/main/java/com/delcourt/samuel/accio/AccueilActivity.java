@@ -100,7 +100,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
     public void sendMessageFrigoSelected(int indexName){
         Intent intent = new Intent(this, RefrigerateurActivity.class);//Lance l'activité RefrigerateurActivity, avec le nom du frigo sélectionné en message
         String frigoName = listeFrigosNames.get(indexName);
-        com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur = new Refrigerateur(frigoName);
+        RefrigerateurActivity.refrigerateur = new Refrigerateur(frigoName);
         startActivity(intent);
     }
 
