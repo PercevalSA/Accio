@@ -39,17 +39,22 @@ public class loadImage {
 			int[][] comp;
 			comp = getComposantes(matrice);
 			int[][]contour;
-			contour = contour(comp);
-			histogramme(img);
+		//	contour = contour(comp);
+		//	histogramme(img);
+			int[][] bary = barycentre(comp);
 
+			/*
 			for(int i=0;i<height;i++){
 				for(int j=0; j<width;j++){
 					System.out.print(contour[i][j]);
 				}
 				System.out.println(".");
 			}
-			
-			System.out.print("Done");
+			*/
+			System.out.println("Done");
+			System.out.println(bary.length);
+			System.out.println(bary[0][0]+","+bary[1][0]);
+			System.out.println(bary[0][1]+","+bary[1][1]);
 		}
 		catch(Exception e)
 		{
@@ -57,6 +62,7 @@ public class loadImage {
 		}
 
 	}
+	
 	public static int[][] getBinaryImage(IplImage img){
 		int height = img.height();
 		int width = img.width();
@@ -195,7 +201,7 @@ public class loadImage {
 				}
 			}
 		}
-		return comp ;	
+		return comp ;
 	}
 
 	public static double[][] histogramme(IplImage image){
@@ -268,6 +274,43 @@ public class loadImage {
 			System.out.println("Histogramme de teinte de la classe numéro "+(i+1)+" : ["+histo[i][0]+", "+histo[i][1]+", "+histo[i][2]+", "+histo[i][3]+", "+histo[i][4]+", "+histo[i][5]+", "+histo[i][6]+", "+histo[i][7]+", "+histo[i][8]+", "+histo[i][9]+"].");
 		}
 		return histo;
+	}
+	
+	
+	public static int[][] barycentre(int[][] comp){
+		//calcul du nombre de classe
+		int height = comp.length;
+		int width = comp[0].length;
+		
+		int nbClass = 0;
+		
+		for(int i=0;i<height;i++){
+			for(int j=0;j<width;j++){
+				if(comp[i][j]>nbClass){
+					nbClass=comp[i][j];
+				}
+			}
+		}
+		
+		int[][] barycentre = new int[2][nbClass];
+		
+		for(int c=1;c<nbClass+1;c++){
+			int x = 0;
+			int y = 0;
+			int t = 0;
+			for(int i=0;i<height;i++){
+				for(int j=0;j<width;j++){
+					if(comp[i][j]==c){
+						x = x + i;
+						y = y + j;
+						t++;
+					}
+				}
+			}
+			barycentre[0][c-1]=(int)(x/t);
+			barycentre[1][c-1]=(int)(y/t);			
+		}
+		return barycentre;		
 	}
 
 
