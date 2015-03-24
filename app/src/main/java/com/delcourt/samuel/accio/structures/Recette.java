@@ -18,4 +18,6 @@ public class Recette {
     public String getAdresseWeb(){
         return adresseWeb;
     }
+
+    public void setName(String newName){name=newName;}
 }
