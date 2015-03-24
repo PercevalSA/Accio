@@ -83,7 +83,7 @@ public class DataSet {
 		continue;
 
 	    if (className == null) {
-		if (words.length != 2) {
+		if (words.length != 3) {
 		    String err = "expected two class names at line "
 			+ line_count + " in file " + filename;
 		    System.err.println(err);
@@ -155,7 +155,7 @@ public class DataSet {
 		for (int i = 0; i < numAttrs; i++) {
 		    if (attrVals[i] == null) {
 			try {
-			    ex[i] = Integer.parseInt(words[i]);
+			    ex[i] = (int) Float.parseFloat(words[i]);
 			} catch (NumberFormatException e) {
 			    System.err.println("Expected integer in field "
 					       +(i+1)+" at line "+line_count+
@@ -181,10 +181,14 @@ public class DataSet {
 		if (traintest == 1) {
 		    int lab;
 		    if (words[numAttrs].equals(className[0])) {
-			lab = 0;
+				lab = 0;
 		    } else if (words[numAttrs].equals(className[1])) {
-			lab = 1;
-		    } else {
+				lab = 1;
+		    } else if (words[numAttrs].equals(className[2])) {
+				lab = 2;
+			} else if (words[numAttrs].equals(className[3])) {
+				lab = 3;
+			}else {
 			String err = "unrecognized label at line "+line_count+
 			    " in file "+filename;
 			System.err.println(err);
