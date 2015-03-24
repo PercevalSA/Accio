@@ -42,13 +42,26 @@ import java.util.HashMap;
 
 public class FavoriteActivity extends ActionBarActivity {
 
-    private ArrayList<Aliment> listeFavoris;
-
+    static ArrayList<Aliment> listeAlimentFavoris;
     static ArrayList<String> listeAlimentsAffichage;
+    public static String refBdd;
+    static ArrayList<String> listeMarqueAliment;
+    static ArrayList<String> listeNomAliment;
+    static ArrayList<String> listeBoiteID;
+    static ArrayList<String> listeFavoris;
+    public static Box boite;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favoris);
+        listeNomAliment = new ArrayList<>();
+        listeBoiteID = new ArrayList<>();
+        listeMarqueAliment = new ArrayList<>();
+        listeFavoris = new ArrayList<>();
 
         chargeListeFavoris();
 
@@ -89,25 +102,22 @@ public class FavoriteActivity extends ActionBarActivity {
     public void chargeListeFavoris(){
         for(int i=0; i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getConnectedBdd()==false){
-                //BDDFavorite.box=RefrigerateurActivity.refrigerateur.getBoxes().get(i);
-                //new BDDFavorite().execute();
+                refBdd=RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd();
+                boite=RefrigerateurActivity.refrigerateur.getBoxes().get(i);
+                new BDDFavorite().execute();
             }
             else{
                 for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();i++){
                     Aliment aliment = RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().get(j);
                     if(aliment.isAlimentFavori()==true){
-                        listeFavoris.add(aliment);
+                        listeAlimentFavoris.add(aliment);
                     }
                 }
             }
         }
     }
 
-    /*static class BDDFavorite extends AsyncTask<String, Void, String> {
-
-        private static Box box;
-        static ArrayList<String> listeNomAliment;
-
+    class BDDFavorite extends AsyncTask<String, Void, String> {
 
         protected String doInBackground(String... urls) {
 
@@ -118,7 +128,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/alimrecup.php?boiteid="+box.getReferenceBdd());
+                HttpGet httpget = new HttpGet("http://137.194.8.216/pact/alimrecup.php?boiteid="+refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -155,7 +165,9 @@ public class FavoriteActivity extends ActionBarActivity {
                     // Ici pas besoin d'afficher les données
 
                     result += "\n\t" + array.getString(i);
-                    listeNomAliment.add(json_data.getString(1));
+                    FavoriteActivity.listeBoiteID.add(json_data.getString(0));
+                    FavoriteActivity.listeNomAliment.add(json_data.getString(1));
+                    FavoriteActivity.listeFavoris.add(json_data.getString(7));
 
 
                 }
@@ -176,17 +188,24 @@ public class FavoriteActivity extends ActionBarActivity {
 
                 String nom = listeNomAliment.get(k);
                 String marque = null;
-                boolean favori = false;
+                boolean favori;
                 ArrayList<String> historique = new ArrayList<>();
+                String alimID = listeBoiteID.get(k);
                 //marque = listeMarqueAliment.get(k);
+                if ( listeFavoris.get(k).compareTo("0")==0){favori = false;}
+                else {favori = true;}
 
-                Aliment aliment = new Aliment(nom,marque, favori, historique,box.getName());
-                box.getListeAliments().add(aliment);
+                Aliment aliment = new Aliment(nom,marque, favori, historique,boite.getName(),alimID);
+                boite.getListeAliments().add(aliment);
+
+                if (aliment.isAlimentFavori()== true){
+                    listeAlimentFavoris.add(aliment);
+                }
             }
 
             //Affichage des aliments
 
-            int sizeListAliments = box.getListeAliments().size();
+            int sizeListAliments = boite.getListeAliments().size();
             //Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
             //Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
 
@@ -198,34 +217,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 TextView textElement2 = (TextView) findViewById(R.id.resultat2);
                 textElement2.setText(" ");
 
-                //PARTIE TEMPORAIRE : on affiche un aliment d'exemple
-                ArrayList<String> historique = new ArrayList<>();
-                Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique,boite.getName());
-                boite.getListeAliments().add(aliment);
-                final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
-                //Création de la ArrayList qui nous permettra de remplir la listView
-                ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
 
-                HashMap<String, String> map;
-                map = new HashMap<String, String>();
-                map.put("aliment", boite.getListeAliments().get(0).getAlimentName());
-                map.put("img", String.valueOf(R.drawable.ic_launcher));
-                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
-                        new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
-                listItem.add(map);
-                listViewAliments.setAdapter(mSchedule);
-                listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                {
-                    // argument position gives the index of item which is clicked
-
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                        int indexBox = position;
-                        sendMessageAlimentSelected(view, indexBox);
-                    }
-                });
-
-                //FIN PARTIE TEMPORAIRE
             }
             else{
                 boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
@@ -246,8 +238,8 @@ public class FavoriteActivity extends ActionBarActivity {
                     map = new HashMap<String, String>();
                     map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
                     if(boite.getListeAliments().get(i).isAlimentFavori()==true){
-                        map.put("img", String.valueOf(R.drawable.ic_launcher));
-                    } else {map.put("img", String.valueOf(R.drawable.ic_launcher));}
+                        map.put("img", String.valueOf(R.drawable.fav));
+                    } else {map.put("img", String.valueOf(R.drawable.favn));}
                     //enfin on ajoute cette hashMap dans la arrayList
                     listItem.add(map);
                 }
@@ -274,6 +266,9 @@ public class FavoriteActivity extends ActionBarActivity {
             }
 
         }
-    }*/
+    }
+
+    public void sendMessageAlimentSelected(View view, int i){}
+
 
 }
