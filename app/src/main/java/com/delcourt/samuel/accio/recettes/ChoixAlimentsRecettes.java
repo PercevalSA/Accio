@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.delcourt.samuel.accio.R;
+import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.recettes.OptionsRecettesActivity;
+import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.util.ArrayList;
 
@@ -26,7 +28,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         setContentView(R.layout.activity_choix_aliments_recettes);
 
         //Juste pour l'exemple :
-        listeAlimentsProposes.add("banane");
+        listeAlimentsProposes.add("banane (exemple)");
+        createListeAlimentsProposes();
 
         //On affiche cette liste :
         afficheListeAlimentsProposes();
@@ -84,5 +87,13 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 alimentSelectionne(position);
             }
         });
+    }
+
+    public void createListeAlimentsProposes(){
+        for(int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
+            for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();j++){
+                listeAlimentsProposes.add(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().get(j).getAlimentName());
+            }
+        }
     }
 }
