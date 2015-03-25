@@ -42,8 +42,8 @@ import java.util.HashMap;
 
 public class FavoriteActivity extends ActionBarActivity {
 
-    static ArrayList<Aliment> listeAlimentFavoris;
-    static ArrayList<String> listeAlimentsAffichage;
+    static ArrayList<Aliment> listeAlimentFavoris;// = new ArrayList<>();
+
     public static String refBdd;
     static ArrayList<String> listeMarqueAliment;
     static ArrayList<String> listeNomAliment;
@@ -64,8 +64,8 @@ public class FavoriteActivity extends ActionBarActivity {
         listeFavoris = new ArrayList<>();
 
         chargeListeFavoris();
+        afficheFavoris();
 
-        //new BDD2().execute();
     }
 
 
@@ -100,6 +100,7 @@ public class FavoriteActivity extends ActionBarActivity {
     }
 
     public void chargeListeFavoris(){
+        listeAlimentFavoris=new ArrayList<>();
         for(int i=0; i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getConnectedBdd()==false){
                 refBdd=RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd();
@@ -205,28 +206,20 @@ public class FavoriteActivity extends ActionBarActivity {
 
             //Affichage des aliments
 
-            int sizeListAliments = boite.getListeAliments().size();
-            //Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
-            //Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
-
+            int sizeListAliments = listeAlimentFavoris.size();
 
             if(sizeListAliments==0){
-                TextView textElement = (TextView) findViewById(R.id.message_BoxActivity);
-                textElement.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
-
-                TextView textElement2 = (TextView) findViewById(R.id.resultat2);
-                textElement2.setText(" ");
-
-
+                TextView textElement = (TextView) findViewById(R.id.resultat);
+                textElement.setText("Il n'y a aucun aliment favori dans ce réfrigérateur");
             }
             else{
                 boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
 
-                TextView textElement = (TextView) findViewById(R.id.resultat2);
+                TextView textElement = (TextView) findViewById(R.id.resultat);
                 textElement.setText(" ");
 
                 // Get the reference of listViewFrigos (pour l'affichage de la liste)
-                final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
+                final ListView listViewAliments=(ListView)findViewById(R.id.listeViewListeAliments1);
 
                 //Création de la ArrayList qui nous permettra de remplir la listView
                 ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
@@ -236,10 +229,8 @@ public class FavoriteActivity extends ActionBarActivity {
                 for (int i =0;i<sizeListAliments;i++){
                     //on insère la référence aux éléments à afficher
                     map = new HashMap<String, String>();
-                    map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
-                    if(boite.getListeAliments().get(i).isAlimentFavori()==true){
+                    map.put("aliment", listeAlimentFavoris.get(i).getAlimentName());
                         map.put("img", String.valueOf(R.drawable.fav));
-                    } else {map.put("img", String.valueOf(R.drawable.favn));}
                     //enfin on ajoute cette hashMap dans la arrayList
                     listItem.add(map);
                 }
@@ -269,6 +260,58 @@ public class FavoriteActivity extends ActionBarActivity {
     }
 
     public void sendMessageAlimentSelected(View view, int i){}
+
+    public void afficheFavoris() {
+        int sizeListAliments = listeAlimentFavoris.size();
+
+        if (sizeListAliments == 0) {
+            TextView textElement = (TextView) findViewById(R.id.resultat);
+            textElement.setText("Il n'y a aucun aliment favori dans ce réfrigérateur");
+
+
+        } else {
+
+            TextView textElement = (TextView) findViewById(R.id.resultat);
+            textElement.setText(" ");
+
+            // Get the reference of listViewFrigos (pour l'affichage de la liste)
+            final ListView listViewAliments = (ListView) findViewById(R.id.listeViewListeAliments1);
+
+            //Création de la ArrayList qui nous permettra de remplir la listView
+            ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+            HashMap<String, String> map;
+
+            for (int i = 0; i < sizeListAliments; i++) {
+                //on insère la référence aux éléments à afficher
+                map = new HashMap<String, String>();
+                map.put("aliment", listeAlimentFavoris.get(i).getAlimentName());
+                map.put("img", String.valueOf(R.drawable.fav));
+
+                //enfin on ajoute cette hashMap dans la arrayList
+                listItem.add(map);
+            }
+
+            //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+            SimpleAdapter mSchedule = new SimpleAdapter(getApplicationContext(), listItem, R.layout.affichage_aliments,
+                    new String[]{"aliment", "img"}, new int[]{R.id.nom_aliment_affiche, R.id.imgAlim});
+
+            //On attribue à notre listView l'adapter que l'on vient de créer
+            listViewAliments.setAdapter(mSchedule);
+
+
+            //register onClickListener to handle click events on each item
+            listViewAliments.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                // argument position gives the index of item which is clicked
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                    int indexBox = position;
+                    sendMessageAlimentSelected(view, indexBox);
+                }
+            });
+        }
+    }
 
 
 }
