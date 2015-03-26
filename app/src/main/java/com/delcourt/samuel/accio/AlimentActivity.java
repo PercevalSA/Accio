@@ -85,7 +85,8 @@ public class AlimentActivity extends ActionBarActivity {
         textElement3.setText(aliment.getAlimentName());
 
         TextView textElement4 = (TextView) findViewById(R.id.marqueAliment);
-        textElement4.setText("Marque : " + aliment.getAlimentMarque());
+        if(aliment.getAlimentMarque()=="null"){textElement4.setText("");} else {
+        textElement4.setText("Marque : " + aliment.getAlimentMarque());}
     }
 
     public void sendMessageHelp(View view){
