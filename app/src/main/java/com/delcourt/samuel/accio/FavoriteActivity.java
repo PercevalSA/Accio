@@ -64,7 +64,7 @@ public class FavoriteActivity extends ActionBarActivity {
         listeMarqueAliment = new ArrayList<>();
         listeFavoris = new ArrayList<>();
 
-        chargeListeFavoris();
+        chargeFavoris();
 
     }
 
@@ -99,15 +99,11 @@ public class FavoriteActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public void chargeListeFavoris(){
+    public void chargeFavoris(){
         listeAlimentFavoris=new ArrayList<>();
         for(int i=0; i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getConnectedBdd()==false){
                 numerosBoitesAConnecter.add(i);
-                /*boite=RefrigerateurActivity.refrigerateur.getBoxes().get(i);
-                refBdd=boite.getReferenceBdd();
-                new BDDFavorite().execute();*/
-                Toast.makeText(getApplicationContext(), "Demande connexion bdd, boîte n°"+i, Toast.LENGTH_SHORT).show();
             }
             else{
                 for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();j++){
@@ -123,6 +119,8 @@ public class FavoriteActivity extends ActionBarActivity {
         if(numerosBoitesAConnecter.size()!=0){
             boite=RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0));
             refBdd=boite.getReferenceBdd();
+            TextView textElement = (TextView) findViewById(R.id.message_chargement_favoris);
+            textElement.setText("Chargement des aliments de la boîte "+boite.getName());
             new BDDFavorite().execute();
         }
     }
@@ -269,7 +267,8 @@ public class FavoriteActivity extends ActionBarActivity {
                 });
             }
 
-            Toast.makeText(getApplicationContext(), "Ok, connexion à "+boite.getName(), Toast.LENGTH_SHORT).show();
+            TextView textElement = (TextView) findViewById(R.id.message_chargement_favoris);
+            textElement.setText("");
 
             //Si il reste des boîtes à connecter, on les connecte.
             numerosBoitesAConnecter.remove(0);
@@ -277,8 +276,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 boite=RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0));
                 refBdd=boite.getReferenceBdd();
 
-                Toast.makeText(getApplicationContext(), "Demande connexion bdd, boîte n°"+
-                        RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0)).getName(), Toast.LENGTH_SHORT).show();
+                textElement.setText("Chargement des aliments de la boîte "+boite.getName());
 
                 new BDDFavorite().execute();
             }

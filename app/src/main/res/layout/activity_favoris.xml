@@ -24,4 +24,11 @@
         android:layout_height="wrap_content"
         android:text="Chargement ..."
         android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/message_chargement_favoris"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
