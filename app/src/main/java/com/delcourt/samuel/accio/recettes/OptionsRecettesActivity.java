@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.R;
@@ -30,10 +31,8 @@ public class OptionsRecettesActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options_recettes);
 
-        Toast toast = Toast.makeText(getApplicationContext(), "A adapter", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
-
+        TextView textElement = (TextView) findViewById(R.id.liste_aliments_recette);
+        textElement.setText("Recettes pour "+aliments);
     }
 
 

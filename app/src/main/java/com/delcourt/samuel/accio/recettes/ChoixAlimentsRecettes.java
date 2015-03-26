@@ -36,7 +36,10 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         //On affiche cette liste :
         afficheListeAlimentsProposes();
 
-        Toast.makeText(getApplicationContext(), "images à adapter",Toast.LENGTH_SHORT).show();
+        //Toast temporaire
+        Toast toast = Toast.makeText(getApplicationContext(), "Récupérer automatiquement le contenu de toutes les boîtes", Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 
 
@@ -165,9 +168,9 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
         }else{
-            Toast toast = Toast.makeText(getApplicationContext(), aliments, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-            toast.show();
+            Intent intent = new Intent(this, OptionsRecettesActivity.class);
+            OptionsRecettesActivity.aliments=aliments;
+            startActivity(intent);
         }
 
     }
@@ -186,49 +189,28 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             }
         }
 
-        if(recup == null && alimentsSelected == null)
-            return aliments;
-
-        else if (recup==null){
-            aliments=alimentsSelected.get(0);
-                for(int j=1;j<alimentsSelected.size()-1;j++){
-                    aliments=aliments + alimentsSelected.get(j)+"-";
-                }
-                aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);
-        }
-
-        else if(alimentsSelected.size()==0){
+        if(alimentsSelected.size()==0){//Lorsque l'on n'a rien sélectionné, ou juste un texte supplémentaire
             aliments=recup;
+            //Toast.makeText(getApplicationContext(), "1",Toast.LENGTH_SHORT).show();
         }
 
-        else if(recup != null && alimentsSelected.size()!=0){
+        else if(recup.length()==0 && alimentsSelected.size()!=0){//Un aliment a été sélectionné, sans texte supplémentaire
+            aliments = recup;
+            for(int i=0;i<alimentsSelected.size()-1;i++){
+                aliments=aliments+alimentsSelected.get(i)+"-";
+                //Toast.makeText(getApplicationContext(), "i="+i,Toast.LENGTH_SHORT).show();
+            }
+            aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);//On ajoute le dernier
+            //Toast.makeText(getApplicationContext(), "2",Toast.LENGTH_SHORT).show();
+        }
+
+        else{//Lorsque aliment sélectionné et texte supplémentaire
             aliments = recup;
             for(int j=0;j<alimentsSelected.size();j++){
                 aliments=aliments+"-"+ alimentsSelected.get(j);
             }
+            //Toast.makeText(getApplicationContext(), "3",Toast.LENGTH_SHORT).show();
         }
-
-
-
-        /*if(recup == null){} else{alimentsSelected.add(recup);}
-
-        if(alimentsSelected.size()==0){}
-        else{
-            if(recup==null){
-                aliments=alimentsSelected.get(0)+"-";
-                for(int j=1;j<alimentsSelected.size()-1;j++){
-                    aliments=aliments + alimentsSelected.get(j)+"-";
-                }
-                aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);
-            }else{
-                for(int j=0;j<alimentsSelected.size()-1;j++){
-                    aliments=aliments + alimentsSelected.get(j)+"-";
-                }
-                aliments=aliments+alimentsSelected.get(alimentsSelected.size()-1);
-            }
-
-
-        }*/
 
         return aliments;
     }
