@@ -108,7 +108,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 new BDDFavorite().execute();
             }
             else{
-                for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();i++){
+                for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();j++){
                     Aliment aliment = RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().get(j);
                     if(aliment.isAlimentFavori()==true){
                         listeAlimentFavoris.add(aliment);
