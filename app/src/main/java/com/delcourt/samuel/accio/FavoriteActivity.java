@@ -180,6 +180,7 @@ public class FavoriteActivity extends ActionBarActivity {
                     FavoriteActivity.listeBoiteID.add(json_data.getString(0));
                     FavoriteActivity.listeNomAliment.add(json_data.getString(1));
                     FavoriteActivity.listeFavoris.add(json_data.getString(7));
+                    FavoriteActivity.listeMarqueAliment.add(json_data.getString(9));
 
 
                 }
@@ -199,7 +200,7 @@ public class FavoriteActivity extends ActionBarActivity {
             for(int k =0; k < nbAliment; k++){
 
                 String nom = listeNomAliment.get(k);
-                String marque = null;
+                String marque = listeMarqueAliment.get(k);
                 boolean favori;
                 ArrayList<String> historique = new ArrayList<>();
                 String alimID = listeBoiteID.get(k);
