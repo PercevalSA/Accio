@@ -178,6 +178,7 @@ public class BoxActivity extends ActionBarActivity {
                     BoxActivity.listeBoiteID.add(json_data.getString(0));
                     BoxActivity.listeNomAliment.add(json_data.getString(1));
                     BoxActivity.listeFavoris.add(json_data.getString(7));
+                    BoxActivity.listeMarqueAliment.add(json_data.getString(9));
 
 
                 }
@@ -197,7 +198,7 @@ public class BoxActivity extends ActionBarActivity {
             for(int k =0; k < nbAliment; k++){
 
                 String nom = listeNomAliment.get(k);
-                String marque = null;
+                String marque = listeMarqueAliment.get(k);
                 boolean favori;
                 ArrayList<String> historique = new ArrayList<>();
                 String alimID = listeBoiteID.get(k);
