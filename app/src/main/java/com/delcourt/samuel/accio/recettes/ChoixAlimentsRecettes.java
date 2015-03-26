@@ -109,8 +109,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             }
 
             if(listeAlimentsProposes.get(i).isSelected()==true) {
-                map.put("selected", String.valueOf(R.drawable.fav));
-            } else {map.put("selected", String.valueOf(R.drawable.favn));}
+                map.put("selected", String.valueOf(R.drawable.validate));
+            } else {map.put("selected", String.valueOf(R.drawable.validaten));}
 
             //enfin on ajoute cette hashMap dans la arrayList
             listItem.add(map);
