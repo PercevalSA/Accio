@@ -103,8 +103,8 @@ public class FavoriteActivity extends ActionBarActivity {
         listeAlimentFavoris=new ArrayList<>();
         for(int i=0; i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getConnectedBdd()==false){
-                refBdd=RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd();
                 boite=RefrigerateurActivity.refrigerateur.getBoxes().get(i);
+                refBdd=boite.getReferenceBdd();
                 new BDDFavorite().execute();
             }
             else{
@@ -129,7 +129,7 @@ public class FavoriteActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://perceval.tk/pact/alimrecup.php?boiteid="+refBdd);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/alimrecup.php?boiteid="+ refBdd);
                 //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
@@ -206,7 +206,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
             //Affichage des aliments
 
-            int sizeListAliments = listeAlimentFavoris.size();
+            /*int sizeListAliments = listeAlimentFavoris.size();
 
             if(sizeListAliments==0){
                 TextView textElement = (TextView) findViewById(R.id.resultat);
@@ -254,7 +254,7 @@ public class FavoriteActivity extends ActionBarActivity {
                         sendMessageAlimentSelected(view, indexBox);
                     }
                 });
-            }
+            } */
 
         }
     }
