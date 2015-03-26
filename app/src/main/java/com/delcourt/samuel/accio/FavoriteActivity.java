@@ -42,7 +42,8 @@ import java.util.HashMap;
 
 public class FavoriteActivity extends ActionBarActivity {
 
-    static ArrayList<Aliment> listeAlimentFavoris;// = new ArrayList<>();
+    static ArrayList<Aliment> listeAlimentFavoris;
+    private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
 
     public static String refBdd;
     static ArrayList<String> listeMarqueAliment;
@@ -64,7 +65,6 @@ public class FavoriteActivity extends ActionBarActivity {
         listeFavoris = new ArrayList<>();
 
         chargeListeFavoris();
-        afficheFavoris();
 
     }
 
@@ -103,9 +103,11 @@ public class FavoriteActivity extends ActionBarActivity {
         listeAlimentFavoris=new ArrayList<>();
         for(int i=0; i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
             if(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getConnectedBdd()==false){
-                boite=RefrigerateurActivity.refrigerateur.getBoxes().get(i);
+                numerosBoitesAConnecter.add(i);
+                /*boite=RefrigerateurActivity.refrigerateur.getBoxes().get(i);
                 refBdd=boite.getReferenceBdd();
-                new BDDFavorite().execute();
+                new BDDFavorite().execute();*/
+                Toast.makeText(getApplicationContext(), "Demande connexion bdd, boîte n°"+i, Toast.LENGTH_SHORT).show();
             }
             else{
                 for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();j++){
@@ -116,6 +118,13 @@ public class FavoriteActivity extends ActionBarActivity {
                 }
             }
         }
+        afficheFavoris();//Affiche immédiatement les aliments des boîtes déjà chargées
+        //On lance les connexions aux bdd successives :
+        if(numerosBoitesAConnecter.size()!=0){
+            boite=RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0));
+            refBdd=boite.getReferenceBdd();
+            new BDDFavorite().execute();
+        }
     }
 
     class BDDFavorite extends AsyncTask<String, Void, String> {
@@ -125,6 +134,10 @@ public class FavoriteActivity extends ActionBarActivity {
             String result = "";
 
             InputStream is = null;
+
+            FavoriteActivity.listeBoiteID=new ArrayList<>();
+            FavoriteActivity.listeNomAliment=new ArrayList<>();
+            FavoriteActivity.listeFavoris=new ArrayList<>();
 
             // Envoi de la requÃªte avec HTTPGet
             try {
@@ -206,7 +219,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
             //Affichage des aliments
 
-            /*int sizeListAliments = listeAlimentFavoris.size();
+            int sizeListAliments = listeAlimentFavoris.size();
 
             if(sizeListAliments==0){
                 TextView textElement = (TextView) findViewById(R.id.resultat);
@@ -254,7 +267,21 @@ public class FavoriteActivity extends ActionBarActivity {
                         sendMessageAlimentSelected(view, indexBox);
                     }
                 });
-            } */
+            }
+
+            Toast.makeText(getApplicationContext(), "Ok, connexion à "+boite.getName(), Toast.LENGTH_SHORT).show();
+
+            //Si il reste des boîtes à connecter, on les connecte.
+            numerosBoitesAConnecter.remove(0);
+            if(numerosBoitesAConnecter.size()!=0){
+                boite=RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0));
+                refBdd=boite.getReferenceBdd();
+
+                Toast.makeText(getApplicationContext(), "Demande connexion bdd, boîte n°"+
+                        RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0)).getName(), Toast.LENGTH_SHORT).show();
+
+                new BDDFavorite().execute();
+            }
 
         }
     }
