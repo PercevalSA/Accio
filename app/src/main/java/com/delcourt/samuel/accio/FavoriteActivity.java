@@ -207,7 +207,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 if ( listeFavoris.get(k).compareTo("0")==0){favori = false;}
                 else {favori = true;}
 
-                Aliment aliment = new Aliment(nom,marque, favori, historique,boite.getName(),alimID);
+                Aliment aliment = new Aliment(nom,marque, favori, historique,boite.getName(),alimID,boite.getType());
                 boite.getListeAliments().add(aliment);
 
                 if (aliment.isAlimentFavori()== true){
@@ -241,7 +241,17 @@ public class FavoriteActivity extends ActionBarActivity {
                     //on insère la référence aux éléments à afficher
                     map = new HashMap<String, String>();
                     map.put("aliment", listeAlimentFavoris.get(i).getAlimentName());
-                        map.put("img", String.valueOf(R.drawable.fav));
+                    String type = listeAlimentFavoris.get(i).getType();
+                    if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
+                    else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
+                    else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
+                    else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
+                    else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
+                    else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
+                    else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
+                        map.put("img", String.valueOf(R.drawable.ic_launcher));
+                    }
+
                     //enfin on ajoute cette hashMap dans la arrayList
                     listItem.add(map);
                 }
@@ -311,7 +321,16 @@ public class FavoriteActivity extends ActionBarActivity {
                 //on insère la référence aux éléments à afficher
                 map = new HashMap<String, String>();
                 map.put("aliment", listeAlimentFavoris.get(i).getAlimentName());
-                map.put("img", String.valueOf(R.drawable.fav));
+                String type = listeAlimentFavoris.get(i).getType();
+                if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
+                else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
+                else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
+                else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
+                else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
+                else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
+                else {//Sinon (type non reconnu, ne devrait jamais arriver) : on affiche l'image du frigo
+                    map.put("img", String.valueOf(R.drawable.ic_launcher));
+                }
 
                 //enfin on ajoute cette hashMap dans la arrayList
                 listItem.add(map);
@@ -337,6 +356,5 @@ public class FavoriteActivity extends ActionBarActivity {
             });
         }
     }
-
 
 }
