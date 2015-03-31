@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +33,10 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class AlimentActivity extends ActionBarActivity {
@@ -48,9 +54,14 @@ public class AlimentActivity extends ActionBarActivity {
             afficheEnTete();
 
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }
+
+
+
+
     }
 
     @Override
@@ -79,7 +90,7 @@ public class AlimentActivity extends ActionBarActivity {
 
     public static void setAlimentIndex(int index){alimentIndex=index;}
 
-    public void afficheEnTete(){
+    public void afficheEnTete() throws ParseException {
         TextView textElement = (TextView) findViewById(R.id.boxName_AlimentActivity);
         textElement.setText("Boîte : "+
                 RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getBoxName());
@@ -100,8 +111,12 @@ public class AlimentActivity extends ActionBarActivity {
 
 
         TextView textElement5 = (TextView) findViewById(R.id.marqueHistorique);
-        textElement5.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentHistorique());
-
+        String strDate = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentHistorique();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date date= df.parse(strDate);
+        DateFormat newFormat = new SimpleDateFormat("d MMMM yyyy");
+        strDate= newFormat.format(date);
+        textElement5.setText("Cet aliment a été ajouté le " + strDate + ".");
     }
 
     public void sendMessageHelp(View view){
