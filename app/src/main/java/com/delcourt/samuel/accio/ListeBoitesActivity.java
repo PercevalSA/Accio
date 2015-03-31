@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             textElement.setText("Boites Accio du réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName());
 
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }

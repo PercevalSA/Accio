@@ -60,6 +60,7 @@ public class NewBoxActivity extends ActionBarActivity {
             listeRefBdd = new ArrayList<>();
             getTypes();
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }

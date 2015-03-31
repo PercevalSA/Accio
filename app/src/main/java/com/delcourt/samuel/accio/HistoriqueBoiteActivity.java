@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ public class HistoriqueBoiteActivity extends ActionBarActivity {
             TextView textElement2 = (TextView) findViewById(R.id.frigoName_historique);
             textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }

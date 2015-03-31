@@ -37,6 +37,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
             textElement.setText("Recettes pour "+aliments);
 
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }

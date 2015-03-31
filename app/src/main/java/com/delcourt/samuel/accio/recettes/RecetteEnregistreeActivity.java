@@ -3,6 +3,7 @@ package com.delcourt.samuel.accio.recettes;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ public class RecetteEnregistreeActivity extends ActionBarActivity {
             webview.loadUrl(adresseWeb);
 
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }

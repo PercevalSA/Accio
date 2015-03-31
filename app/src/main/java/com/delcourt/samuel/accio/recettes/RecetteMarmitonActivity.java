@@ -35,6 +35,7 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
             webview.loadUrl(adresseWeb);
 
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }

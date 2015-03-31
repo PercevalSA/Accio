@@ -58,6 +58,7 @@ public class FavoriteActivity extends ActionBarActivity {
             chargeFavoris();
 
         } catch (Exception e){
+            Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }
