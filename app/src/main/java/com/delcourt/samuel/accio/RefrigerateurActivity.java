@@ -39,6 +39,9 @@ import java.util.Scanner;
 
 
 public class RefrigerateurActivity extends ActionBarActivity {
+    //Cette classe est la classe centrale. Elle contient l'objet static Refrigerateur refrigerateur, qui lui contient à son tour toutes les
+    // infos et caractéristiques du réfrigérateur auquel on s'intéresse. Ainsi, lorsqu'une autre classe a besoin d'infos sur les boites
+    // ou leurs aliments etc., elle les cherche directement ici.
 
     private static Refrigerateur refrigerateur;
 
@@ -169,6 +172,11 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
     public void sendMessageOptionsFrigo(View view){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendMessageAjoutAliment(View view){
+        Intent intent = new Intent(this, AjoutAlimentActivity.class);
         startActivity(intent);
     }
 

@@ -116,7 +116,12 @@
         <activity
             android:name=".recettes.OptionsRecetteEnregistreeActivity"
             android:label="@string/title_activity_options_recette_enregistree"
-            android:parentActivityName=".recettes.RecetteEnregistreeActivity">
+            android:parentActivityName=".recettes.RecetteEnregistreeActivity" >
+        </activity>
+        <activity
+            android:name=".AjoutAlimentActivity"
+            android:label="@string/title_activity_ajout_aliment"
+            android:parentActivityName=".RefrigerateurActivity">
         </activity>
     </application>
 
