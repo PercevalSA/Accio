@@ -29,7 +29,7 @@ public class loadImage {
 		CanvasFrame frame = new CanvasFrame("l'image");
 		frame.setVisible(false);
 		try{
-			IplImage img = cvLoadImage("cam.jpg");
+			IplImage img = cvLoadImage("cam15.jpg");
 			ByteBuffer rgb_data = img.getByteBuffer();			
 			int height = img.height();
 			int width = img.width();
@@ -39,22 +39,25 @@ public class loadImage {
 			int[][] comp;
 			comp = getComposantes(matrice);
 			int[][]contour;
-		//	contour = contour(comp);
-		//	histogramme(img);
+			contour = contour(comp);
+			histogramme(img);
 			int[][] bary = barycentre(comp);
+			for(int i=21;i<29;i++){
+				IplImage img1 = cvLoadImage("cam"+i+".jpg");
+				histogramme(img1);
+			}
 
-			/*
+			
 			for(int i=0;i<height;i++){
 				for(int j=0; j<width;j++){
-					System.out.print(contour[i][j]);
+					System.out.print(matrice[i][j]);
 				}
 				System.out.println(".");
 			}
-			*/
+			
 			System.out.println("Done");
 			System.out.println(bary.length);
 			System.out.println(bary[0][0]+","+bary[1][0]);
-			System.out.println(bary[0][1]+","+bary[1][1]);
 		}
 		catch(Exception e)
 		{
@@ -221,10 +224,10 @@ public class loadImage {
 			}
 		}
 
-		double[][] histo = new double[n][11];
+		double[][] histo = new double[n][101];
 		//Mise à zéro de la matrice
 		for(int i=0;i<n;i++){
-			for(int j=0;j<11;j++){
+			for(int j=0;j<101;j++){
 				histo[i][j]=0;
 			}
 		}
@@ -250,7 +253,7 @@ public class loadImage {
 					float saturation = tsl[1];
 					float luminance = tsl[2];
 					
-					int taux = Math.round(10*teinte);
+					int taux = Math.round(100*teinte);
 
 					histo[num-1][taux] = histo[num-1][taux] + 1;
 				}
@@ -261,18 +264,31 @@ public class loadImage {
 
 		for(int i=0;i<n;i++){
 			double somme = 0;
-			for(int j=0;j<10;j++){
+			for(int j=0;j<100;j++){
 				somme = somme + histo[i][j];
 			}
 			
-			for(int j=0;j<10;j++){
+			for(int j=0;j<100;j++){
 				histo[i][j]=histo[i][j]/somme;
+				histo[i][j]=(int)(10000*histo[i][j]);
 			}
 		}
 	
+		
+		/*
 		for(int i=0;i<n;i++){
 			System.out.println("Histogramme de teinte de la classe numéro "+(i+1)+" : ["+histo[i][0]+", "+histo[i][1]+", "+histo[i][2]+", "+histo[i][3]+", "+histo[i][4]+", "+histo[i][5]+", "+histo[i][6]+", "+histo[i][7]+", "+histo[i][8]+", "+histo[i][9]+"].");
 		}
+		*/
+	//	for(int i=0;i<n;i++){
+		//	System.out.println("Histogramme de teinte de la classe numéro "+(i+1)+":");
+			for(int j=0;j<100;j++){
+				System.out.print(histo[0][j]+" ");
+			}
+			System.out.println("banane");
+	//	}
+		
+		
 		return histo;
 	}
 	
