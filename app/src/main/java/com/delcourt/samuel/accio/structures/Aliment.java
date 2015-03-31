@@ -7,12 +7,14 @@ public class Aliment {
     private String name;
     private String marque;
     private boolean favori;
-    private ArrayList<String> historique;
+
+    private String historique;
     private String boxName;
+
     private String alimID;
     private String type; //Correspond au type de la boîte
 
-    public Aliment(String name,String marque,  boolean favori,ArrayList<String> historique, String box, String alimID,String type){
+    public Aliment(String name,String marque,  boolean favori,String historique, String box, String alimID,String type){
         this.name = name;
         this.marque = marque;
         this.favori = favori;
@@ -30,8 +32,7 @@ public class Aliment {
 
     public void setFavori(boolean b){favori = b;}
 
-    //public ArrayList<String> getAlimentHistorique(){return historique;}
-    //inutile, puisque nous avons abandonné pour l'instant la partie historique
+    public String getAlimentHistorique(){return historique;}
 
     public String getBoxName(){return boxName;}
 

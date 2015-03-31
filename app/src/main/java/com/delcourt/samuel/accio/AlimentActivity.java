@@ -97,6 +97,11 @@ public class AlimentActivity extends ActionBarActivity {
         TextView textElement4 = (TextView) findViewById(R.id.marqueAliment);
         if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque()=="null"){textElement4.setText("");} else {
         textElement4.setText("Marque : " + RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque());}
+
+
+        TextView textElement5 = (TextView) findViewById(R.id.marqueHistorique);
+        textElement5.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentHistorique());
+
     }
 
     public void sendMessageHelp(View view){

@@ -33,12 +33,15 @@ public class FavoriteActivity extends ActionBarActivity {
 
     private static ArrayList<Aliment> listeAlimentFavoris;
     private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
+
     private String refBdd;
     private static ArrayList<String> listeMarqueAliment;
     private static ArrayList<String> listeNomAliment;
     private static ArrayList<String> listeBoiteID;
     private static ArrayList<String> listeFavoris;
     private static Box boite;
+    private static ArrayList<String> listeHistoriqueAliment;
+
 
 
     @Override
@@ -50,6 +53,7 @@ public class FavoriteActivity extends ActionBarActivity {
             listeBoiteID = new ArrayList<>();
             listeMarqueAliment = new ArrayList<>();
             listeFavoris = new ArrayList<>();
+            listeHistoriqueAliment = new ArrayList<>();
 
             chargeFavoris();
 
@@ -169,6 +173,7 @@ public class FavoriteActivity extends ActionBarActivity {
                     result += "\n\t" + array.getString(i);
                     FavoriteActivity.listeBoiteID.add(json_data.getString(0));
                     FavoriteActivity.listeNomAliment.add(json_data.getString(1));
+                    FavoriteActivity.listeHistoriqueAliment.add(json_data.getString(4));
                     FavoriteActivity.listeFavoris.add(json_data.getString(7));
                     FavoriteActivity.listeMarqueAliment.add(json_data.getString(9));
 
@@ -192,7 +197,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 String nom = listeNomAliment.get(k);
                 String marque = listeMarqueAliment.get(k);
                 boolean favori;
-                ArrayList<String> historique = new ArrayList<>();
+                String historique = listeHistoriqueAliment.get(k);
                 String alimID = listeBoiteID.get(k);
                 //marque = listeMarqueAliment.get(k);
                 if ( listeFavoris.get(k).compareTo("0")==0){favori = false;}

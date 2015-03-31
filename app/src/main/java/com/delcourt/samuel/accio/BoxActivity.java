@@ -45,12 +45,15 @@ import java.util.HashMap;
 
 public class BoxActivity extends ActionBarActivity {
 
+
     private static int boxIndex;//permet de récipérer toutes les infos de la boîte (à partir de RefrigerateurActivity)
     private static ArrayList<String> listeNomAliment;
     private static ArrayList<String> listeMarqueAliment;
     private static ArrayList<String> listeBoiteID;
     private static ArrayList<String> listeFavoris;
+    private static ArrayList<String> listeHistoriqueAliment;
     private String refBdd;
+
 
 
     @Override
@@ -62,6 +65,7 @@ public class BoxActivity extends ActionBarActivity {
             listeBoiteID = new ArrayList<>();
             listeMarqueAliment = new ArrayList<>();
             listeFavoris = new ArrayList<>();
+            listeHistoriqueAliment = new ArrayList<>();
             //Récupère les informations de la boîte pour les afficher :
             TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
             textElement.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName());
@@ -187,6 +191,7 @@ public class BoxActivity extends ActionBarActivity {
                     result += "\n\t" + array.getString(i);
                     BoxActivity.listeBoiteID.add(json_data.getString(0));
                     BoxActivity.listeNomAliment.add(json_data.getString(1));
+                    BoxActivity.listeHistoriqueAliment.add(json_data.getString(4));
                     BoxActivity.listeFavoris.add(json_data.getString(7));
                     BoxActivity.listeMarqueAliment.add(json_data.getString(9));
 
@@ -210,7 +215,7 @@ public class BoxActivity extends ActionBarActivity {
                 String nom = listeNomAliment.get(k);
                 String marque = listeMarqueAliment.get(k);
                 boolean favori;
-                ArrayList<String> historique = new ArrayList<>();
+                String historique = listeHistoriqueAliment.get(k);
                 String alimID = listeBoiteID.get(k);
                 //marque = listeMarqueAliment.get(k);
                 if ( listeFavoris.get(k).compareTo("0")==0){favori = false;}
@@ -237,10 +242,11 @@ public class BoxActivity extends ActionBarActivity {
                 textElement2.setText(" ");
 
                 //PARTIE TEMPORAIRE : on affiche un aliment d'exemple
-                ArrayList<String> historique = new ArrayList<>();
+                String historique = "0000-00-00";
                 Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique,
                         RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName(),"0","Fruits");
                 RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().add(aliment);
+
                 final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
                 //Création de la ArrayList qui nous permettra de remplir la listView
                 ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
