@@ -157,7 +157,7 @@ public class HttpURLConnectionExample {
         changeFlag("01");
 
         while(getLatestFilefromDir("product") == null){
-
+            Thread.sleep(1000);
         }
         File p = getLatestFilefromDir("product");
         String s = p.getName();
@@ -211,7 +211,7 @@ public class HttpURLConnectionExample {
         changeFlag("10");
 
         while(getLatestFilefromDir("manufacturer") == null){
-
+            Thread.sleep(1000);
         }
         File p = getLatestFilefromDir("manufacturer");
         String s = p.getName();
