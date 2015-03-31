@@ -11,26 +11,29 @@ public class HttpURLConnectionExample {
 
     public static void main(String[] args) throws Exception {
 
-        HttpURLConnectionExample http = new HttpURLConnectionExample();
+        while(int i = 0){
 
-        // Getting barcode of product
-        Scanner inb = new Scanner(System.in);
-        System.out.println("Enter a barcode");
-        String barcode = inb.nextLine();
+            HttpURLConnectionExample http = new HttpURLConnectionExample();
 
-        // base URL, with API key and barcode
-        String url = "https://www.outpan.com/api/get-product.php?apikey=e6092ddde3f7d36258ea7bfa801017fd&barcode=";
-        url = url+barcode;
+            // Getting barcode of product
+            Scanner inb = new Scanner(System.in);
+            System.out.println("Enter a barcode");
+            String barcode = inb.nextLine();
 
-        // Getting name of product
-        String nom = http.getName(url);
+            // base URL, with API key and barcode
+            String url = "https://www.outpan.com/api/get-product.php?apikey=e6092ddde3f7d36258ea7bfa801017fd&barcode=";
+            url = url + barcode;
 
-        // Getting manufacturer of product
-        String manufacturer = http.getManufacturer(url);
+            // Getting name of product
+            String nom = http.getName(url);
 
-        // Adding the product to our local DB
-        addBDD(nom, manufacturer, barcode);
+            // Getting manufacturer of product
+            String manufacturer = http.getManufacturer(url);
 
+            // Adding the product to our local DB
+            addBDD(nom, manufacturer, barcode);
+            
+        }
     }
 
     // Get Name of product
@@ -154,7 +157,7 @@ public class HttpURLConnectionExample {
         changeFlag("01");
 
         while(getLatestFilefromDir("product") == null){
-            System.out.println("Coucou");
+
         }
         File p = getLatestFilefromDir("product");
         String s = p.getName();
@@ -207,7 +210,7 @@ public class HttpURLConnectionExample {
         changeFlag("10");
 
         while(getLatestFilefromDir("manufacturer") == null){
-            System.out.println("Coucou");
+
         }
         File p = getLatestFilefromDir("manufacturer");
         String s = p.getName();
