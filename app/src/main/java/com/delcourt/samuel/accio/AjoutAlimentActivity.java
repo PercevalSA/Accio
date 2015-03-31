@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
 
     private static String product = null;
     private static String manufacturer = null;
+    private static int numConnection = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +151,12 @@ public class AjoutAlimentActivity extends ActionBarActivity {
     }
 
     public void connection(){
+        SystemClock.sleep(2000);//On attend 2 s
+        numConnection++;
+        //On affiche un texte :
+        TextView textElement = (TextView) findViewById(R.id.message_ajout_aliment);
+        textElement.setText("Attente d'une requête. Boucle n°"+numConnection+"\nMessage product :"+product+
+                "\nMessage manufacturer :"+manufacturer);
         new RequeteAjoutAliment().execute();
     }
 
@@ -177,14 +185,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         //This Method is called when Network-Request finished
 
         protected void onPostExecute(String resultat) {
-            try {
-                Thread.sleep(2000);
-                connection();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "sleep pas réussi", Toast.LENGTH_SHORT).show();
-            }
-
+            connection();
         }
     }
 
@@ -209,16 +210,8 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             return result.toString();
         }
 
-        //This Method is called when Network-Request finished
-
         protected void onPostExecute(String resultat) {
-            try {
-                Thread.sleep(2000);
-                connection();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(), "sleep pas réussi", Toast.LENGTH_SHORT).show();
-            }
+            connection();
         }
     }
 }
