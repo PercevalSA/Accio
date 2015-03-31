@@ -197,6 +197,7 @@ public class HttpURLConnectionExample {
         inname.close();
 
         p.delete();
+        changeFlag("00");
         return s.replace("+"," ");
 
     }
@@ -243,6 +244,7 @@ public class HttpURLConnectionExample {
         inman.close();
 
         p.delete();
+        changeFlag("00");
         return s.replace("+"," ");
     }
 
