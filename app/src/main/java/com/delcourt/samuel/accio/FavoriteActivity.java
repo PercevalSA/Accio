@@ -33,7 +33,6 @@ public class FavoriteActivity extends ActionBarActivity {
 
     private static ArrayList<Aliment> listeAlimentFavoris;
     private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
-
     private String refBdd;
     private static ArrayList<String> listeMarqueAliment;
     private static ArrayList<String> listeNomAliment;
@@ -96,7 +95,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
     public void chargeFavoris(){
         listeAlimentFavoris=new ArrayList<>();
-        for(int i=0; i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
+        for(int i=0; i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){//On prend les références des boîtes pas encore chargées
             if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==false){
                 numerosBoitesAConnecter.add(i);
             }

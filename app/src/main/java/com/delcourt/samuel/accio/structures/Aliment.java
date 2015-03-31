@@ -7,10 +7,8 @@ public class Aliment {
     private String name;
     private String marque;
     private boolean favori;
-
     private String historique;
     private String boxName;
-
     private String alimID;
     private String type; //Correspond au type de la boîte
 
