@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -150,13 +151,22 @@ public class HttpURLConnectionExample {
         String urlname = url.replace("get-product","edit-name");
         urlname = urlname+"&name=";
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter a product name");
-        String s = in.nextLine();
+        changeFlag("01");
+
+        while(getLatestFilefromDir("product") == null){
+            System.out.println("Coucou");
+        }
+        File p = getLatestFilefromDir("product");
+        String s = p.getName();
+        System.out.println(s);
+
+        //Scanner in = new Scanner(System.in);
+        //System.out.println("Enter a product name");
+        //String s = in.nextLine();
 
         // Name of product asked and added to request, with correct HTML form
-        String namef = s.replace(" ","+");
-        urlname = urlname+namef;
+        //String namef = s.replace(" ","+");
+        urlname = urlname+s;
 
         // System.out.println(urlname);
 
@@ -183,23 +193,32 @@ public class HttpURLConnectionExample {
         }
         inname.close();
 
-        return s;
+        p.delete();
+        return s.replace("+"," ");
 
     }
 
     private String setManufacturer(String url) throws Exception {
 
         // URL changes for setting manufacturer name
-        String urlman = url.replace("get-product","edit-attr");
+        String urlman = url.replace("get-product", "edit-attr");
         urlman = urlman+"&attr_name=Manufacturer&attr_val=";
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter a manufacturer");
-        String s = in.nextLine();
+        changeFlag("10");
+
+        while(getLatestFilefromDir("manufacturer") == null){
+            System.out.println("Coucou");
+        }
+        File p = getLatestFilefromDir("manufacturer");
+        String s = p.getName();
+
+        //Scanner in = new Scanner(System.in);
+        //System.out.println("Enter a manufacturer");
+        //String s = in.nextLine();
 
         // Manufacturer of product asked and added to request, with correct HTML form
-        String manf = s.replace(" ","+");
-        urlman = urlman+manf;
+        //String manf = s.replace(" ","+");
+        urlman = urlman+s;
 
         URL objman = new URL(urlman);
         HttpURLConnection conman = (HttpURLConnection) objman.openConnection();
@@ -220,7 +239,8 @@ public class HttpURLConnectionExample {
         }
         inman.close();
 
-        return s;
+        p.delete();
+        return s.replace("+"," ");
     }
 
     //3103220035214
@@ -228,7 +248,7 @@ public class HttpURLConnectionExample {
 
     private static void addBDD(String nom, String manufacturer, String barcode) throws Exception {
 
-        String url = "http://localhost/connection-check-manufacturer.php?manufacturer="+manufacturer;
+        String url = "http://perceval.tk/pact/connection-check-manufacturer.php?manufacturer="+manufacturer;
 
         URL objs = new URL(url);
         HttpURLConnection cons = (HttpURLConnection) objs.openConnection();
@@ -256,7 +276,7 @@ public class HttpURLConnectionExample {
         // If manufacturer doesn't exist in our DB, add it
 
         if (marqueid.equals("no")){
-            String urlbis="http://localhost/connection-add-manufacturer.php?manufacturer="+manufacturer;
+            String urlbis="http://perceval.tk/pact/connection-add-manufacturer.php?manufacturer="+manufacturer;
 
             URL objsbis = new URL(urlbis);
             HttpURLConnection consbis = (HttpURLConnection) objsbis.openConnection();
@@ -279,13 +299,13 @@ public class HttpURLConnectionExample {
 
             marqueid = responsebis.toString();
 
-            System.out.println(responsebis.toString());
+            //System.out.println(responsebis.toString());
         }
 
         // Add the product to our DB, with its corresponding manufacturer
 
         int boite = 7;
-        String urladd = "http://localhost/connection-add-product.php?";
+        String urladd = "http://perceval.tk/pact/connection-add-product.php?";
         String urlParameters = "nom="+nom+"&codebarre="+barcode+"&boite="+boite+"&marque="+marqueid;
         String urladdbis = urladd+urlParameters;
 
@@ -313,4 +333,46 @@ public class HttpURLConnectionExample {
         System.out.println(out);
 
     }
+
+
+private static void changeFlag(String flag) throws Exception {
+
+    String url = "http://perceval.tk/pact/connection-change-flag.php?flag="+flag;
+
+    URL obj = new URL(url);
+    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+    // GET request
+    con.setRequestMethod("GET");
+
+    // add request header
+    con.setRequestProperty("User-Agent", USER_AGENT);
+
+    BufferedReader in = new BufferedReader(
+            new InputStreamReader(con.getInputStream()));
+    String inputLine;
+    StringBuffer response = new StringBuffer();
+
+    while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+    }
+    in.close();
+}
+
+    private File getLatestFilefromDir(String dirPath){
+        File dir = new File(dirPath);
+        File[] files = dir.listFiles();
+        if (files == null || files.length == 0) {
+            return null;
+        }
+
+        File lastModifiedFile = files[0];
+        for (int i = 1; i < files.length; i++) {
+            if (lastModifiedFile.lastModified() < files[i].lastModified()) {
+                lastModifiedFile = files[i];
+            }
+        }
+        return lastModifiedFile;
+    }
+
 }
