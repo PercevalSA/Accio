@@ -26,11 +26,9 @@ import java.awt.image.BufferedImage;
 public class loadImage {
 
 	public static void main(String[] args) {
-		CanvasFrame frame = new CanvasFrame("l'image");
-		frame.setVisible(false);
 		try{
 			IplImage img = cvLoadImage("cam15.jpg");
-			ByteBuffer rgb_data = img.getByteBuffer();			
+			ByteBuffer rgb_data = img.getByteBuffer();		
 			int height = img.height();
 			int width = img.width();
 
@@ -290,42 +288,5 @@ public class loadImage {
 		
 		
 		return histo;
-	}
-	
-	
-	public static int[][] barycentre(int[][] comp){
-		//calcul du nombre de classe
-		int height = comp.length;
-		int width = comp[0].length;
-		
-		int nbClass = 0;
-		
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				if(comp[i][j]>nbClass){
-					nbClass=comp[i][j];
-				}
-			}
-		}
-		
-		int[][] barycentre = new int[2][nbClass];
-		
-		for(int c=1;c<nbClass+1;c++){
-			int x = 0;
-			int y = 0;
-			int t = 0;
-			for(int i=0;i<height;i++){
-				for(int j=0;j<width;j++){
-					if(comp[i][j]==c){
-						x = x + i;
-						y = y + j;
-						t++;
-					}
-				}
-			}
-			barycentre[0][c-1]=(int)(x/t);
-			barycentre[1][c-1]=(int)(y/t);			
-		}
-		return barycentre;		
 	}
 }
