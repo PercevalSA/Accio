@@ -53,26 +53,32 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_box_options);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_box_options);
 
-        //Récupère les informations de la boîte pour les afficher :
-        TextView textElement = (TextView) findViewById(R.id.boxName_BoxOptionActivity);
-        textElement.setText(boite.getName());
+            //Récupère les informations de la boîte pour les afficher :
+            TextView textElement = (TextView) findViewById(R.id.boxName_BoxOptionActivity);
+            textElement.setText(boite.getName());
 
-        TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxOptionActivity);
-        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+            TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxOptionActivity);
+            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
 
-        //Affiche l'image du type de la boîte
-        //METTRE LES BONNES IMAGES !
-        String type = boite.getType();
-        ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxOptionActivity);
-        if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
-        else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
-        else if (type.compareTo("Produits laitiers")==0){textElement3.setImageResource(R.drawable.ic_produit_laitier);}
-        else if (type.compareTo("Poisson")==0){textElement3.setImageResource(R.drawable.ic_poisson);}
-        else if (type.compareTo("Viande")==0){textElement3.setImageResource(R.drawable.ic_viande);}
-        else if (type.compareTo("Sauces et condiments")==0){textElement3.setImageResource(R.drawable.ic_condiment);}
+            //Affiche l'image du type de la boîte
+            //METTRE LES BONNES IMAGES !
+            String type = boite.getType();
+            ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxOptionActivity);
+            if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
+            else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
+            else if (type.compareTo("Produits laitiers")==0){textElement3.setImageResource(R.drawable.ic_produit_laitier);}
+            else if (type.compareTo("Poisson")==0){textElement3.setImageResource(R.drawable.ic_poisson);}
+            else if (type.compareTo("Viande")==0){textElement3.setImageResource(R.drawable.ic_viande);}
+            else if (type.compareTo("Sauces et condiments")==0){textElement3.setImageResource(R.drawable.ic_condiment);}
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

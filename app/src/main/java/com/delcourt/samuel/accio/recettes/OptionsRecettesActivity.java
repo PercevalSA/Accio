@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.recettes.RecetteMarmitonActivity;
 
@@ -28,11 +29,17 @@ public class OptionsRecettesActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options_recettes);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_options_recettes);
 
-        TextView textElement = (TextView) findViewById(R.id.liste_aliments_recette);
-        textElement.setText("Recettes pour "+aliments);
+            TextView textElement = (TextView) findViewById(R.id.liste_aliments_recette);
+            textElement.setText("Recettes pour "+aliments);
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

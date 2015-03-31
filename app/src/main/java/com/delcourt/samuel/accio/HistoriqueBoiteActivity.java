@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,16 +18,21 @@ public class HistoriqueBoiteActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_historique_boite);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_historique_boite);
 
-        afficheImage();
-        //Récupère les informations de la boîte pour les afficher :
-        TextView textElement = (TextView) findViewById(R.id.boxName_historique);
-        textElement.setText(boite.getName());
+            afficheImage();
+            //Récupère les informations de la boîte pour les afficher :
+            TextView textElement = (TextView) findViewById(R.id.boxName_historique);
+            textElement.setText(boite.getName());
 
-        TextView textElement2 = (TextView) findViewById(R.id.frigoName_historique);
-        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+            TextView textElement2 = (TextView) findViewById(R.id.frigoName_historique);
+            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

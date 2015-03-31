@@ -42,9 +42,15 @@ public class AlimentActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aliment);
-        afficheEnTete();
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_aliment);
+            afficheEnTete();
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

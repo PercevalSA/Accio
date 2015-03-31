@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Recette;
 
@@ -24,8 +25,13 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enregistrer_recette);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_enregistrer_recette);
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

@@ -21,9 +21,14 @@ public class HistoriqueActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_historique);
-        afficheListeBoites();
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_historique);
+            afficheListeBoites();
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

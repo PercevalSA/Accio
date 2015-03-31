@@ -19,8 +19,13 @@ public class NewFrigoActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_frigo);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_new_frigo);
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

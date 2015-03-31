@@ -34,8 +34,14 @@ public class FrigoOptionsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_frigo_options);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_frigo_options);
+            
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

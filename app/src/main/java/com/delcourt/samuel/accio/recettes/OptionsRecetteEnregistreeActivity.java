@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.BoxActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
@@ -31,8 +32,14 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options_recette_enregistree);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_options_recette_enregistree);
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

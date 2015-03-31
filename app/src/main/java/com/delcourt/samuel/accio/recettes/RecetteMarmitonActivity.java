@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 
 
@@ -21,16 +22,22 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recette_marmiton);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_recette_marmiton);
 
-        WebView webview = (WebView)findViewById(R.id.marmiton_web_view);
-        webview.setWebViewClient(new WebViewClient());
-        webview.getSettings().setJavaScriptEnabled(true);
-        //on prend le userAgent en desktop pour avoir les option de recherche
-        String ua = "Mozilla/5.0 (X11; U; Linux i686; fr-FR; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
-        webview.getSettings().setUserAgentString(ua);
-        webview.loadUrl(adresseWeb);
+            WebView webview = (WebView)findViewById(R.id.marmiton_web_view);
+            webview.setWebViewClient(new WebViewClient());
+            webview.getSettings().setJavaScriptEnabled(true);
+            //on prend le userAgent en desktop pour avoir les option de recherche
+            String ua = "Mozilla/5.0 (X11; U; Linux i686; fr-FR; rv:1.9.0.4) Gecko/20100101 Firefox/4.0";
+            webview.getSettings().setUserAgentString(ua);
+            webview.loadUrl(adresseWeb);
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.structures.Recette;
 
@@ -32,11 +33,17 @@ public class MenuRecettesActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipes);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_recipes);
 
-        readRecettes();
-        afficheRecettes();
+            readRecettes();
+            afficheRecettes();
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

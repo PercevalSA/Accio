@@ -44,22 +44,28 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_refrigerateur);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_refrigerateur);
 
-        if(refrigerateur.isRefrigerateurCreated()==false){//Si le frigo n'a pas encore été créé, on le crée.
+            if(refrigerateur.isRefrigerateurCreated()==false){//Si le frigo n'a pas encore été créé, on le crée.
 
-            boolean chargementReussi = creationRéfrigerateur();
+                boolean chargementReussi = creationRéfrigerateur();
 
-            if (chargementReussi == false) {//si le chargement du frigo ou des boîtes a échoué, on affiche un message
-                Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-                toast.show();
+                if (chargementReussi == false) {//si le chargement du frigo ou des boîtes a échoué, on affiche un message
+                    Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
             }
-        }
 
-        TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
-        textElement.setText("Réfrigérateur : " + refrigerateur.getName());
+            TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
+            textElement.setText("Réfrigérateur : " + refrigerateur.getName());
+            
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -101,6 +107,10 @@ public class RefrigerateurActivity extends ActionBarActivity {
     public void sendMessageRecipes(View view) {
         Intent intent = new Intent(this, MenuRecettesActivity.class);
         startActivity(intent);
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Miam miam !!", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+        toast.show();
     }
 
     public void sendMessageFavorite(View view) {

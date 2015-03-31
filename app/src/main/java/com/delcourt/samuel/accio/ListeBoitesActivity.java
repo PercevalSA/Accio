@@ -28,13 +28,19 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_liste_boites);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_liste_boites);
 
-        afficheListeBoites();
+            afficheListeBoites();
 
-        TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
-        textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName());
+            TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
+            textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName());
+
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

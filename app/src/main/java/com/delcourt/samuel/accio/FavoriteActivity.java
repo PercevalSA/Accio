@@ -57,15 +57,20 @@ public class FavoriteActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favoris);
-        listeNomAliment = new ArrayList<>();
-        listeBoiteID = new ArrayList<>();
-        listeMarqueAliment = new ArrayList<>();
-        listeFavoris = new ArrayList<>();
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_favoris);
+            listeNomAliment = new ArrayList<>();
+            listeBoiteID = new ArrayList<>();
+            listeMarqueAliment = new ArrayList<>();
+            listeFavoris = new ArrayList<>();
 
-        chargeFavoris();
+            chargeFavoris();
 
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

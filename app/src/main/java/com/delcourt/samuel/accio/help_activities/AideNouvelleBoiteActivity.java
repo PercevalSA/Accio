@@ -1,10 +1,12 @@
 package com.delcourt.samuel.accio.help_activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 
 
@@ -12,8 +14,13 @@ public class AideNouvelleBoiteActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_aide_nouvelle_boite);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_aide_nouvelle_boite);
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 

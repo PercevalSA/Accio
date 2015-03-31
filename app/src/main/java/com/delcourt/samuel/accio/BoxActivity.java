@@ -53,39 +53,43 @@ public class BoxActivity extends ActionBarActivity {
     public String refBdd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_box);
-        listeNomAliment = new ArrayList<>();
-        listeBoiteID = new ArrayList<>();
-        listeMarqueAliment = new ArrayList<>();
-        listeFavoris = new ArrayList<>();
-        //Récupère les informations de la boîte pour les afficher :
-        TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
-        textElement.setText(boite.getName());
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_box);
+            listeNomAliment = new ArrayList<>();
+            listeBoiteID = new ArrayList<>();
+            listeMarqueAliment = new ArrayList<>();
+            listeFavoris = new ArrayList<>();
+            //Récupère les informations de la boîte pour les afficher :
+            TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
+            textElement.setText(boite.getName());
 
-        TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
-        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+            TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
+            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
 
-        afficheImage();
+            afficheImage();
 
-        refBdd = boite.getReferenceBdd();
+            refBdd = boite.getReferenceBdd();
 
-        if(boite.getConnectedBdd()== false){//On se connecte à la BDD et on affiche les aliments
-            boite.reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
-            new RecupalimBDD().execute();
-        } else{
-            if(boite.getListeAliments().size()==0){//Si la liste est vide, on affiche un message
-                TextView textElement3 = (TextView) findViewById(R.id.message_BoxActivity);
-                textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant2");
+            if(boite.getConnectedBdd()== false){//On se connecte à la BDD et on affiche les aliments
+                boite.reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
+                new RecupalimBDD().execute();
+            } else{
+                if(boite.getListeAliments().size()==0){//Si la liste est vide, on affiche un message
+                    TextView textElement3 = (TextView) findViewById(R.id.message_BoxActivity);
+                    textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant2");
 
-                TextView textElement4 = (TextView) findViewById(R.id.resultat2);
-                textElement4.setText(" ");
+                    TextView textElement4 = (TextView) findViewById(R.id.resultat2);
+                    textElement4.setText(" ");
+                }
+                else{//On affiche les aliments déjà contenus dans la boîte
+                    afficheListeAliments();
+                }
             }
-            else{//On affiche les aliments déjà contenus dans la boîte
-                afficheListeAliments();
-            }
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
         }
-
     }
 
     @Override

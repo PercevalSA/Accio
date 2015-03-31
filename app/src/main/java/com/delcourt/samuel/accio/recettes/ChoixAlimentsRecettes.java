@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.recettes.OptionsRecettesActivity;
@@ -30,16 +31,21 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choix_aliments_recettes);
+        try{
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_choix_aliments_recettes);
 
-        //On affiche cette liste :
-        afficheListeAlimentsProposes();
+            //On affiche cette liste :
+            afficheListeAlimentsProposes();
 
-        //Toast temporaire
-        Toast toast = Toast.makeText(getApplicationContext(), "Récupérer automatiquement le contenu de toutes les boîtes", Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
+            //Toast temporaire
+            Toast toast = Toast.makeText(getApplicationContext(), "Récupérer automatiquement le contenu de toutes les boîtes", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
+        } catch (Exception e){
+            Intent intent = new Intent(this,AccueilActivity.class);
+            startActivity(intent);
+        }
     }
 
 
