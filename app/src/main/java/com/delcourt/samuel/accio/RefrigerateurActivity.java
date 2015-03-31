@@ -61,7 +61,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
             TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
             textElement.setText("Réfrigérateur : " + refrigerateur.getName());
-            
+
         } catch (Exception e){
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
