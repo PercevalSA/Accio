@@ -1,6 +1,5 @@
 package com.delcourt.samuel.accio;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,29 +10,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.delcourt.samuel.accio.interaction.BDD;
 import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,17 +31,14 @@ import java.util.HashMap;
 
 public class FavoriteActivity extends ActionBarActivity {
 
-    static ArrayList<Aliment> listeAlimentFavoris;
+    private static ArrayList<Aliment> listeAlimentFavoris;
     private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
-
-    public static String refBdd;
-    static ArrayList<String> listeMarqueAliment;
-    static ArrayList<String> listeNomAliment;
-    static ArrayList<String> listeBoiteID;
-    static ArrayList<String> listeFavoris;
-    public static Box boite;
-
-
+    private String refBdd;
+    private static ArrayList<String> listeMarqueAliment;
+    private static ArrayList<String> listeNomAliment;
+    private static ArrayList<String> listeBoiteID;
+    private static ArrayList<String> listeFavoris;
+    private static Box boite;
 
 
     @Override
@@ -72,7 +58,6 @@ public class FavoriteActivity extends ActionBarActivity {
             startActivity(intent);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,13 +91,13 @@ public class FavoriteActivity extends ActionBarActivity {
 
     public void chargeFavoris(){
         listeAlimentFavoris=new ArrayList<>();
-        for(int i=0; i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
-            if(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getConnectedBdd()==false){
+        for(int i=0; i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){//On charge toutes les boîtes pas encore chargées
+            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==false){
                 numerosBoitesAConnecter.add(i);
             }
             else{
-                for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();j++){
-                    Aliment aliment = RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().get(j);
+                for(int j=0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().size();j++){
+                    Aliment aliment = RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().get(j);
                     if(aliment.isAlimentFavori()==true){
                         listeAlimentFavoris.add(aliment);
                     }
@@ -122,7 +107,7 @@ public class FavoriteActivity extends ActionBarActivity {
         afficheFavoris();//Affiche immédiatement les aliments des boîtes déjà chargées
         //On lance les connexions aux bdd successives :
         if(numerosBoitesAConnecter.size()!=0){
-            boite=RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0));
+            boite=RefrigerateurActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
             refBdd=boite.getReferenceBdd();
             TextView textElement = (TextView) findViewById(R.id.message_chargement_favoris);
             textElement.setText("Chargement des aliments de la boîte "+boite.getName());
@@ -289,7 +274,7 @@ public class FavoriteActivity extends ActionBarActivity {
             //Si il reste des boîtes à connecter, on les connecte.
             numerosBoitesAConnecter.remove(0);
             if(numerosBoitesAConnecter.size()!=0){
-                boite=RefrigerateurActivity.refrigerateur.getBoxes().get(numerosBoitesAConnecter.get(0));
+                boite=RefrigerateurActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
                 refBdd=boite.getReferenceBdd();
 
                 textElement.setText("Chargement des aliments de la boîte "+boite.getName());

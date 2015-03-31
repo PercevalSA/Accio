@@ -35,9 +35,9 @@ import java.io.InputStreamReader;
 
 public class AlimentActivity extends ActionBarActivity {
 
-    public static String boiteName;
-    public static Aliment aliment;
-    private static String alimID;
+    private static int boxIndex;
+    private static int alimentIndex;
+    private String alimID;
 
 
     @Override
@@ -52,7 +52,6 @@ public class AlimentActivity extends ActionBarActivity {
             startActivity(intent);
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,23 +75,28 @@ public class AlimentActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void setBoxIndex(int index){boxIndex=index;}
+
+    public static void setAlimentIndex(int index){alimentIndex=index;}
+
     public void afficheEnTete(){
         TextView textElement = (TextView) findViewById(R.id.boxName_AlimentActivity);
-        textElement.setText("Boîte : "+boiteName);
+        textElement.setText("Boîte : "+
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getBoxName());
 
         TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
-        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
 
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        if(aliment.isAlimentFavori()==true){image.setImageResource(R.drawable.fav);
+        if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).isAlimentFavori()==true){image.setImageResource(R.drawable.fav);
         }else{image.setImageResource(R.drawable.favn);}
 
         TextView textElement3 = (TextView) findViewById(R.id.nameAliment);
-        textElement3.setText(aliment.getAlimentName());
+        textElement3.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName());
 
         TextView textElement4 = (TextView) findViewById(R.id.marqueAliment);
-        if(aliment.getAlimentMarque()=="null"){textElement4.setText("");} else {
-        textElement4.setText("Marque : " + aliment.getAlimentMarque());}
+        if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque()=="null"){textElement4.setText("");} else {
+        textElement4.setText("Marque : " + RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque());}
     }
 
     public void sendMessageHelp(View view){
@@ -105,8 +109,9 @@ public class AlimentActivity extends ActionBarActivity {
         //on attribue un titre à notre boite de dialogue
         adb.setTitle("Favori");
 
-        if(aliment.isAlimentFavori()==false){
-            adb.setMessage("Voulez-vous ajouter l'aliment : "+aliment.getAlimentName()+" à la liste des favoris ?");
+        if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).isAlimentFavori()==false){
+            adb.setMessage("Voulez-vous ajouter l'aliment : "+
+                    RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()+" à la liste des favoris ?");
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     declareFavori();
@@ -114,7 +119,8 @@ public class AlimentActivity extends ActionBarActivity {
             });
             adb.show();
         } else{
-            adb.setMessage("Voulez-vous retirer l'aliment : "+aliment.getAlimentName()+" de la liste des favoris ?");
+            adb.setMessage("Voulez-vous retirer l'aliment : "+
+                    RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()+" de la liste des favoris ?");
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     declareNonFavori();
@@ -126,20 +132,20 @@ public class AlimentActivity extends ActionBarActivity {
 
     public void declareFavori(){
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        aliment.setFavori(true);
+        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(true);
         image.setImageResource(R.drawable.fav);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - ajouté aux favoris",Toast.LENGTH_SHORT).show();
-        alimID=aliment.getalimID();
+        alimID=RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareFavori().execute();
 
     }
 
     public void declareNonFavori(){
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        aliment.setFavori(false);
+        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(false);
         image.setImageResource(R.drawable.favn);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - retiré des favoris",Toast.LENGTH_SHORT).show();
-        alimID = aliment.getalimID();
+        alimID = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareNonFavori().execute();
 
     }
@@ -204,7 +210,6 @@ public class AlimentActivity extends ActionBarActivity {
 
     }
 
-
     class DeclareNonFavori extends AsyncTask<String, Void, String> {
 
 
@@ -264,6 +269,5 @@ public class AlimentActivity extends ActionBarActivity {
         }
 
     }
-
 
 }

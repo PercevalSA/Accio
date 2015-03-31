@@ -67,8 +67,8 @@ public class NewFrigoActivity extends ActionBarActivity {
             toast.show();
         }
         else { //On s'assure qu'aucun frigo du même nom n'a encore été créé
-            for (int i=0;i< AccueilActivity.listeFrigosNames.size();i++){
-                if (newFrigoName.compareTo(AccueilActivity.listeFrigosNames.get(i)) == 0){
+            for (int i=0;i< AccueilActivity.getListeFrigosNames().size();i++){
+                if (newFrigoName.compareTo(AccueilActivity.getListeFrigosNames().get(i)) == 0){
                     k++;
                 }
             }

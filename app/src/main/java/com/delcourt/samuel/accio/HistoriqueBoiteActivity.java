@@ -28,7 +28,7 @@ public class HistoriqueBoiteActivity extends ActionBarActivity {
             textElement.setText(boite.getName());
 
             TextView textElement2 = (TextView) findViewById(R.id.frigoName_historique);
-            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
         } catch (Exception e){
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);

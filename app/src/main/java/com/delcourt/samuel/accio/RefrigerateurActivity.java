@@ -40,7 +40,7 @@ import java.util.Scanner;
 
 public class RefrigerateurActivity extends ActionBarActivity {
 
-    public static Refrigerateur refrigerateur;
+    private static Refrigerateur refrigerateur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +99,10 @@ public class RefrigerateurActivity extends ActionBarActivity {
         startActivity(help);
     }
 
+    public static Refrigerateur getRefrigerateur(){return refrigerateur;}
+
+    public static void setRefrigerateur(Refrigerateur frigo){refrigerateur=frigo;}
+
     public void sendMessageContent(View view) {
         Intent intent = new Intent(this, ListeBoitesActivity.class);
         startActivity(intent);
@@ -107,10 +111,6 @@ public class RefrigerateurActivity extends ActionBarActivity {
     public void sendMessageRecipes(View view) {
         Intent intent = new Intent(this, MenuRecettesActivity.class);
         startActivity(intent);
-
-        Toast toast = Toast.makeText(getApplicationContext(), "Miam miam !!", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
-        toast.show();
     }
 
     public void sendMessageFavorite(View view) {
@@ -166,11 +166,11 @@ public class RefrigerateurActivity extends ActionBarActivity {
         return creationReussie;
     }
 
-
     public void sendMessageOptionsFrigo(View view){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
         startActivity(intent);
     }
+
 
    }
 

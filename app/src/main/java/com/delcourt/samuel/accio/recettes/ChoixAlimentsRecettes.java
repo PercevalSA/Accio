@@ -8,19 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
-import com.delcourt.samuel.accio.recettes.OptionsRecettesActivity;
 import com.delcourt.samuel.accio.structures.AlimentRecette;
-import com.delcourt.samuel.accio.structures.Refrigerateur;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -71,16 +66,6 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void alimentSelectionne(int position){
-        /*String name = listeAlimentsProposes.get(position);
-        OptionsRecettesActivity.aliments=name;
-
-        //Envoie sur la page d'options
-        Intent intent = new Intent(this,OptionsRecettesActivity.class);
-        startActivity(intent);*/
-
-    }
-
     public void afficheListeAlimentsProposes(){
 
         // Get the reference of listViewFrigos (pour l'affichage de la liste)
@@ -103,7 +88,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         for(int i=0;i<listeAlimentsProposes.size();i++){
 
             //on insère la référence aux éléments à afficher
-            map = new HashMap<String, String>();
+            map = new HashMap<>();
             map.put("nom", listeAlimentsProposes.get(i).getName());
 
             String type = listeAlimentsProposes.get(i).getType();
@@ -117,7 +102,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 map.put("img", String.valueOf(R.drawable.ic_launcher));
             }
 
-            if(listeAlimentsProposes.get(i).isSelected()==true) {
+            if(listeAlimentsProposes.get(i).isSelected()) {
                 map.put("selected", String.valueOf(R.drawable.validate));
             } else {map.put("selected", String.valueOf(R.drawable.validaten));}
 
@@ -140,18 +125,17 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                int indexBox = position;
-                boxSelected(indexBox);
+                boxSelected(position);
             }
         });
     }
 
 
     public void createListeAlimentsProposes(){
-        for(int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-            for(int j=0;j<RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().size();j++){
-                AlimentRecette aliment = new AlimentRecette(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getListeAliments().get(j).getAlimentName(),
-                        RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+        for(int i=0;i< RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+            for(int j=0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().size();j++){
+                AlimentRecette aliment = new AlimentRecette(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().get(j).getAlimentName(),
+                        RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
                 listeAlimentsProposes.add(aliment);
             }
         }
@@ -175,14 +159,14 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             toast.show();
         }else{
             Intent intent = new Intent(this, OptionsRecettesActivity.class);
-            OptionsRecettesActivity.aliments=aliments;
+            OptionsRecettesActivity.setAliments(aliments);
             startActivity(intent);
         }
 
     }
 
     public String prepareRechercheAliments(){
-        String aliments=null;
+        String aliments;
         ArrayList<String> alimentsSelected = new ArrayList<>();
 
         //Récupère ce qui a été coché
@@ -190,7 +174,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         String recup = editText.getText().toString();
 
         for(int i=0;i<listeAlimentsProposes.size();i++){
-            if(listeAlimentsProposes.get(i).isSelected()==true){
+            if(listeAlimentsProposes.get(i).isSelected()){
                 alimentsSelected.add(listeAlimentsProposes.get(i).getName());
             }
         }

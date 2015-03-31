@@ -9,11 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
-import com.delcourt.samuel.accio.structures.Recette;
-
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
@@ -21,7 +18,7 @@ import java.io.PrintWriter;
 
 public class EnregistrerRecetteActivity extends ActionBarActivity {
 
-    protected static String url;
+    private static String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +53,8 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public static void setUrl(String adresse){url=adresse;}
 
     public void newRecette(View view) {
         EditText editText = (EditText) findViewById(R.id.nameRecette);

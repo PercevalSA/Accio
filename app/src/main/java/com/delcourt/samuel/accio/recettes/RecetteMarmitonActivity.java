@@ -18,7 +18,7 @@ import com.delcourt.samuel.accio.R;
 
 public class RecetteMarmitonActivity extends ActionBarActivity {
 
-    protected static String adresseWeb;
+    private static String adresseWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +63,12 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void setAdresseWeb(String adresse){adresseWeb=adresse;}
+
     public void sendMessageEnregistrerRecette(View view){
         //Transmet l'adresse à enregistrer
         WebView webview = (WebView)findViewById(R.id.marmiton_web_view);
-        EnregistrerRecetteActivity.url = webview.getOriginalUrl();
+        EnregistrerRecetteActivity.setUrl(webview.getOriginalUrl());
 
         Intent intent = new Intent(this,EnregistrerRecetteActivity.class);
         startActivity(intent);

@@ -14,7 +14,7 @@ import com.delcourt.samuel.accio.R;
 
 public class RecetteEnregistreeActivity extends ActionBarActivity {
 
-    protected static String adresseWeb;
+    private static String adresseWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,8 @@ public class RecetteEnregistreeActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public static void setAdresseWeb(String adresse){adresseWeb=adresse;}
 
     public void sendMessageOptionsRecette(View view){
         Intent intent = new Intent(this,OptionsRecetteEnregistreeActivity.class);

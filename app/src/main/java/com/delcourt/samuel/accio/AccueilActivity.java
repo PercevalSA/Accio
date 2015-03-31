@@ -34,9 +34,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 
 public class AccueilActivity extends ActionBarActivity { //Permet la gestion des réfrigérateurs
 
-
-    //public static int nombreFrigos;
-    public static ArrayList<String> listeFrigosNames = new ArrayList<>();
+    private static ArrayList<String> listeFrigosNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +70,6 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         });
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -97,10 +94,13 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         }
     }
 
+    public static ArrayList<String> getListeFrigosNames(){return listeFrigosNames;}
+
     public void sendMessageFrigoSelected(int indexName){
         Intent intent = new Intent(this, RefrigerateurActivity.class);//Lance l'activité RefrigerateurActivity, avec le nom du frigo sélectionné en message
         String frigoName = listeFrigosNames.get(indexName);
-        RefrigerateurActivity.refrigerateur = new Refrigerateur(frigoName);
+        Refrigerateur refrigerateur = new Refrigerateur(frigoName);
+        RefrigerateurActivity.setRefrigerateur(refrigerateur);
         startActivity(intent);
     }
 

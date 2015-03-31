@@ -29,7 +29,7 @@ import java.util.Scanner;
 
 public class MenuRecettesActivity extends ActionBarActivity {
 
-    protected static ArrayList<Recette> listeRecettesEnregistrées;
+    private static ArrayList<Recette> listeRecettesEnregistrées;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +77,8 @@ public class MenuRecettesActivity extends ActionBarActivity {
         startActivity(help);
     }
 
+    public static ArrayList<Recette> getListeRecettesEnregistrées(){return listeRecettesEnregistrées;}
+
     public void sendMessageNouvelleRecette(View view){
         Intent intent = new Intent(this,ChoixAlimentsRecettes.class);
         startActivity(intent);
@@ -103,8 +105,7 @@ public class MenuRecettesActivity extends ActionBarActivity {
     }
 
     public void sendMessageRecetteEnregistreeSelected(int position){
-        String adresseWeb = listeRecettesEnregistrées.get(position).getAdresseWeb();
-        RecetteEnregistreeActivity.adresseWeb = adresseWeb;
+        RecetteEnregistreeActivity.setAdresseWeb(listeRecettesEnregistrées.get(position).getAdresseWeb());
         OptionsRecetteEnregistreeActivity.setRecetteName(listeRecettesEnregistrées.get(position).getName());
         Intent intent = new Intent(this,RecetteEnregistreeActivity.class);
         startActivity(intent);

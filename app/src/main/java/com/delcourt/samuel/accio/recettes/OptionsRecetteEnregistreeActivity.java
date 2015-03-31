@@ -11,24 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.delcourt.samuel.accio.AccueilActivity;
-import com.delcourt.samuel.accio.BoxActivity;
-import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
-import com.delcourt.samuel.accio.RefrigerateurActivity;
-
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
     private static String recetteName;
-    public static void setRecetteName(String newName){recetteName=newName;}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +57,8 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void setRecetteName(String newName){recetteName=newName;}
+
     public void sendMessageRename(View view){
         int k = 0;
 
@@ -72,8 +66,8 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         final String newName = editText.getText().toString();
 
         //On s'assure qu'aucune recette du même nom n'a encore été créé
-        for (int i=0;i< MenuRecettesActivity.listeRecettesEnregistrées.size();i++){
-            if (newName.compareTo(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getName()) == 0){
+        for (int i=0;i< MenuRecettesActivity.getListeRecettesEnregistrées().size();i++){
+            if (newName.compareTo(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getName()) == 0){
                 k++;
             }
         }
@@ -125,12 +119,11 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
     }
 
     public void rename(String newName){
-        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
 
         //On change le nom de la boîte dans la liste dynamique :
-        for(int j =0;j<MenuRecettesActivity.listeRecettesEnregistrées.size();j++){
-            if(MenuRecettesActivity.listeRecettesEnregistrées.get(j).getName() == recetteName){
-                MenuRecettesActivity.listeRecettesEnregistrées.get(j).setName(newName);
+        for(int j =0;j<MenuRecettesActivity.getListeRecettesEnregistrées().size();j++){
+            if(MenuRecettesActivity.getListeRecettesEnregistrées().get(j).getName().compareTo(recetteName)==0){
+                MenuRecettesActivity.getListeRecettesEnregistrées().get(j).setName(newName);
             }
         }
         //On adapte le fichier texte
@@ -138,9 +131,9 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_PRIVATE));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<MenuRecettesActivity.listeRecettesEnregistrées.size();i++){
-                out2.println(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getName());
-                out2.println(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getAdresseWeb());
+            for(int i=0;i<MenuRecettesActivity.getListeRecettesEnregistrées().size();i++){
+                out2.println(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getName());
+                out2.println(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getAdresseWeb());
             }
             out2.close();
 
@@ -154,9 +147,9 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
     public void delete(){
         //On supprime la boîte dans la liste dynamique :
-        for(int j =0;j<MenuRecettesActivity.listeRecettesEnregistrées.size();j++){
-            if(MenuRecettesActivity.listeRecettesEnregistrées.get(j).getName() == recetteName){
-                MenuRecettesActivity.listeRecettesEnregistrées.remove(j);
+        for(int j =0;j<MenuRecettesActivity.getListeRecettesEnregistrées().size();j++){
+            if(MenuRecettesActivity.getListeRecettesEnregistrées().get(j).getName().compareTo(recetteName)==0){
+                MenuRecettesActivity.getListeRecettesEnregistrées().remove(j);
             }
         }
         //On adapte le fichier texte
@@ -164,9 +157,9 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_PRIVATE));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<MenuRecettesActivity.listeRecettesEnregistrées.size();i++){
-                out2.println(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getName());
-                out2.println(MenuRecettesActivity.listeRecettesEnregistrées.get(i).getAdresseWeb());
+            for(int i=0;i<MenuRecettesActivity.getListeRecettesEnregistrées().size();i++){
+                out2.println(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getName());
+                out2.println(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getAdresseWeb());
             }
             out2.close();
 

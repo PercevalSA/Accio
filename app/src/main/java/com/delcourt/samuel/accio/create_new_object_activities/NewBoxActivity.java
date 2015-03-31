@@ -45,7 +45,9 @@ public class NewBoxActivity extends ActionBarActivity {
 
     private String typeBox = null;
     private String newBoiteName= null;
-    static ArrayList<String> listeRefBdd;
+
+    //Attributs nécessaires pour la connexion à la base de données
+    private static ArrayList<String> listeRefBdd;
     private String nameFrigo = null;
     private String newBoiteNameEnco= null;
     private String typeBoxEnco = null;
@@ -130,8 +132,8 @@ public class NewBoxActivity extends ActionBarActivity {
 
                     //On s'assure qu'aucune boîte du même nom n'a encore été créée
                     int k = 0;
-                    for (int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-                        if (newBoiteName.compareTo(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName()) == 0){
+                    for (int i=0;i< RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+                        if (newBoiteName.compareTo(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName()) == 0){
                             k++;
                         }
                     }
@@ -143,7 +145,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
                     else {//Dans ce cas, c'est bon, on peut créer la nouvelle boîte
                             //Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
-                            nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+                            nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
                             newBoiteNameEnco = URLEncoder.encode(newBoiteName, "UTF-8");
                             typeBoxEnco = URLEncoder.encode(typeBox,"UTF-8");
                         // C'est ici qu'on se connecte à la BDD
@@ -242,7 +244,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
                 //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
                 Box newBox = new Box(RefBdd, newBoiteName, typeBox);
-                RefrigerateurActivity.refrigerateur.getBoxes().add(newBox);
+                RefrigerateurActivity.getRefrigerateur().getBoxes().add(newBox);
 
                 //la boîte a été crée, on retourne sur l'activité précédente :
                 startActivity(intent);
@@ -298,35 +300,35 @@ public class NewBoxActivity extends ActionBarActivity {
     public void selectedBox1(View v) {
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox1);
         boolean checked = checkBox.isChecked();
-        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+        if (checked) {//Si on vient de cocher, on décoche tous les autres
 
             CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
             typeBox="Fruits";
@@ -338,35 +340,35 @@ public class NewBoxActivity extends ActionBarActivity {
     public void selectedBox2(View v) {
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox2);
         boolean checked = checkBox.isChecked();
-        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+        if (checked) {//Si on vient de cocher, on décoche tous les autres
 
             CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
             typeBox="Légumes";
@@ -378,35 +380,35 @@ public class NewBoxActivity extends ActionBarActivity {
     public void selectedBox3(View v) {
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox3);
         boolean checked = checkBox.isChecked();
-        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+        if (checked) {//Si on vient de cocher, on décoche tous les autres
 
             CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
             typeBox="Produits laitiers";
@@ -418,35 +420,35 @@ public class NewBoxActivity extends ActionBarActivity {
     public void selectedBox4(View v) {
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox4);
         boolean checked = checkBox.isChecked();
-        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+        if (checked) {//Si on vient de cocher, on décoche tous les autres
 
             CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
             typeBox="Poisson";
@@ -458,35 +460,35 @@ public class NewBoxActivity extends ActionBarActivity {
     public void selectedBox5(View v) {
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox5);
         boolean checked = checkBox.isChecked();
-        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+        if (checked) {//Si on vient de cocher, on décoche tous les autres
 
             CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox6);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
             typeBox="Viande";
@@ -498,35 +500,35 @@ public class NewBoxActivity extends ActionBarActivity {
     public void selectedBox6(View v) {
         CheckBox checkBox = (CheckBox) findViewById(R.id.checkNewBox6);
         boolean checked = checkBox.isChecked();
-        if (checked == true) {//Si on vient de cocher, on décoche tous les autres
+        if (checked) {//Si on vient de cocher, on décoche tous les autres
 
             CheckBox checkBox2 = (CheckBox) findViewById(R.id.checkNewBox2);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox3);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox4);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox5);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
 
             checkBox2 = (CheckBox) findViewById(R.id.checkNewBox1);
             checked = checkBox.isChecked();
-            if (checked == true) {
+            if (checked) {
                 checkBox2.setChecked(false);
             }
             typeBox="Sauces et condiments";

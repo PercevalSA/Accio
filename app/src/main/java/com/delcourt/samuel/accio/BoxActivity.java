@@ -45,12 +45,14 @@ import java.util.HashMap;
 
 public class BoxActivity extends ActionBarActivity {
 
-    public static Box boite;
-    static ArrayList<String> listeNomAliment;
-    static ArrayList<String> listeMarqueAliment;
-    static ArrayList<String> listeBoiteID;
-    static ArrayList<String> listeFavoris;
-    public String refBdd;
+    private static int boxIndex;//permet de récipérer toutes les infos de la boîte (à partir de RefrigerateurActivity)
+    private static ArrayList<String> listeNomAliment;
+    private static ArrayList<String> listeMarqueAliment;
+    private static ArrayList<String> listeBoiteID;
+    private static ArrayList<String> listeFavoris;
+    private String refBdd;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try{
@@ -62,20 +64,20 @@ public class BoxActivity extends ActionBarActivity {
             listeFavoris = new ArrayList<>();
             //Récupère les informations de la boîte pour les afficher :
             TextView textElement = (TextView) findViewById(R.id.boxName_BoxActivity);
-            textElement.setText(boite.getName());
+            textElement.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName());
 
             TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
-            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
 
             afficheImage();
 
-            refBdd = boite.getReferenceBdd();
+            refBdd = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getReferenceBdd();
 
-            if(boite.getConnectedBdd()== false){//On se connecte à la BDD et on affiche les aliments
-                boite.reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
+            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getConnectedBdd()== false){//On se connecte à la BDD et on affiche les aliments
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).reinitialiseListeAliments();//On va réécrire sur cette liste, on efface donc le contenu précédent
                 new RecupalimBDD().execute();
             } else{
-                if(boite.getListeAliments().size()==0){//Si la liste est vide, on affiche un message
+                if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size()==0){//Si la liste est vide, on affiche un message
                     TextView textElement3 = (TextView) findViewById(R.id.message_BoxActivity);
                     textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant2");
 
@@ -114,18 +116,22 @@ public class BoxActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void setBoxIndex(int index){boxIndex=index;}
+
     public void sendMessageAlimentSelected(View view, int index){
-        AlimentActivity.boiteName = boite.getName();
-        AlimentActivity.aliment=boite.getListeAliments().get(index);
+        AlimentActivity.setBoxIndex(boxIndex);
+        AlimentActivity.setAlimentIndex(index);
+        //AlimentActivity.boiteName = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
+        //AlimentActivity.aliment=RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(index);
         Intent intent = new Intent(this, AlimentActivity.class);
         startActivity(intent);
     }
 
     public void sendMessageOptionsBox(View view){
+        BoxOptionsActivity.setBoxIndex(boxIndex);
         Intent intent = new Intent(this,BoxOptionsActivity.class);
         startActivity(intent);
     }
-
 
     class RecupalimBDD extends AsyncTask<String, Void, String> {
 
@@ -210,13 +216,15 @@ public class BoxActivity extends ActionBarActivity {
                 if ( listeFavoris.get(k).compareTo("0")==0){favori = false;}
                 else {favori = true;}
 
-                Aliment aliment = new Aliment(nom,marque, favori, historique,boite.getName(),alimID,boite.getType());
-                boite.getListeAliments().add(aliment);
+                Aliment aliment = new Aliment(nom,marque, favori, historique,
+                        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName(),
+                        alimID,RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getType());
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().add(aliment);
             }
 
             //Affichage des aliments
 
-            int sizeListAliments = boite.getListeAliments().size();
+            int sizeListAliments = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size();
             //Toast.makeText(getApplicationContext(), "Nombre d'aliments dans listeNomAliment : "+listeNomAliment.size(),Toast.LENGTH_SHORT).show();
             //Toast.makeText(getApplicationContext(), "Nombre d'aliments à afficher : "+sizeListAliments,Toast.LENGTH_SHORT).show();
 
@@ -230,15 +238,17 @@ public class BoxActivity extends ActionBarActivity {
 
                 //PARTIE TEMPORAIRE : on affiche un aliment d'exemple
                 ArrayList<String> historique = new ArrayList<>();
-                Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique,boite.getName(),"0","Fruits");
-                boite.getListeAliments().add(aliment);
+                Aliment aliment = new Aliment("Aliment exemple temporaire","marque", true, historique,
+                        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName(),"0","Fruits");
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().add(aliment);
                 final ListView listViewAliments=(ListView)findViewById(R.id.liste_aliments);
                 //Création de la ArrayList qui nous permettra de remplir la listView
                 ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
 
                 HashMap<String, String> map;
                 map = new HashMap<String, String>();
-                map.put("aliment", boite.getListeAliments().get(0).getAlimentName());
+                map.put("aliment",
+                        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(0).getAlimentName());
                 map.put("img", String.valueOf(R.drawable.erreur));
                 SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
                         new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
@@ -258,7 +268,8 @@ public class BoxActivity extends ActionBarActivity {
                 //FIN PARTIE TEMPORAIRE
             }
             else{
-                boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
+                //On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).setConnectedBdd(true);
 
                 TextView textElement = (TextView) findViewById(R.id.resultat2);
                 textElement.setText(" ");
@@ -278,8 +289,9 @@ public class BoxActivity extends ActionBarActivity {
                 for (int i =0;i<sizeListAliments;i++){
                     //on insère la référence aux éléments à afficher
                     map = new HashMap<String, String>();
-                    map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
-                    if(boite.getListeAliments().get(i).isAlimentFavori()==true){
+                    map.put("aliment",
+                            RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).getAlimentName());
+                    if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).isAlimentFavori()==true){
                         map.put("img", String.valueOf(R.drawable.fav));
                     } else {map.put("img", String.valueOf(R.drawable.favn));}
                     //enfin on ajoute cette hashMap dans la arrayList
@@ -313,7 +325,7 @@ public class BoxActivity extends ActionBarActivity {
     public void afficheImage(){
         //Affiche l'image du type de la boîte
         //METTRE LES BONNES IMAGES !
-        String type = boite.getType();
+        String type = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getType();
         ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxActivity);
         if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
         else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
@@ -345,11 +357,11 @@ public class BoxActivity extends ActionBarActivity {
 
         HashMap<String, String> map;
 
-        for (int i =0;i<boite.getListeAliments().size();i++){
+        for (int i =0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size();i++){
             //on insère la référence aux éléments à afficher
             map = new HashMap<String, String>();
-            map.put("aliment", boite.getListeAliments().get(i).getAlimentName());
-            if(boite.getListeAliments().get(i).isAlimentFavori()==true){
+            map.put("aliment", RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).getAlimentName());
+            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).isAlimentFavori()==true){
                 map.put("img", String.valueOf(R.drawable.fav));
             } else {map.put("img", String.valueOf(R.drawable.favn));}
             //enfin on ajoute cette hashMap dans la arrayList
@@ -379,7 +391,8 @@ public class BoxActivity extends ActionBarActivity {
     }
 
     public void sendMessageActualiseBox(View view){
-        boite.setConnectedBdd(false);//On passe connectedBdd à false, puis on relance l'activité. Ainsi, on se connecte à la bdd
+        //On passe connectedBdd à false, puis on relance l'activité. Ainsi, on se connecte à la bdd
+        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).setConnectedBdd(false);
         Intent intent = new Intent(this,BoxActivity.class);
         startActivity(intent);
     }

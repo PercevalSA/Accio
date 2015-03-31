@@ -46,7 +46,7 @@ import java.net.URLEncoder;
 
 public class BoxOptionsActivity extends ActionBarActivity {
 
-    private Box boite = BoxActivity.boite;
+    private static int boxIndex;;
     private String boiteID = null;
     private String newName = null;
     private String newNameEnco = null;
@@ -59,14 +59,14 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
             //Récupère les informations de la boîte pour les afficher :
             TextView textElement = (TextView) findViewById(R.id.boxName_BoxOptionActivity);
-            textElement.setText(boite.getName());
+            textElement.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName());
 
             TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxOptionActivity);
-            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.refrigerateur.getName() + ")");
+            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
 
             //Affiche l'image du type de la boîte
             //METTRE LES BONNES IMAGES !
-            String type = boite.getType();
+            String type =RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getType();
             ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxOptionActivity);
             if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
             else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
@@ -104,6 +104,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public static void setBoxIndex(int index){boxIndex=index;}
+
     public void sendMessageRename(View view){
         int k = 0;
 
@@ -111,8 +113,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
         newName = editText.getText().toString();
 
         //On s'assure qu'aucun frigo du même nom n'a encore été créé
-        for (int i=0;i< RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-            if (newName.compareTo(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName()) == 0){
+        for (int i=0;i< RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+            if (newName.compareTo(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName()) == 0){
                 k++;
             }
         }
@@ -132,7 +134,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
             //on attribue un titre à notre boite de dialogue
             adb.setTitle("Confirmation");
             //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-            adb.setMessage("Voulez-vous renommer la boîte ''" + boite.getName() + "'' en : ''" + newName + "'' ?");
+            adb.setMessage("Voulez-vous renommer la boîte ''" +
+                    RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName() + "'' en : ''" + newName + "'' ?");
             //on indique que l'on veut le bouton ok à notre boite de dialogue
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -152,7 +155,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
         //on attribue un titre à notre boite de dialogue
         adb.setTitle("Confirmation");
         //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        adb.setMessage("Voulez-vous vraiment supprimer la boite " + boite.getName()+" ? \nLes informations correspondantes seront perdues");
+        adb.setMessage("Voulez-vous vraiment supprimer la boite " +
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName()+" ? \nLes informations correspondantes seront perdues");
         //on indique que l'on veut le bouton ok à notre boite de dialogue
         adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -164,11 +168,11 @@ public class BoxOptionsActivity extends ActionBarActivity {
     }
 
     public void rename(String newName){
-        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
+        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
 
         //On change le nom de la boîte dans la liste dynamique :
-        String nameBoite = boite.getName();
-        boiteID = boite.getReferenceBdd();
+        String nameBoite = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
+        boiteID = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getReferenceBdd();
         try {
             newNameEnco = URLEncoder.encode(newName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -177,9 +181,9 @@ public class BoxOptionsActivity extends ActionBarActivity {
         new RenameBoite().execute();
 
 
-        for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
-            if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
-                RefrigerateurActivity.refrigerateur.getBoxes().get(j).setName(newName);
+        for(int j =0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().size();j++){
+            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(j).getName().compareTo(nameBoite)==0){
+                RefrigerateurActivity.getRefrigerateur().getBoxes().get(j).setName(newName);
             }
         }
         //On adapte le fichier texte
@@ -187,10 +191,10 @@ public class BoxOptionsActivity extends ActionBarActivity {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+            for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
+                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
+                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
             }
             out2.close();
 
@@ -242,16 +246,12 @@ public class BoxOptionsActivity extends ActionBarActivity {
             //Parsing des donnÃ©es JSON
             try {
                 Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
-                //JSONArray jArray = new JSONArray(result);
                 JSONObject object = new JSONObject(result);
-                //Log.i("lol", "COUCOU: "+ object.toString());
                 JSONArray array = object.getJSONArray("testData");
 
                 for (int i = 0; i < array.length(); i++) {
-                    JSONArray json_data = array.getJSONArray(i);
                     //Met les donnÃ©es ds la liste Ã  afficher
                     result += "\n\t" + array.getString(i);
-
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
@@ -266,16 +266,16 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
 
     public void delete(){
-        String nameFrigo = RefrigerateurActivity.refrigerateur.getName();
-        String nameBoite = boite.getName();
-        boiteID = boite.getReferenceBdd();
+        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
+        String nameBoite = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
+        boiteID = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getReferenceBdd();
 
         new DeleteBoite().execute();
 
         //On supprime la boîte dans la liste dynamique :
-        for(int j =0;j<RefrigerateurActivity.refrigerateur.getBoxes().size();j++){
-            if(RefrigerateurActivity.refrigerateur.getBoxes().get(j).getName() == nameBoite){
-                RefrigerateurActivity.refrigerateur.getBoxes().remove(j);
+        for(int j =0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().size();j++){
+            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(j).getName().compareTo(nameBoite)==0){
+                RefrigerateurActivity.getRefrigerateur().getBoxes().remove(j);
             }
         }
         //On adapte le fichier texte
@@ -283,10 +283,10 @@ public class BoxOptionsActivity extends ActionBarActivity {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<RefrigerateurActivity.refrigerateur.getBoxes().size();i++){
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getReferenceBdd());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                out2.println(RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+            for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
+                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
+                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
             }
             out2.close();
 
@@ -337,13 +337,10 @@ public class BoxOptionsActivity extends ActionBarActivity {
             //Parsing des donnÃ©es JSON
             try {
                 Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
-                //JSONArray jArray = new JSONArray(result);
                 JSONObject object = new JSONObject(result);
-                //Log.i("lol", "COUCOU: "+ object.toString());
                 JSONArray array = object.getJSONArray("testData");
 
                 for (int i = 0; i < array.length(); i++) {
-                    JSONArray json_data = array.getJSONArray(i);
                     //Met les donnÃ©es ds la liste Ã  afficher
                     result += "\n\t" + array.getString(i);
 

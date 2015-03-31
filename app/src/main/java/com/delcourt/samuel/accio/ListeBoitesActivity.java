@@ -24,8 +24,6 @@ import java.util.HashMap;
 
 public class ListeBoitesActivity extends ActionBarActivity {
 
-    private Refrigerateur refrigerateur = RefrigerateurActivity.refrigerateur;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try{
@@ -35,7 +33,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             afficheListeBoites();
 
             TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
-            textElement.setText("Boites Accio du réfrigérateur : " + com.delcourt.samuel.accio.RefrigerateurActivity.refrigerateur.getName());
+            textElement.setText("Boites Accio du réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName());
 
         } catch (Exception e){
             Intent intent = new Intent(this,AccueilActivity.class);
@@ -75,7 +73,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     }
 
     public void sendMessageBoxSelected(View view, int index){//A COMPLETER !!!
-        BoxActivity.boite=refrigerateur.getBoxes().get(index);
+        BoxActivity.setBoxIndex(index);
         Intent intent = new Intent(this, BoxActivity.class);
         startActivity(intent);
     }
@@ -86,7 +84,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     }
 
     public void afficheListeBoites(){
-        int numberBoxes = RefrigerateurActivity.refrigerateur.getBoxes().size();
+        int numberBoxes = RefrigerateurActivity.getRefrigerateur().getBoxes().size();
 
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
             TextView textElement = (TextView) findViewById(R.id.message_liste_boites);
@@ -110,10 +108,10 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
                 //on insère la référence aux éléments à afficher
                 map = new HashMap<String, String>();
-                map.put("titre", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getName());
-                map.put("description", RefrigerateurActivity.refrigerateur.getBoxes().get(i).getType());
+                map.put("titre", RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
+                map.put("description", RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
                 //Récupère le nom de l'image à affihcer
-                String type = refrigerateur.getBoxes().get(i).getType();
+                String type = RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType();
                 //MODIFIER LES NOMS DES IMAGES A AFFICHER
                 if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
                 else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}

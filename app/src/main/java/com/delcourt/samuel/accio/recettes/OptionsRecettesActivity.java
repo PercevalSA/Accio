@@ -23,7 +23,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
     private int typePlat=0;
     private int difficulte=0;
     private int cout=0;
-    protected static String aliments;//Aliments à rechercher, à mettre sous le bon format (ok pour l'exemple actuel)
+    private static String aliments;//Aliments à rechercher, à mettre sous le bon format (ok pour l'exemple actuel)
 
     boolean food=true;
 
@@ -64,6 +64,8 @@ public class OptionsRecettesActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public static void setAliments(String noms){aliments=noms;}
 
     public void selectedVegetarien(View view) {
         if (vegetarien == true) {
@@ -353,7 +355,7 @@ public class OptionsRecettesActivity extends ActionBarActivity {
 
     public void sendMessageAfficheRecette(View view){
         String adresseWeb = getURL(aliments, vegetarien, sansCuisson, food, cout, difficulte,typePlat);
-        RecetteMarmitonActivity.adresseWeb = adresseWeb;
+        RecetteMarmitonActivity.setAdresseWeb(adresseWeb);
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
         startActivity(intent);
     }
