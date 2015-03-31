@@ -10,8 +10,8 @@ public class HttpURLConnectionExample {
     private final static String USER_AGENT = "Mozilla/5.0";
 
     public static void main(String[] args) throws Exception {
-
-        while(int i = 0){
+        int i = 0;
+        while(i == 0){
 
             HttpURLConnectionExample http = new HttpURLConnectionExample();
 
@@ -32,7 +32,7 @@ public class HttpURLConnectionExample {
 
             // Adding the product to our local DB
             addBDD(nom, manufacturer, barcode);
-            
+
         }
     }
 
