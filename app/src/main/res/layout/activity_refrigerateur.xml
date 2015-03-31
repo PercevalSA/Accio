@@ -11,27 +11,26 @@
     <Button
         style="@style/MenuButton"
         android:text="@string/fridge_content"
-        android:id="@+id/button2"
+        android:id="@+id/buttonContenu"
         android:onClick="sendMessageContent"
-        android:layout_alignTop="@+id/button4" />
+        android:layout_below="@+id/frigoNameMenu"
+        android:layout_marginTop="15dp"/>
 
     <Button
         style="@style/MenuButton"
         android:text="@string/recipes"
-        android:id="@+id/button3"
+        android:id="@+id/buttonRecettes"
         android:onClick="sendMessageRecipes"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2" />
+        android:layout_below="@+id/buttonContenu"
+        android:layout_marginTop="15dp" />
 
     <Button
         style="@style/MenuButton"
         android:text="@string/favorite"
-        android:id="@+id/button4"
-        android:layout_marginTop="72dp"
+        android:id="@+id/buttonFavoris"
         android:onClick="sendMessageFavorite"
-        android:layout_below="@+id/frigoNameMenu"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/buttonRecettes"
+        android:layout_marginTop="15dp"/>
 
     <TextView
         android:id="@+id/frigoNameMenu"
