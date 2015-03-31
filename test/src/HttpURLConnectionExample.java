@@ -248,7 +248,7 @@ public class HttpURLConnectionExample {
 
     private static void addBDD(String nom, String manufacturer, String barcode) throws Exception {
 
-        String url = "http://perceval.tk/pact/connection-check-manufacturer.php?manufacturer="+manufacturer;
+        String url = "http://localhost/pact/connection-check-manufacturer.php?manufacturer="+manufacturer;
 
         URL objs = new URL(url);
         HttpURLConnection cons = (HttpURLConnection) objs.openConnection();
@@ -276,7 +276,7 @@ public class HttpURLConnectionExample {
         // If manufacturer doesn't exist in our DB, add it
 
         if (marqueid.equals("no")){
-            String urlbis="http://perceval.tk/pact/connection-add-manufacturer.php?manufacturer="+manufacturer;
+            String urlbis="http://localhost/pact/connection-add-manufacturer.php?manufacturer="+manufacturer;
 
             URL objsbis = new URL(urlbis);
             HttpURLConnection consbis = (HttpURLConnection) objsbis.openConnection();
@@ -305,7 +305,7 @@ public class HttpURLConnectionExample {
         // Add the product to our DB, with its corresponding manufacturer
 
         int boite = 7;
-        String urladd = "http://perceval.tk/pact/connection-add-product.php?";
+        String urladd = "http://localhost/pact/connection-add-product.php?";
         String urlParameters = "nom="+nom+"&codebarre="+barcode+"&boite="+boite+"&marque="+marqueid;
         String urladdbis = urladd+urlParameters;
 
@@ -337,7 +337,7 @@ public class HttpURLConnectionExample {
 
 private static void changeFlag(String flag) throws Exception {
 
-    String url = "http://perceval.tk/pact/connection-change-flag.php?flag="+flag;
+    String url = "http://localhost/pact/connection-change-flag.php?flag="+flag;
 
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
