@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -43,6 +44,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
     private ArrayList<AlimentRecette> listeAlimentsProposes = new ArrayList<>();
     private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
 
+    private ArrayList<String> namesBoitesNonConnection;
+
     //Attributs utiles pour la connexion à la BDD
     private String refBdd;
     private static ArrayList<String> listeMarqueAliment;
@@ -62,6 +65,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             listeMarqueAliment = new ArrayList<>();
             listeFavoris = new ArrayList<>();
             listeHistoriqueAliment = new ArrayList<>();
+
+            namesBoitesNonConnection = new ArrayList<>();
 
             createListeAlimentsProposes();
 
@@ -124,69 +129,87 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
     public void afficheListeAlimentsProposes(){
 
-        // Get the reference of listViewFrigos (pour l'affichage de la liste)
-        final ListView listViewBoxes=(ListView)findViewById(R.id.listeAlimentsProposes);
-
-        //Création de la ArrayList qui nous permettra de remplir la listView
-        ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
-
-        //On déclare la HashMap qui contiendra les informations pour un item
-        HashMap<String, String> map;
-
-        if(listeAlimentsProposes.size()==0 && numerosBoitesAConnecter.size()==0){
-            //Juste pour l'exemple :
-            AlimentRecette exemple = new AlimentRecette("banane","a");
-            listeAlimentsProposes.add(exemple);
-            afficheListeAlimentsProposes();
+        if(namesBoitesNonConnection.size()>0){//Il y a eu des pb de connexion à la BDD
 
             TextView textElement = (TextView) findViewById(R.id.message_recette);
-            textElement.setText("Il n'y a aucun aliment dans ce réfrigérateur");
+            textElement.setText("Impossible de charger la liste des aliments de votre réfrigérateur");
+
+            /*if(listeAlimentsProposes.size()==0 && numerosBoitesAConnecter.size()==0){
+                //Juste pour l'exemple :
+                AlimentRecette exemple = new AlimentRecette("banane","a");
+                listeAlimentsProposes.add(exemple);
+
+            }*/
+
+        } else {//Cas où toutes les boites ont bien été chargées :
+
+
+            // Get the reference of listViewFrigos (pour l'affichage de la liste)
+            final ListView listViewBoxes=(ListView)findViewById(R.id.listeAlimentsProposes);
+
+            //Création de la ArrayList qui nous permettra de remplir la listView
+            ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+            //On déclare la HashMap qui contiendra les informations pour un item
+            HashMap<String, String> map;
+
+            if(listeAlimentsProposes.size()==0 && numerosBoitesAConnecter.size()==0){
+                //Juste pour l'exemple :
+                AlimentRecette exemple = new AlimentRecette("banane","a");
+                listeAlimentsProposes.add(exemple);
+                afficheListeAlimentsProposes();
+
+                TextView textElement = (TextView) findViewById(R.id.message_recette);
+                textElement.setText("Il n'y a aucun aliment dans ce réfrigérateur");
+            }
+
+
+            for(int i=0;i<listeAlimentsProposes.size();i++){
+
+                //on insère la référence aux éléments à afficher
+                map = new HashMap<>();
+                map.put("nom", listeAlimentsProposes.get(i).getName());
+
+                String type = listeAlimentsProposes.get(i).getType();
+                if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
+                else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
+                else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
+                else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
+                else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
+                else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
+                else {//Sinon (type non reconnu, ne devrait jamais arriver) - c'est le cas de l'aliment banane mis par défaut
+                    map.put("img", String.valueOf(R.drawable.erreur));
+                }
+
+                if(listeAlimentsProposes.get(i).isSelected()) {
+                    map.put("selected", String.valueOf(R.drawable.validate));
+                } else {map.put("selected", String.valueOf(R.drawable.validaten));}
+
+                //enfin on ajoute cette hashMap dans la arrayList
+                listItem.add(map);
+            }
+
+            //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_aliments_recette,
+                    new String[] {"nom", "img", "selected"}, new int[] {R.id.nom_aliment_recette, R.id.img_aliment_recette, R.id.aliment_recette_selected});
+
+            //On attribue à notre listView l'adapter que l'on vient de créer
+            listViewBoxes.setAdapter(mSchedule);
+
+
+            //register onClickListener to handle click events on each item
+            listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                // argument position gives the index of item which is clicked
+
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                    boxSelected(position);
+                }
+            });
         }
 
 
-        for(int i=0;i<listeAlimentsProposes.size();i++){
-
-            //on insère la référence aux éléments à afficher
-            map = new HashMap<>();
-            map.put("nom", listeAlimentsProposes.get(i).getName());
-
-            String type = listeAlimentsProposes.get(i).getType();
-            if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
-            else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
-            else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
-            else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
-            else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
-            else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
-            else {//Sinon (type non reconnu, ne devrait jamais arriver) - c'est le cas de l'aliment banane mis par défaut
-                map.put("img", String.valueOf(R.drawable.erreur));
-            }
-
-            if(listeAlimentsProposes.get(i).isSelected()) {
-                map.put("selected", String.valueOf(R.drawable.validate));
-            } else {map.put("selected", String.valueOf(R.drawable.validaten));}
-
-            //enfin on ajoute cette hashMap dans la arrayList
-            listItem.add(map);
-        }
-
-        //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-        SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_aliments_recette,
-                new String[] {"nom", "img", "selected"}, new int[] {R.id.nom_aliment_recette, R.id.img_aliment_recette, R.id.aliment_recette_selected});
-
-        //On attribue à notre listView l'adapter que l'on vient de créer
-        listViewBoxes.setAdapter(mSchedule);
-
-
-        //register onClickListener to handle click events on each item
-        listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            // argument position gives the index of item which is clicked
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                boxSelected(position);
-            }
-        });
     }
 
     public void boxSelected(int index){
@@ -252,6 +275,10 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
     class BDDRecettes extends AsyncTask<String, Void, String> {
 
+        private boolean connectionSuccessful=true;
+
+        public void setConnectionSuccessful(boolean b){connectionSuccessful=b;}
+
         protected String doInBackground(String... urls) {
 
             String result = "";
@@ -272,6 +299,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 is = entity.getContent();
             } catch (Exception e) {
                 Log.e("log_tag", "Error in http connection " + e.toString());
+                setConnectionSuccessful(false);
             }
 
             //Conversion de la rÃ©ponse en chaine
@@ -286,6 +314,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 result = sb.toString();
             } catch (Exception e) {
                 Log.e("log_tag", "Error converting result " + e.toString());
+                setConnectionSuccessful(false);
             }
 
             //Parsing des donnÃ©es JSON
@@ -312,6 +341,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
+                setConnectionSuccessful(false);
             }
             return result;
         }
@@ -320,7 +350,6 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         //This Method is called when Network-Request finished
 
         protected void onPostExecute(String resultat) {
-
 
             int nbAliment = listeNomAliment.size();
             for(int k =0; k < nbAliment; k++){
@@ -341,74 +370,82 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 listeAlimentsProposes.add(alimentRecette);
             }
 
-            //Affichage des aliments
-
-            int sizeListAliments = listeAlimentsProposes.size();
-
-            if(sizeListAliments==0){
+            if(connectionSuccessful==false){
+                namesBoitesNonConnection.add(boite.getName());
                 TextView textElement = (TextView) findViewById(R.id.message_recette);
-                textElement.setText("Il n'y a aucun aliment dans ce réfrigérateur");
-            }
-            else{
-                boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
+                textElement.setText("Impossible de charger la liste des aliments de votre réfrigérateur");
+                
+            } else { //La connexion à la base de données a fonctionné. On affiche tous les aliments
+                //Affichage des aliments
 
-                TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
-                textElement.setText(" ");
+                int sizeListAliments = listeAlimentsProposes.size();
 
-                // Get the reference of listViewFrigos (pour l'affichage de la liste)
-                final ListView listViewBoxes=(ListView)findViewById(R.id.listeAlimentsProposes);
-
-                //Création de la ArrayList qui nous permettra de remplir la listView
-                ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
-
-                //On déclare la HashMap qui contiendra les informations pour un item
-                HashMap<String, String> map;
-
-                for(int i=0;i<listeAlimentsProposes.size();i++){
-
-                    //on insère la référence aux éléments à afficher
-                    map = new HashMap<>();
-                    map.put("nom", listeAlimentsProposes.get(i).getName());
-
-                    String type = listeAlimentsProposes.get(i).getType();
-                    if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
-                    else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
-                    else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
-                    else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
-                    else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
-                    else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
-                    else {//Sinon (type non reconnu, ne devrait jamais arriver) - c'est le cas de l'aliment banane mis par défaut
-                        map.put("img", String.valueOf(R.drawable.erreur));
-                    }
-
-                    if(listeAlimentsProposes.get(i).isSelected()) {
-                        map.put("selected", String.valueOf(R.drawable.validate));
-                    } else {map.put("selected", String.valueOf(R.drawable.validaten));}
-
-                    //enfin on ajoute cette hashMap dans la arrayList
-                    listItem.add(map);
+                if(sizeListAliments==0){
+                    TextView textElement = (TextView) findViewById(R.id.message_recette);
+                    textElement.setText("Il n'y a aucun aliment dans ce réfrigérateur");
                 }
+                else{
+                    boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
 
-                //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.liste_aliments_recette,
-                        new String[] {"nom", "img", "selected"}, new int[] {R.id.nom_aliment_recette, R.id.img_aliment_recette, R.id.aliment_recette_selected});
+                    TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
+                    textElement.setText(" ");
 
-                //On attribue à notre listView l'adapter que l'on vient de créer
-                listViewBoxes.setAdapter(mSchedule);
+                    // Get the reference of listViewFrigos (pour l'affichage de la liste)
+                    final ListView listViewBoxes=(ListView)findViewById(R.id.listeAlimentsProposes);
 
+                    //Création de la ArrayList qui nous permettra de remplir la listView
+                    ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
 
-                //register onClickListener to handle click events on each item
-                listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
-                {
-                    // argument position gives the index of item which is clicked
+                    //On déclare la HashMap qui contiendra les informations pour un item
+                    HashMap<String, String> map;
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                        boxSelected(position);
+                    for(int i=0;i<listeAlimentsProposes.size();i++){
+
+                        //on insère la référence aux éléments à afficher
+                        map = new HashMap<>();
+                        map.put("nom", listeAlimentsProposes.get(i).getName());
+
+                        String type = listeAlimentsProposes.get(i).getType();
+                        if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
+                        else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
+                        else if (type.compareTo("Produits laitiers")==0){ map.put("img", String.valueOf(R.drawable.ic_produit_laitier));}
+                        else if (type.compareTo("Poisson")==0){ map.put("img", String.valueOf(R.drawable.ic_poisson));}
+                        else if (type.compareTo("Viande")==0){ map.put("img", String.valueOf(R.drawable.ic_viande));}
+                        else if (type.compareTo("Sauces et condiments")==0){ map.put("img", String.valueOf(R.drawable.ic_condiment));}
+                        else {//Sinon (type non reconnu, ne devrait jamais arriver) - c'est le cas de l'aliment banane mis par défaut
+                            map.put("img", String.valueOf(R.drawable.erreur));
+                        }
+
+                        if(listeAlimentsProposes.get(i).isSelected()) {
+                            map.put("selected", String.valueOf(R.drawable.validate));
+                        } else {map.put("selected", String.valueOf(R.drawable.validaten));}
+
+                        //enfin on ajoute cette hashMap dans la arrayList
+                        listItem.add(map);
                     }
-                });
+
+                    //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+                    SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.liste_aliments_recette,
+                            new String[] {"nom", "img", "selected"}, new int[] {R.id.nom_aliment_recette, R.id.img_aliment_recette, R.id.aliment_recette_selected});
+
+                    //On attribue à notre listView l'adapter que l'on vient de créer
+                    listViewBoxes.setAdapter(mSchedule);
+
+
+                    //register onClickListener to handle click events on each item
+                    listViewBoxes.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                    {
+                        // argument position gives the index of item which is clicked
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                            boxSelected(position);
+                        }
+                    });
+                }
             }
-            //La liaison avec la base de données est terminée : on enlèv le message
+
+            //La liaison avec la base de données est terminée : on enlève le message
             TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
             textElement.setText("");
 
@@ -421,8 +458,13 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 textElement.setText("Chargement des aliments de la boîte "+boite.getName());
 
                 new BDDRecettes().execute();
+            } else {
+                if(namesBoitesNonConnection.size()==0){//Si toutes les connexions ont réussi
+                    Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
+                }
             }
 
         }
+
     }
 }
