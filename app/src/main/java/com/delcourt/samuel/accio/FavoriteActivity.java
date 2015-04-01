@@ -317,7 +317,9 @@ public class FavoriteActivity extends ActionBarActivity {
 
                 new BDDFavorite().execute();
             } else {
-                Toast.makeText(getApplicationContext(), "Actualisation des favoris réussie",Toast.LENGTH_SHORT).show();
+                if(namesBoitesNonConnection.size()==0){//Si toutes les connexions ont réussi
+                    Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
