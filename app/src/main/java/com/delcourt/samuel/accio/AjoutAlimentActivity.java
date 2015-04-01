@@ -41,13 +41,34 @@ public class AjoutAlimentActivity extends ActionBarActivity {
     private static String product = null;
     private static String manufacturer = null;
     private static int numConnection = 0;
+    private Thread thread = new Thread(new AjoutAlimThread());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_ajout_aliment);
-            connection();
+
+
+            thread.start();//On lance le thread qui gère les accès aux bdd etc.
+
+            /*new Thread(new Runnable() {
+                public void run(){
+                    try {
+                        connection();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"erreur connection - onCreate", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).start();*/
+            /*while(true){
+                //On affiche un texte, il se réactualise en permanence
+                TextView textElement = (TextView) findViewById(R.id.message_ajout_aliment);
+                textElement.setText("Attente d'une requête. Boucle n°"+numConnection+"\nMessage product :"+product+
+                        "\nMessage manufacturer :"+manufacturer);
+            }*/
+
         }
         catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
@@ -79,6 +100,13 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        thread.interrupt();//Interruption du thread : plus besoin d'essayer de se connecter aux bdd qd on quitte l'activité
+    }
+
+
     class RequeteAjoutAliment extends AsyncTask<String, Void, String> {
 
         protected String doInBackground(String... urls) {
@@ -108,10 +136,13 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             } else if (resultat.compareTo("manufacturer")==0){
                 afficheFenetreManufacturer();
             } else {
-                connection();
+                try {
+                    connection();
+                } catch (InterruptedException e) {
+                    Toast.makeText(getApplicationContext(),"erreur connection - postEx principale", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
             }
-
-
         }
 
         public void afficheFenetreProduct(){
@@ -150,16 +181,15 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         }
     }
 
-    public void connection(){
-        SystemClock.sleep(2000);//On attend 2 s
-        numConnection++;
-        //On affiche un texte :
+    public void connection() throws InterruptedException {
+        //On affiche un texte, il se réactualise en permanence
         TextView textElement = (TextView) findViewById(R.id.message_ajout_aliment);
         textElement.setText("Attente d'une requête. Boucle n°"+numConnection+"\nMessage product :"+product+
                 "\nMessage manufacturer :"+manufacturer);
+        thread.sleep(2000);//On attend 2 s
+        numConnection++;
         new RequeteAjoutAliment().execute();
     }
-
 
     class RequeteAjoutAlimentProduct extends AsyncTask<String, Void, String> {
 
@@ -185,7 +215,12 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         //This Method is called when Network-Request finished
 
         protected void onPostExecute(String resultat) {
-            connection();
+            /*try {
+                connection();
+            } catch (InterruptedException e) {
+                Toast.makeText(getApplicationContext(),"erreur connection-postEx Product", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }*/
         }
     }
 
@@ -211,7 +246,26 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(String resultat) {
-            connection();
+            /*try {//Faut-il vmt se reconnecter ??? cf Aurélien
+                connection();
+            } catch (InterruptedException e) {
+                Toast.makeText(getApplicationContext(),"erreur connection-postEx Manufacturer", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }*/
+        }
+    }
+
+    class AjoutAlimThread implements Runnable{
+
+        @Override
+        public void run() {
+            try {
+                connection();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"erreur connection-thread", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }
