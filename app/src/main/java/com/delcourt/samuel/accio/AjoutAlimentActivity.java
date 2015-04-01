@@ -4,36 +4,20 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.delcourt.samuel.accio.structures.Aliment;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class AjoutAlimentActivity extends ActionBarActivity {
@@ -42,6 +26,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
     private static String manufacturer = null;
     private static int numConnection = 0;
     private Thread thread = new Thread(new AjoutAlimThread());
+    private int connecter=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +35,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             setContentView(R.layout.activity_ajout_aliment);
 
 
+            setConnecter(1);
             thread.start();//On lance le thread qui gère les accès aux bdd etc.
 
             /*new Thread(new Runnable() {
@@ -103,9 +89,13 @@ public class AjoutAlimentActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        connecter=0;
         thread.interrupt();//Interruption du thread : plus besoin d'essayer de se connecter aux bdd qd on quitte l'activité
     }
 
+    private void setConnecter(int i){connecter=i;}
+
+    private int getConnecter(){return connecter;}
 
     class RequeteAjoutAliment extends AsyncTask<String, Void, String> {
 
@@ -187,8 +177,10 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         textElement.setText("Attente d'une requête. Boucle n°"+numConnection+"\nMessage product :"+product+
                 "\nMessage manufacturer :"+manufacturer);
         thread.sleep(2000);//On attend 2 s
-        numConnection++;
-        new RequeteAjoutAliment().execute();
+        if(getConnecter()==1){
+            numConnection++;
+            new RequeteAjoutAliment().execute();
+        }
     }
 
     class RequeteAjoutAlimentProduct extends AsyncTask<String, Void, String> {
