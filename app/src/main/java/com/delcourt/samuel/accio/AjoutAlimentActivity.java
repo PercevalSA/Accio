@@ -33,28 +33,8 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_ajout_aliment);
-
-
             setConnecter(1);
             thread.start();//On lance le thread qui gère les accès aux bdd etc.
-
-            /*new Thread(new Runnable() {
-                public void run(){
-                    try {
-                        connection();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(),"erreur connection - onCreate", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }).start();*/
-            /*while(true){
-                //On affiche un texte, il se réactualise en permanence
-                TextView textElement = (TextView) findViewById(R.id.message_ajout_aliment);
-                textElement.setText("Attente d'une requête. Boucle n°"+numConnection+"\nMessage product :"+product+
-                        "\nMessage manufacturer :"+manufacturer);
-            }*/
-
         }
         catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
@@ -90,7 +70,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
     protected void onStop() {
         super.onStop();
         connecter=0;
-        thread.interrupt();//Interruption du thread : plus besoin d'essayer de se connecter aux bdd qd on quitte l'activité
+        //thread.interrupt();//Interruption du thread : plus besoin d'essayer de se connecter aux bdd qd on quitte l'activité
     }
 
     private void setConnecter(int i){connecter=i;}
