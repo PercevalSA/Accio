@@ -90,7 +90,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 openSearch();
                 return true;
             case R.id.action_settings:
-                // on mettra la méthode openSettings() quand elle sera cree
+                optionsFrigo();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -171,6 +171,11 @@ public class RefrigerateurActivity extends ActionBarActivity {
     }
 
     public void sendMessageOptionsFrigo(View view){
+        Intent intent = new Intent(this, FrigoOptionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void optionsFrigo(){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
         startActivity(intent);
     }
