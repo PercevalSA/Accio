@@ -111,14 +111,16 @@ public class BoxActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                actualiseBox();
+                return true;
+            case R.id.action_settings:
+                // on mettra la méthode openSettings() quand elle sera cree
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public static void setBoxIndex(int index){boxIndex=index;}
@@ -399,6 +401,12 @@ public class BoxActivity extends ActionBarActivity {
 
     public void sendMessageActualiseBox(View view){
         //On passe connectedBdd à false, puis on relance l'activité. Ainsi, on se connecte à la bdd
+        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).setConnectedBdd(false);
+        Intent intent = new Intent(this,BoxActivity.class);
+        startActivity(intent);
+    }
+
+    public void actualiseBox(){
         RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).setConnectedBdd(false);
         Intent intent = new Intent(this,BoxActivity.class);
         startActivity(intent);

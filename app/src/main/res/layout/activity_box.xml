@@ -84,16 +84,16 @@
         android:layout_marginEnd="32dp"
         android:onClick="sendMessageOptionsBox"/>
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Actualiser"
         android:id="@+id/actualise_box"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="32dp"
         android:layout_marginEnd="32dp"
-        android:onClick="sendMessageActualiseBox"/>
+        android:onClick="sendMessageActualiseBox"
+        android:background="@drawable/button_refresh"/>
 
 
 </RelativeLayout>

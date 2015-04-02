@@ -58,5 +58,6 @@
     <string name="title_activity_options_recette_enregistree">Options Recette</string>
     <string name="ajout_alim">Ajout aliment</string>
     <string name="title_activity_ajout_aliment">Ajout Aliment</string>
+    <string name="action_refresh">Actualiser</string>
 
 </resources>
