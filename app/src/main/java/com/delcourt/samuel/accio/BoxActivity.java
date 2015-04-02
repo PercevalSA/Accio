@@ -116,7 +116,7 @@ public class BoxActivity extends ActionBarActivity {
                 actualiseBox();
                 return true;
             case R.id.action_settings:
-                // on mettra la méthode openSettings() quand elle sera cree
+                optionsBox();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -135,6 +135,12 @@ public class BoxActivity extends ActionBarActivity {
     }
 
     public void sendMessageOptionsBox(View view){
+        BoxOptionsActivity.setBoxIndex(boxIndex);
+        Intent intent = new Intent(this,BoxOptionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void optionsBox(){
         BoxOptionsActivity.setBoxIndex(boxIndex);
         Intent intent = new Intent(this,BoxOptionsActivity.class);
         startActivity(intent);
