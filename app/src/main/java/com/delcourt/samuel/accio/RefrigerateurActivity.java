@@ -1,5 +1,7 @@
 package com.delcourt.samuel.accio;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,9 +33,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -89,8 +94,11 @@ public class RefrigerateurActivity extends ActionBarActivity {
             case R.id.action_search:
                 openSearch();
                 return true;
-            case R.id.action_settings:
+            case R.id.action_rename:
                 optionsFrigo();
+                return true;
+            case R.id.action_delete:
+                messageDeleteFrigo();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -170,13 +178,49 @@ public class RefrigerateurActivity extends ActionBarActivity {
         return creationReussie;
     }
 
-    public void sendMessageOptionsFrigo(View view){
+        public void optionsFrigo(){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
         startActivity(intent);
     }
 
-    public void optionsFrigo(){
-        Intent intent = new Intent(this, FrigoOptionsActivity.class);
+    public void messageDeleteFrigo(){
+        //on créé une boite de dialogue
+        AlertDialog.Builder adb = new AlertDialog.Builder(RefrigerateurActivity.this);
+        //on attribue un titre à notre boite de dialogue
+        adb.setTitle("Confirmation");
+        //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        adb.setMessage("Voulez-vous vraiment supprimer le réfrigérateur " + RefrigerateurActivity.getRefrigerateur().getName()+
+                " ? \nLes informations correspondantes seront perdues");
+        //on indique que l'on veut le bouton ok à notre boite de dialogue
+        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                delete();
+            }
+        });
+        //on affiche la boite de dialogue
+        adb.show();
+    }
+
+    public void delete(){
+        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
+        int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
+        AccueilActivity.getListeFrigosNames().remove(index);
+
+        //On adapte le fichier texte
+        try {
+            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_PRIVATE));
+            BufferedWriter bw = new BufferedWriter(outStream);
+            PrintWriter out2 = new PrintWriter(bw);
+            for(int i=0;i<AccueilActivity.getListeFrigosNames().size();i++){
+                out2.println(AccueilActivity.getListeFrigosNames().get(i));
+            }
+            out2.close();
+
+        } catch (FileNotFoundException e1) {
+            Toast.makeText(getApplicationContext(), "problème réécriture liste frigos", Toast.LENGTH_SHORT).show();
+        }
+
+        Intent intent = new Intent(this,AccueilActivity.class);
         startActivity(intent);
     }
 

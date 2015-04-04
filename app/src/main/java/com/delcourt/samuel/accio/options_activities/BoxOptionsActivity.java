@@ -150,23 +150,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
     }
 
-    public void sendMessageDelete(View view){
-        //on créé une boite de dialogue
-        AlertDialog.Builder adb = new AlertDialog.Builder(BoxOptionsActivity.this);
-        //on attribue un titre à notre boite de dialogue
-        adb.setTitle("Confirmation");
-        //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        adb.setMessage("Voulez-vous vraiment supprimer la boite " +
-                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName()+" ? \nLes informations correspondantes seront perdues");
-        //on indique que l'on veut le bouton ok à notre boite de dialogue
-        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                delete();
-            }
-        });
-        //on affiche la boite de dialogue
-        adb.show();
-    }
+
 
     public void rename(String newName){
         String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
@@ -253,98 +237,6 @@ public class BoxOptionsActivity extends ActionBarActivity {
                 for (int i = 0; i < array.length(); i++) {
                     //Met les donnÃ©es ds la liste Ã  afficher
                     result += "\n\t" + array.getString(i);
-                }
-            } catch (JSONException e) {
-                Log.e("log_tag", "Error parsing data " + e.toString());
-            }
-
-
-            return result;
-        }
-
-    }
-
-
-
-    public void delete(){
-        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
-        String nameBoite = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
-        boiteID = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getReferenceBdd();
-
-        new DeleteBoite().execute();
-
-        //On supprime la boîte dans la liste dynamique :
-        for(int j =0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().size();j++){
-            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(j).getName().compareTo(nameBoite)==0){
-                RefrigerateurActivity.getRefrigerateur().getBoxes().remove(j);
-            }
-        }
-        //On adapte le fichier texte
-        try {
-            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
-            BufferedWriter bw = new BufferedWriter(outStream);
-            PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
-                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
-                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
-            }
-            out2.close();
-
-        } catch (FileNotFoundException e1) {
-            Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
-        }
-
-        Intent intent = new Intent(this,ListeBoitesActivity.class);
-        startActivity(intent);
-    }
-
-    class DeleteBoite extends AsyncTask<String, Void, String> {
-
-
-        protected String doInBackground(String... urls) {
-
-            String result = "";
-            InputStream is = null;
-
-            // Envoi de la requÃªte avec HTTPGet
-            try {
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://perceval.tk/pact/deleteboite.php?boiteID=" + boiteID);
-                HttpResponse response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
-                is = entity.getContent();
-            } catch (Exception e) {
-                Log.e("log_tag", "Error in http connection " + e.toString());
-            }
-
-            //Conversion de la rÃ©ponse en chaine
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-                is.close();
-
-                result = sb.toString();
-                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
-                        Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                Log.e("log_tag", "Error converting result " + e.toString());
-            }
-
-            //Parsing des donnÃ©es JSON
-            try {
-                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
-                JSONObject object = new JSONObject(result);
-                JSONArray array = object.getJSONArray("testData");
-
-                for (int i = 0; i < array.length(); i++) {
-                    //Met les donnÃ©es ds la liste Ã  afficher
-                    result += "\n\t" + array.getString(i);
-
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());

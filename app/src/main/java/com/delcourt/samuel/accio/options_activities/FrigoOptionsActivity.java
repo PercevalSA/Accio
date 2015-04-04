@@ -97,7 +97,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         }
     }
 
-    public void sendMessageDeleteFrigo(View view){
+    /*public void sendMessageDeleteFrigo(View view){
         //on créé une boite de dialogue
         AlertDialog.Builder adb = new AlertDialog.Builder(FrigoOptionsActivity.this);
         //on attribue un titre à notre boite de dialogue
@@ -113,7 +113,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         });
         //on affiche la boite de dialogue
         adb.show();
-    }
+    }*/
 
     public void rename(String newName){
         String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
@@ -142,7 +142,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void delete(){
+   /* public void delete(){
         String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
         int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
         AccueilActivity.getListeFrigosNames().remove(index);
@@ -163,7 +163,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this,AccueilActivity.class);
         startActivity(intent);
-    }
+    } */
 
     public void listeboites(String newName){
         //On crée le fichier contenant la liste des boîtes etc
