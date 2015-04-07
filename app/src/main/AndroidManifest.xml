@@ -26,22 +26,22 @@
         <activity
             android:name=".ListeBoitesActivity"
             android:label="@string/title_activity_content"
-            android:parentActivityName=".RefrigerateurActivity" >
+            android:parentActivityName=".ListeBoitesActivity" >
         </activity>
         <activity
             android:name=".recettes.MenuRecettesActivity"
             android:label="@string/title_activity_recipes"
-            android:parentActivityName=".RefrigerateurActivity" >
+            android:parentActivityName=".ListeBoitesActivity" >
         </activity>
         <activity
             android:name=".FavoriteActivity"
             android:label="@string/title_activity_favoris"
-            android:parentActivityName=".RefrigerateurActivity" >
+            android:parentActivityName=".ListeBoitesActivity" >
         </activity>
         <activity
             android:name=".HistoriqueActivity"
             android:label="@string/title_activity_historique"
-            android:parentActivityName=".RefrigerateurActivity" >
+            android:parentActivityName=".ListeBoitesActivity" >
         </activity>
         <activity
             android:name=".create_new_object_activities.NewFrigoActivity"
@@ -96,7 +96,7 @@
         <activity
             android:name=".options_activities.FrigoOptionsActivity"
             android:label="@string/title_activity_frigo_options"
-            android:parentActivityName=".RefrigerateurActivity" >
+            android:parentActivityName=".ListeBoitesActivity" >
         </activity>
         <activity
             android:name=".AlimentActivity"
@@ -121,7 +121,7 @@
         <activity
             android:name=".AjoutAlimentActivity"
             android:label="@string/title_activity_ajout_aliment"
-            android:parentActivityName=".RefrigerateurActivity">
+            android:parentActivityName=".ListeBoitesActivity">
         </activity>
     </application>
 
