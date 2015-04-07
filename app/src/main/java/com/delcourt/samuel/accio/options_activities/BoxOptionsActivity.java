@@ -59,14 +59,14 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
             //Récupère les informations de la boîte pour les afficher :
             TextView textElement = (TextView) findViewById(R.id.boxName_BoxOptionActivity);
-            textElement.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName());
+            textElement.setText(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getName());
 
             TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxOptionActivity);
-            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
+            textElement2.setText("(Réfrigérateur : " + ListeBoitesActivity.getRefrigerateur().getName() + ")");
 
             //Affiche l'image du type de la boîte
             //METTRE LES BONNES IMAGES !
-            String type =RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getType();
+            String type =ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getType();
             ImageView textElement3 = (ImageView) findViewById(R.id.imgTypeBoite_boxOptionActivity);
             if (type.compareTo("Fruits")==0){ textElement3.setImageResource(R.drawable.ic_fruit);}
             else if (type.compareTo("Légumes")==0){textElement3.setImageResource(R.drawable.ic_legume);}
@@ -114,8 +114,8 @@ public class BoxOptionsActivity extends ActionBarActivity {
         newName = editText.getText().toString();
 
         //On s'assure qu'aucun frigo du même nom n'a encore été créé
-        for (int i=0;i< RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-            if (newName.compareTo(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName()) == 0){
+        for (int i=0;i< ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+            if (newName.compareTo(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName()) == 0){
                 k++;
             }
         }
@@ -136,7 +136,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
             adb.setTitle("Confirmation");
             //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
             adb.setMessage("Voulez-vous renommer la boîte ''" +
-                    RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName() + "'' en : ''" + newName + "'' ?");
+                    ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getName() + "'' en : ''" + newName + "'' ?");
             //on indique que l'on veut le bouton ok à notre boite de dialogue
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -153,11 +153,11 @@ public class BoxOptionsActivity extends ActionBarActivity {
 
 
     public void rename(String newName){
-        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
+        String nameFrigo = ListeBoitesActivity.getRefrigerateur().getName();
 
         //On change le nom de la boîte dans la liste dynamique :
-        String nameBoite = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
-        boiteID = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getReferenceBdd();
+        String nameBoite = ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
+        boiteID = ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getReferenceBdd();
         try {
             newNameEnco = URLEncoder.encode(newName, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -166,9 +166,9 @@ public class BoxOptionsActivity extends ActionBarActivity {
         new RenameBoite().execute();
 
 
-        for(int j =0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().size();j++){
-            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(j).getName().compareTo(nameBoite)==0){
-                RefrigerateurActivity.getRefrigerateur().getBoxes().get(j).setName(newName);
+        for(int j =0;j<ListeBoitesActivity.getRefrigerateur().getBoxes().size();j++){
+            if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(j).getName().compareTo(nameBoite)==0){
+                ListeBoitesActivity.getRefrigerateur().getBoxes().get(j).setName(newName);
             }
         }
         //On adapte le fichier texte
@@ -176,10 +176,10 @@ public class BoxOptionsActivity extends ActionBarActivity {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt",MODE_PRIVATE));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
-                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
-                out2.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
+            for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+                out2.println(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
+                out2.println(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName());
+                out2.println(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType());
             }
             out2.close();
 

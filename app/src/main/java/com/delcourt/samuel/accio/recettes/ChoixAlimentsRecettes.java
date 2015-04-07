@@ -17,6 +17,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
+import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Aliment;
@@ -101,12 +102,12 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
     }
 
     public void createListeAlimentsProposes(){
-        for(int i=0;i< RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){//On parcourt toutes les boîtes
-            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==true){
+        for(int i=0;i< ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){//On parcourt toutes les boîtes
+            if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==true){
                 //Si il y a déjà eu connection, on récupère les aliments
-                for(int j=0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().size();j++){
-                    AlimentRecette aliment = new AlimentRecette(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().get(j).getAlimentName(),
-                            RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
+                for(int j=0;j<ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().size();j++){
+                    AlimentRecette aliment = new AlimentRecette(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().get(j).getAlimentName(),
+                            ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType());
                     listeAlimentsProposes.add(aliment);
                 }
             } else {//pas encore eu de connexion -> on prend l'indice de la boîte pour la charger ensuite
@@ -119,7 +120,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
         //On lance les connexions aux bdd successives :
         if(numerosBoitesAConnecter.size()!=0){
-            boite=RefrigerateurActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
+            boite=ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
             refBdd=boite.getReferenceBdd();
             TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
             textElement.setText("Chargement des aliments de la boîte "+boite.getName());
@@ -452,7 +453,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             //Si il reste des boîtes à connecter, on les connecte.
             if(numerosBoitesAConnecter.size()>0)numerosBoitesAConnecter.remove(0);
             if(numerosBoitesAConnecter.size()!=0){
-                boite=RefrigerateurActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
+                boite= ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
                 refBdd=boite.getReferenceBdd();
 
                 textElement.setText("Chargement des aliments de la boîte "+boite.getName());

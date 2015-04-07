@@ -2,9 +2,12 @@ package com.delcourt.samuel.accio;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -17,13 +20,28 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
+import com.delcourt.samuel.accio.recettes.MenuRecettesActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 public class ListeBoitesActivity extends ActionBarActivity {
+
+    private static Refrigerateur refrigerateur;
+
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private String mActivityTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +49,32 @@ public class ListeBoitesActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_liste_boites);
 
+            mDrawerList = (ListView)findViewById(R.id.navList);
+            mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+            mActivityTitle = getTitle().toString();
+
+            addDrawerItems();
+            setupDrawer();
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+
+            if(refrigerateur.isRefrigerateurCreated()==false){//Si le frigo n'a pas encore été créé, on le crée.
+
+                boolean chargementReussi = creationRéfrigerateur();
+
+                if (chargementReussi == false) {//si le chargement du frigo ou des boîtes a échoué, on affiche un message
+                    Toast toast = Toast.makeText(getApplicationContext(), "Erreur chargement du frigo (liste des boîtes Accio inaccessible)", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    toast.show();
+                }
+            }
+
+
             afficheListeBoites();
 
             TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
-            textElement.setText("Boites Accio du réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName());
+            textElement.setText("Boites Accio du réfrigérateur : " + ListeBoitesActivity.getRefrigerateur().getName());
 
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
@@ -64,8 +104,52 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 // on mettra la méthode openSettings() quand elle sera cree
                 return true;
             default:
+                if (mDrawerToggle.onOptionsItemSelected(item)) {
+                    return true;
+                }
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public static Refrigerateur getRefrigerateur(){return refrigerateur;}
+
+    public static void setRefrigerateur(Refrigerateur frigo){refrigerateur=frigo;}
+
+    public boolean creationRéfrigerateur() {
+
+        //ON RECREE LE REFRIGERATEUR AVEC SES BOITES
+        //Le nom du réfrigérateur a été spécifié lors du choix du frigo. On récupère maintenant la liste des boîtes
+
+        // ATTENTION : les boites ne connaissent pas encore leur référence dans la base de données
+
+        //Lecture de la liste des boîtes et création des boîtes (pour l'instant vides)
+        boolean creationReussie;
+        InputStream instream = null;
+        String nameFrigo = refrigerateur.getName();
+        refrigerateur = new Refrigerateur(nameFrigo);//Réinitialise l'ensemble du réfrigérateur
+        try {
+            instream = openFileInput(nameFrigo + "Boxes.txt");
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            Scanner sc = new Scanner(buffreader);
+
+            while (sc.hasNextLine() == true) {//On recrée la liste des boites et la liste des noms des boîtes
+
+                String refBdd = sc.nextLine();
+                String name = sc.nextLine();
+                String type = sc.nextLine();
+
+                Box box = new Box(refBdd, name, type);
+                refrigerateur.getBoxes().add(box);
+            }
+            sc.close();
+            creationReussie = true;
+            refrigerateur.setRefrigerateurCreated();
+
+        } catch (FileNotFoundException e) {
+            creationReussie = false;
+        }
+        return creationReussie;
     }
 
     public void openSearch(){
@@ -74,7 +158,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public void sendMessageBoxSelected(View view, int index){//A COMPLETER !!!
+    public void sendMessageBoxSelected(View view, int index){
         BoxActivity.setBoxIndex(index);
         Intent intent = new Intent(this, BoxActivity.class);
         startActivity(intent);
@@ -85,8 +169,84 @@ public class ListeBoitesActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    private void addDrawerItems() {
+        String[] osArray = { "Contenu", "Recette", "Favoris", "Ajout","Accueil" };
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
+        mDrawerList.setAdapter(mAdapter);
+
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                itemSelected(position);
+            }
+        });
+
+    }
+
+    private void setupDrawer() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Menu");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(mActivityTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    public void itemSelected(int position){
+        //Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT).show();
+        if(position ==0){
+            Intent intent = new Intent(this, ListeBoitesActivity.class);
+            startActivity(intent);
+        }
+
+        if(position ==1){
+            Intent intent = new Intent(this, MenuRecettesActivity.class);
+            startActivity(intent);
+        }
+
+        if(position ==2){
+            Intent intent = new Intent(this, FavoriteActivity.class);
+            startActivity(intent);
+        }
+
+        if(position ==3){
+            Intent intent = new Intent(this, AjoutAlimentActivity.class);
+            startActivity(intent);
+        }
+
+        if(position ==4){
+            Intent intent = new Intent(this, AccueilActivity.class);
+            startActivity(intent);
+        }
+    }
+
     public void afficheListeBoites(){
-        int numberBoxes = RefrigerateurActivity.getRefrigerateur().getBoxes().size();
+        int numberBoxes = ListeBoitesActivity.getRefrigerateur().getBoxes().size();
 
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
             TextView textElement = (TextView) findViewById(R.id.message_liste_boites);
@@ -110,10 +270,10 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
                 //on insère la référence aux éléments à afficher
                 map = new HashMap<String, String>();
-                map.put("titre", RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
-                map.put("description", RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
+                map.put("titre", ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName());
+                map.put("description", ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType());
                 //Récupère le nom de l'image à affihcer
-                String type = RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType();
+                String type = ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType();
                 //MODIFIER LES NOMS DES IMAGES A AFFICHER
                 if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
                 else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}

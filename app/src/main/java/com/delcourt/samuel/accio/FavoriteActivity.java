@@ -104,13 +104,13 @@ public class FavoriteActivity extends ActionBarActivity {
 
     public void chargeFavoris(){
         listeAlimentFavoris=new ArrayList<>();
-        for(int i=0; i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){//On prend les références des boîtes pas encore chargées
-            if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==false){
+        for(int i=0; i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){//On prend les références des boîtes pas encore chargées
+            if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==false){
                 numerosBoitesAConnecter.add(i);
             }
             else{
-                for(int j=0;j<RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().size();j++){
-                    Aliment aliment = RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().get(j);
+                for(int j=0;j<ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().size();j++){
+                    Aliment aliment = ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getListeAliments().get(j);
                     if(aliment.isAlimentFavori()==true){
                         listeAlimentFavoris.add(aliment);
                     }
@@ -120,7 +120,7 @@ public class FavoriteActivity extends ActionBarActivity {
         afficheFavoris();//Affiche immédiatement les aliments des boîtes déjà chargées
         //On lance les connexions aux bdd successives :
         if(numerosBoitesAConnecter.size()!=0){
-            boite=RefrigerateurActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
+            boite=ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
             refBdd=boite.getReferenceBdd();
             TextView textElement = (TextView) findViewById(R.id.message_chargement_favoris);
             textElement.setText("Chargement des aliments de la boîte "+boite.getName());
@@ -310,7 +310,7 @@ public class FavoriteActivity extends ActionBarActivity {
             //Si il reste des boîtes à connecter, on les connecte.
             numerosBoitesAConnecter.remove(0);
             if(numerosBoitesAConnecter.size()!=0) {
-                boite = RefrigerateurActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
+                boite = ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
                 refBdd = boite.getReferenceBdd();
 
                 textElement.setText("Chargement des aliments de la boîte " + boite.getName());

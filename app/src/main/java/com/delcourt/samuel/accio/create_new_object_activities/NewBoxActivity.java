@@ -133,8 +133,8 @@ public class NewBoxActivity extends ActionBarActivity {
 
                     //On s'assure qu'aucune boîte du même nom n'a encore été créée
                     int k = 0;
-                    for (int i=0;i< RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-                        if (newBoiteName.compareTo(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName()) == 0){
+                    for (int i=0;i< ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+                        if (newBoiteName.compareTo(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName()) == 0){
                             k++;
                         }
                     }
@@ -146,7 +146,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
                     else {//Dans ce cas, c'est bon, on peut créer la nouvelle boîte
                             //Ajoute le nom du nouveau frigo dans frigos_file.txt (ne remplace pas le fichier mais écrit à la suite)
-                            nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
+                            nameFrigo = ListeBoitesActivity.getRefrigerateur().getName();
                             newBoiteNameEnco = URLEncoder.encode(newBoiteName, "UTF-8");
                             typeBoxEnco = URLEncoder.encode(typeBox,"UTF-8");
                         // C'est ici qu'on se connecte à la BDD
@@ -257,7 +257,7 @@ public class NewBoxActivity extends ActionBarActivity {
 
                     //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
                     Box newBox = new Box(RefBdd, newBoiteName, typeBox);
-                    RefrigerateurActivity.getRefrigerateur().getBoxes().add(newBox);
+                    ListeBoitesActivity.getRefrigerateur().getBoxes().add(newBox);
 
                     //la boîte a été crée, on retourne sur l'activité précédente :
                     startActivity(intent);

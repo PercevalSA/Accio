@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
+import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
 import com.delcourt.samuel.accio.RefrigerateurActivity;
 import java.io.BufferedWriter;
@@ -85,7 +86,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
             //on attribue un titre à notre boite de dialogue
             adb.setTitle("Confirmation");
             //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-            adb.setMessage("Voulez-vous renommer le réfrigérateur ''" + RefrigerateurActivity.getRefrigerateur().getName() + "'' en : ''" + newName + "'' ?");
+            adb.setMessage("Voulez-vous renommer le réfrigérateur ''" + ListeBoitesActivity.getRefrigerateur().getName() + "'' en : ''" + newName + "'' ?");
             //on indique que l'on veut le bouton ok à notre boite de dialogue
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -116,7 +117,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
     }*/
 
     public void rename(String newName){
-        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
+        String nameFrigo = ListeBoitesActivity.getRefrigerateur().getName();
 
         //On change le nom du frigo dans la liste dynamique :
         int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
@@ -172,10 +173,10 @@ public class FrigoOptionsActivity extends ActionBarActivity {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(newName + "Boxes.txt",MODE_APPEND));
             BufferedWriter bw = new BufferedWriter(outStream);
             PrintWriter out = new PrintWriter(bw);
-            for(int i =0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-                out.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
-                out.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
-                out.println(RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
+            for(int i =0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+                out.println(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getReferenceBdd());
+                out.println(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName());
+                out.println(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType());
             }
             out.close();
         } catch (java.io.IOException e) {

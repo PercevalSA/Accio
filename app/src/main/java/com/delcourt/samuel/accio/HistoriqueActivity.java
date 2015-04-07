@@ -65,7 +65,7 @@ public class HistoriqueActivity extends ActionBarActivity {
     }
 
     public void afficheListeBoites(){
-        int numberBoxes = RefrigerateurActivity.getRefrigerateur().getBoxes().size();
+        int numberBoxes = ListeBoitesActivity.getRefrigerateur().getBoxes().size();
 
         if(numberBoxes==0){//Si pas de boîte, on affiche un message
             TextView textElement = (TextView) findViewById(R.id.message_historique);
@@ -89,10 +89,10 @@ public class HistoriqueActivity extends ActionBarActivity {
 
                 //on insère la référence aux éléments à afficher
                 map = new HashMap<String, String>();
-                map.put("titre", RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName());
-                map.put("description", RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType());
+                map.put("titre", ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName());
+                map.put("description", ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType());
                 //Récupère le nom de l'image à affihcer
-                String type = RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getType();
+                String type = ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getType();
                 //MODIFIER LES NOMS DES IMAGES A AFFICHER
                 if (type.compareTo("Fruits")==0){ map.put("img", String.valueOf(R.drawable.ic_fruit));}
                 else if (type.compareTo("Légumes")==0){ map.put("img", String.valueOf(R.drawable.ic_legume));}
@@ -134,7 +134,7 @@ public class HistoriqueActivity extends ActionBarActivity {
     }
 
     public void sendMessageBoxSelected(View view, int index){
-        HistoriqueBoiteActivity.setBox(RefrigerateurActivity.getRefrigerateur().getBoxes().get(index));
+        HistoriqueBoiteActivity.setBox(ListeBoitesActivity.getRefrigerateur().getBoxes().get(index));
         Intent intent = new Intent(this, HistoriqueBoiteActivity.class);
         startActivity(intent);
     }

@@ -29,7 +29,7 @@ public class HistoriqueBoiteActivity extends ActionBarActivity {
             textElement.setText(boite.getName());
 
             TextView textElement2 = (TextView) findViewById(R.id.frigoName_historique);
-            textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
+            textElement2.setText("(Réfrigérateur : " + ListeBoitesActivity.getRefrigerateur().getName() + ")");
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);

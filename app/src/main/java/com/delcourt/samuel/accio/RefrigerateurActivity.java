@@ -52,7 +52,8 @@ public class RefrigerateurActivity extends ActionBarActivity {
     // infos et caractéristiques du réfrigérateur auquel on s'intéresse. Ainsi, lorsqu'une autre classe a besoin d'infos sur les boites
     // ou leurs aliments etc., elle les cherche directement ici.
 
-    private static Refrigerateur refrigerateur;
+    //private static Refrigerateur refrigerateur;
+    //Navigation drawer
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -75,7 +76,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
 
-            if(refrigerateur.isRefrigerateurCreated()==false){//Si le frigo n'a pas encore été créé, on le crée.
+            /*if(refrigerateur.isRefrigerateurCreated()==false){//Si le frigo n'a pas encore été créé, on le crée.
 
                 boolean chargementReussi = creationRéfrigerateur();
 
@@ -87,7 +88,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
             }
 
             TextView textElement = (TextView) findViewById(R.id.frigoNameMenu);
-            textElement.setText("Réfrigérateur : " + refrigerateur.getName());
+            textElement.setText("Réfrigérateur : " + refrigerateur.getName());*/
 
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
@@ -117,7 +118,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
                 optionsFrigo();
                 return true;
             case R.id.action_delete:
-                messageDeleteFrigo();
+
                 return true;
 
             default:
@@ -131,14 +132,14 @@ public class RefrigerateurActivity extends ActionBarActivity {
     }
 
     private void addDrawerItems() {
-        String[] osArray = { "Contenu", "Recette", "Favoris", "Ajout", "Linux" };
+        String[] osArray = { "Contenu", "Recette", "Favoris", "Ajout","Accueil" };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RefrigerateurActivity.this, "Time for an upgrade!", Toast.LENGTH_SHORT).show();
+                itemSelected(position);
             }
         });
 
@@ -184,9 +185,9 @@ public class RefrigerateurActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public static Refrigerateur getRefrigerateur(){return refrigerateur;}
+   /* public static Refrigerateur getRefrigerateur(){return refrigerateur;}
 
-    public static void setRefrigerateur(Refrigerateur frigo){refrigerateur=frigo;}
+    public static void setRefrigerateur(Refrigerateur frigo){refrigerateur=frigo;}*/
 
     public void sendMessageContent(View view) {
         Intent intent = new Intent(this, ListeBoitesActivity.class);
@@ -214,7 +215,7 @@ public class RefrigerateurActivity extends ActionBarActivity {
         startActivity(help);
     }
 
-    public boolean creationRéfrigerateur() {
+   /* public boolean creationRéfrigerateur() {
 
         //ON RECREE LE REFRIGERATEUR AVEC SES BOITES
         //Le nom du réfrigérateur a été spécifié lors du choix du frigo. On récupère maintenant la liste des boîtes
@@ -249,14 +250,14 @@ public class RefrigerateurActivity extends ActionBarActivity {
             creationReussie = false;
         }
         return creationReussie;
-    }
+    }*/
 
         public void optionsFrigo(){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
         startActivity(intent);
     }
 
-    public void messageDeleteFrigo(){
+    /*public void messageDeleteFrigo(){
         //on créé une boite de dialogue
         AlertDialog.Builder adb = new AlertDialog.Builder(RefrigerateurActivity.this);
         //on attribue un titre à notre boite de dialogue
@@ -295,13 +296,40 @@ public class RefrigerateurActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this,AccueilActivity.class);
         startActivity(intent);
-    }
+    }*/
 
     public void sendMessageAjoutAliment(View view){
         Intent intent = new Intent(this, AjoutAlimentActivity.class);
         startActivity(intent);
     }
 
+    public void itemSelected(int position){
+        //Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT).show();
+        if(position ==0){
+            Intent intent = new Intent(this, ListeBoitesActivity.class);
+            startActivity(intent);
+        }
+
+       if(position ==1){
+           Intent intent = new Intent(this, MenuRecettesActivity.class);
+           startActivity(intent);
+       }
+
+        if(position ==2){
+            Intent intent = new Intent(this, FavoriteActivity.class);
+            startActivity(intent);
+        }
+
+        if(position ==3){
+            Intent intent = new Intent(this, AjoutAlimentActivity.class);
+            startActivity(intent);
+        }
+
+        if(position ==4){
+            Intent intent = new Intent(this, AccueilActivity.class);
+            startActivity(intent);
+        }
+    }
 
    }
 

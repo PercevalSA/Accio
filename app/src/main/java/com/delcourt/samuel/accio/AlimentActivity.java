@@ -93,25 +93,25 @@ public class AlimentActivity extends ActionBarActivity {
     public void afficheEnTete() throws ParseException {
         TextView textElement = (TextView) findViewById(R.id.boxName_AlimentActivity);
         textElement.setText("Boîte : "+
-                RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getBoxName());
+                ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getBoxName());
 
         TextView textElement2 = (TextView) findViewById(R.id.frigoName_BoxActivity);
-        textElement2.setText("(Réfrigérateur : " + RefrigerateurActivity.getRefrigerateur().getName() + ")");
+        textElement2.setText("(Réfrigérateur : " + ListeBoitesActivity.getRefrigerateur().getName() + ")");
 
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).isAlimentFavori()==true){image.setImageResource(R.drawable.fav);
+        if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).isAlimentFavori()==true){image.setImageResource(R.drawable.fav);
         }else{image.setImageResource(R.drawable.favn);}
 
         TextView textElement3 = (TextView) findViewById(R.id.nameAliment);
-        textElement3.setText(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName());
+        textElement3.setText(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName());
 
         TextView textElement4 = (TextView) findViewById(R.id.marqueAliment);
-        if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque()=="null"){textElement4.setText("");} else {
-        textElement4.setText("Marque : " + RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque());}
+        if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque()=="null"){textElement4.setText("");} else {
+        textElement4.setText("Marque : " + ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentMarque());}
 
 
         TextView textElement5 = (TextView) findViewById(R.id.marqueHistorique);
-        String strDate = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentHistorique();
+        String strDate = ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentHistorique();
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date= df.parse(strDate);
         DateFormat newFormat = new SimpleDateFormat("d MMMM yyyy");
@@ -129,9 +129,9 @@ public class AlimentActivity extends ActionBarActivity {
         //on attribue un titre à notre boite de dialogue
         adb.setTitle("Favori");
 
-        if(RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).isAlimentFavori()==false){
+        if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).isAlimentFavori()==false){
             adb.setMessage("Voulez-vous ajouter l'aliment : "+
-                    RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()+" à la liste des favoris ?");
+                    ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()+" à la liste des favoris ?");
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     declareFavori();
@@ -140,7 +140,7 @@ public class AlimentActivity extends ActionBarActivity {
             adb.show();
         } else{
             adb.setMessage("Voulez-vous retirer l'aliment : "+
-                    RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()+" de la liste des favoris ?");
+                    ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()+" de la liste des favoris ?");
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     declareNonFavori();
@@ -152,20 +152,20 @@ public class AlimentActivity extends ActionBarActivity {
 
     public void declareFavori(){
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(true);
+        ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(true);
         image.setImageResource(R.drawable.fav);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - ajouté aux favoris",Toast.LENGTH_SHORT).show();
-        alimID=RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
+        alimID=ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareFavori().execute();
 
     }
 
     public void declareNonFavori(){
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(false);
+        ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(false);
         image.setImageResource(R.drawable.favn);
         Toast.makeText(getApplicationContext(), "Connecter à la bdd - retiré des favoris",Toast.LENGTH_SHORT).show();
-        alimID = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
+        alimID = ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareNonFavori().execute();
 
     }

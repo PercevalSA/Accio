@@ -97,10 +97,10 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
     public static ArrayList<String> getListeFrigosNames(){return listeFrigosNames;}
 
     public void sendMessageFrigoSelected(int indexName){
-        Intent intent = new Intent(this, RefrigerateurActivity.class);//Lance l'activité RefrigerateurActivity, avec le nom du frigo sélectionné en message
+        Intent intent = new Intent(this, ListeBoitesActivity.class);//Lance l'activité RefrigerateurActivity, avec le nom du frigo sélectionné en message
         String frigoName = listeFrigosNames.get(indexName);
         Refrigerateur refrigerateur = new Refrigerateur(frigoName);
-        RefrigerateurActivity.setRefrigerateur(refrigerateur);
+        ListeBoitesActivity.setRefrigerateur(refrigerateur);
         startActivity(intent);
     }
 
