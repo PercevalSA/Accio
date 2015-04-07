@@ -85,22 +85,17 @@ public class FavoriteActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_search:
-                openSearch();
-                return true;
-            case R.id.action_settings:
-                // on mettra la mÃ©thode openSettings() quand elle sera cree
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                case R.id.action_refresh:
+                    actualise();
+                    return true;
+                default:
+
+                    return super.onOptionsItemSelected(item);
+
         }
     }
 
-    public void openSearch(){
-        Uri webpage = Uri.parse("http://www.google.fr/");
-        Intent help = new Intent(Intent.ACTION_VIEW, webpage);
-        startActivity(help);
-    }
+
 
     public void chargeFavoris(){
         listeAlimentFavoris=new ArrayList<>();
