@@ -324,7 +324,41 @@ public class FavoriteActivity extends ActionBarActivity {
         }
     }
 
-    public void sendMessageAlimentSelected(View view, int i){}
+    public void sendMessageAlimentSelected(View view, int index){
+        Aliment aliment = listeAlimentFavoris.get(index);
+        String boxName=aliment.getBoxName();
+        int boxIndex=-1;
+        int alimentIndex=-1;
+
+        //On récupère l'index de la boîte :
+        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+            if((RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName()).compareTo(boxName)==0){
+                boxIndex=i;
+            }
+        }
+
+        //On récupère l'index de l'aliment :
+        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size();i++){
+            if((RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).getAlimentName())
+                    .compareTo(boxName)==0){
+                alimentIndex=i;
+            }
+        }
+
+        if(boxIndex>=0 && alimentIndex>=0){
+            BoxActivity.setBoxIndex(boxIndex);
+            AlimentActivity.setBoxIndex(boxIndex);
+            AlimentActivity.setAlimentIndex(alimentIndex);
+
+            Intent intent = new Intent(this, AlimentActivity.class);
+            startActivity(intent);
+        }else{
+            Toast.makeText(getApplicationContext(), "Problème...",Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
 
     public void afficheFavoris() {
 
