@@ -228,7 +228,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     }
 
     private void addDrawerItems() {
-        String[] osArray = { "Contenu", "Recette", "Favoris", "Ajout","Accueil" };
+        String[] osArray = {"Accueil","Recette", "Favoris", "Ajout d'aliment", };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
         mDrawerList.setAdapter(mAdapter);
 
@@ -277,10 +277,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
     public void itemSelected(int position){
         //Toast.makeText(getApplicationContext(), position, Toast.LENGTH_SHORT).show();
-        if(position ==0){
-            Intent intent = new Intent(this, ListeBoitesActivity.class);
-            startActivity(intent);
-        }
 
         if(position ==1){
             Intent intent = new Intent(this, MenuRecettesActivity.class);
@@ -297,7 +293,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             startActivity(intent);
         }
 
-        if(position ==4){
+        if(position ==0){
             Intent intent = new Intent(this, AccueilActivity.class);
             startActivity(intent);
         }
