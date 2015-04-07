@@ -154,7 +154,6 @@ public class AlimentActivity extends ActionBarActivity {
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
         ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(true);
         image.setImageResource(R.drawable.fav);
-        Toast.makeText(getApplicationContext(), "Connecter à la bdd - ajouté aux favoris",Toast.LENGTH_SHORT).show();
         alimID=ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareFavori().execute();
 
@@ -164,7 +163,6 @@ public class AlimentActivity extends ActionBarActivity {
         ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
         ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(false);
         image.setImageResource(R.drawable.favn);
-        Toast.makeText(getApplicationContext(), "Connecter à la bdd - retiré des favoris",Toast.LENGTH_SHORT).show();
         alimID = ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareNonFavori().execute();
 
