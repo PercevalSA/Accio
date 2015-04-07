@@ -1,9 +1,3 @@
-/**
- * @author Jonathan Lack and Eric Denovitzer
- * COS 402 P6
- * AdaBoost.java
- */
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.*;
@@ -19,10 +13,6 @@ public class AdaBoost implements Classifier {
     private double weight[];
     private double alpha[] = new double[NUM_ROUNDS];
     private DecisionStump hypotheses[] = new DecisionStump[NUM_ROUNDS];
-    
-    private String author = "Jonathan Lack and Eric Denovitzer";
-    private String description = "The AdaBoost algorithm with decision stumps " +
-    		"as the weak learning algorithm.";
 
     /**
      * 
@@ -81,16 +71,6 @@ public class AdaBoost implements Classifier {
         if (weightTrue > weightFalse)
             return 1;
         return 0;
-    }
-
-    /** This method returns a description of the learning algorithm. */
-    public String algorithmDescription() {
-        return description;
-    }
-
-    /** This method returns the author of this program. */
-    public String author() {
-        return author;
     }
     
     private double[] normalize(double[] N) {

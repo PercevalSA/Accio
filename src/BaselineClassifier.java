@@ -8,10 +8,6 @@ import java.io.*;
 public class BaselineClassifier implements Classifier {
 
     private int most_frequent_class;
-    private String author = "Rob Schapire";
-    private String description = "A very simple learning algorithm that, "
-	+ "on each test example, predicts with the most frequent class seen "
-	+ "during training";
 
     /**
      * This constructor takes as input a dataset and computes and
@@ -31,16 +27,6 @@ public class BaselineClassifier implements Classifier {
      */
     public int predict(int[] ex) {
 	return most_frequent_class;
-    }
-
-    /** This method returns a description of the learning algorithm. */
-    public String algorithmDescription() {
-	return description;
-    }
-
-    /** This method returns the author of this program. */
-    public String author() {
-	return author;
     }
 
     /** A simple main for testing this algorithm.  This main reads a
