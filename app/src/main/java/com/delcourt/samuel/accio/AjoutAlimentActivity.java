@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -187,12 +188,9 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         //This Method is called when Network-Request finished
 
         protected void onPostExecute(String resultat) {
-            /*try {
-                connection();
-            } catch (InterruptedException e) {
-                Toast.makeText(getApplicationContext(),"erreur connection-postEx Product", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }*/
+            Toast toast = Toast.makeText(getApplicationContext(), "Nom bien récupéré", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
         }
     }
 
@@ -218,12 +216,9 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(String resultat) {
-            /*try {//Faut-il vmt se reconnecter ??? cf Aurélien
-                connection();
-            } catch (InterruptedException e) {
-                Toast.makeText(getApplicationContext(),"erreur connection-postEx Manufacturer", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }*/
+            Toast toast = Toast.makeText(getApplicationContext(), "Nom bien récupéré", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
         }
     }
 
