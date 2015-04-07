@@ -410,7 +410,7 @@ public class BoxActivity extends ActionBarActivity {
         });
     }
 
-    
+
     public void actualiseBox(){
         RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).setConnectedBdd(false);
         Intent intent = new Intent(this,BoxActivity.class);
