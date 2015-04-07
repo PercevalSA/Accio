@@ -92,7 +92,7 @@ public class BoxActivity extends ActionBarActivity {
             } else{
                 if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size()==0){//Si la liste est vide, on affiche un message
                     TextView textElement3 = (TextView) findViewById(R.id.message_BoxActivity);
-                    textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant2");
+                    textElement3.setText("Il n'y a aucun aliment dans cette boîte pour l'instant");
 
                     TextView textElement4 = (TextView) findViewById(R.id.resultat2);
                     textElement4.setText(" ");

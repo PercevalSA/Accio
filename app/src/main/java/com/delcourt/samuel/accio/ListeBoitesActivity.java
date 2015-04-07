@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -14,7 +13,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,7 +24,6 @@ import com.delcourt.samuel.accio.options_activities.FrigoOptionsActivity;
 import com.delcourt.samuel.accio.recettes.MenuRecettesActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -34,7 +31,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -60,7 +56,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
             mActivityTitle = getTitle().toString();
 
-            addDrawerItems();
+            addDrawerItems2();
             setupDrawer();
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -227,6 +223,54 @@ public class ListeBoitesActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void addDrawerItems2(){
+        ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
+
+        HashMap<String, String> map;
+
+        map = new HashMap<String, String>();
+        map.put("titre","Accueil");
+        map.put("image",String.valueOf(R.drawable.fav));
+        listItem.add(map);
+
+        map = new HashMap<String, String>();
+        map.put("titre","Recette");
+        map.put("image",String.valueOf(R.drawable.favn));
+        listItem.add(map);
+
+        map = new HashMap<String, String>();
+        map.put("titre","Favoris");
+        map.put("image",String.valueOf(R.drawable.fav));
+        listItem.add(map);
+
+        map = new HashMap<String, String>();
+        map.put("titre","Ajout d'aliment");
+        map.put("image",String.valueOf(R.drawable.favn));
+        listItem.add(map);
+
+        //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
+        SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.menu_options,
+                new String[] {"titre","image"}, new int[] {R.id.titre_menu,R.id.imgMenu});
+
+        //On attribue à notre listView l'adapter que l'on vient de créer
+        mDrawerList.setAdapter(mSchedule);
+
+
+        //register onClickListener to handle click events on each item
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            // argument position gives the index of item which is clicked
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                itemSelected(position);
+            }
+        });
+
+    }
+
+
+
     private void addDrawerItems() {
         String[] osArray = {"Accueil","Recette", "Favoris", "Ajout d'aliment", };
         mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
@@ -367,5 +411,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             });
         }
     }
+
+
 
 }
