@@ -374,7 +374,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 namesBoitesNonConnection.add(boite.getName());
                 TextView textElement = (TextView) findViewById(R.id.message_recette);
                 textElement.setText("Impossible de charger la liste des aliments de votre réfrigérateur");
-                
+
             } else { //La connexion à la base de données a fonctionné. On affiche tous les aliments
                 //Affichage des aliments
 
@@ -466,5 +466,13 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
         }
 
+    }
+
+    public void actualise(){
+        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+            RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+        }
+        Intent intent = new Intent(this,ChoixAlimentsRecettes.class);
+        startActivity(intent);
     }
 }

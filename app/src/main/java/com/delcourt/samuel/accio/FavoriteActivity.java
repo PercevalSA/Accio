@@ -399,4 +399,12 @@ public class FavoriteActivity extends ActionBarActivity {
 
     }
 
+    public void actualise(){
+        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
+            RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+        }
+        Intent intent = new Intent(this,FavoriteActivity.class);
+        startActivity(intent);
+    }
+
 }
