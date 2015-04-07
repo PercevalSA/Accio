@@ -100,9 +100,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_refresh:
-                actualise();
-                return true;
             case R.id.action_rename:
                 optionsFrigo();
                 return true;
@@ -204,13 +201,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void actualise(){
-        for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
-            ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
-        }
-        Intent intent = new Intent(this,ListeBoitesActivity.class);
-        startActivity(intent);
-    }
 
     public void sendMessageBoxSelected(View view, int index){
         BoxActivity.setBoxIndex(index);
