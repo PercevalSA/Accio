@@ -352,6 +352,9 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
         protected void onPostExecute(String resultat) {
 
+            //On supprime réinitialise la liste des aliments de la boîte pour la réécrire :
+            boite.getListeAliments().clear();
+
             int nbAliment = listeNomAliment.size();
             for(int k =0; k < nbAliment; k++){
 

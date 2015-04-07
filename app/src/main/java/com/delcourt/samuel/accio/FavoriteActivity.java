@@ -214,6 +214,9 @@ public class FavoriteActivity extends ActionBarActivity {
 
             } else { //La connexion à la base de données a fonctionné. On crée la liste des aliments, on affiche les favoris
 
+                //On supprime réinitialise la liste des aliments de la boîte pour la réécrire :
+                boite.getListeAliments().clear();
+
                 boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
 
                 int nbAliment = listeNomAliment.size();
