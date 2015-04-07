@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,6 +42,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
+        makeActionOverflowMenuShown();
 
         readFiles(); //Lecture des fichiers et récupération des infos sur le frigo
 
@@ -91,6 +94,20 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void makeActionOverflowMenuShown() {
+        //devices with hardware menu button (e.g. Samsung Note) don't show action overflow menu
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            if (menuKeyField != null) {
+                menuKeyField.setAccessible(true);
+                menuKeyField.setBoolean(config, false);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "erreur makeActionOverflowMenuShown",Toast.LENGTH_SHORT).show();
         }
     }
 

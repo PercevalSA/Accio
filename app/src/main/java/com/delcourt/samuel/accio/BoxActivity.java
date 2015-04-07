@@ -69,7 +69,7 @@ public class BoxActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_box);
-            makeActionOverflowMenuShown();
+
             listeNomAliment = new ArrayList<>();
             listeBoiteID = new ArrayList<>();
             listeMarqueAliment = new ArrayList<>();
@@ -135,19 +135,7 @@ public class BoxActivity extends ActionBarActivity {
         }
     }
 
-    private void makeActionOverflowMenuShown() {
-        //devices with hardware menu button (e.g. Samsung Note) don't show action overflow menu
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "erreur makeActionOverflowMenuShown",Toast.LENGTH_SHORT).show();
-        }
-    }
+
 
     public static void setBoxIndex(int index){boxIndex=index;}
 
