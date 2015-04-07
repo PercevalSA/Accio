@@ -27,7 +27,7 @@ public class picture {
 	
 	public static void main(String[] args) {
 		OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
-		int i = 506;
+		int i = 601;
 		try{
 			int n=1;
 			while(true){
