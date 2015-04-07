@@ -331,15 +331,15 @@ public class FavoriteActivity extends ActionBarActivity {
         int alimentIndex=-1;
 
         //On récupère l'index de la boîte :
-        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-            if((RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).getName()).compareTo(boxName)==0){
+        for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+            if((ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getName()).compareTo(boxName)==0){
                 boxIndex=i;
             }
         }
 
         //On récupère l'index de l'aliment :
-        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size();i++){
-            if((RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).getAlimentName())
+        for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size();i++){
+            if((ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).getAlimentName())
                     .compareTo(boxName)==0){
                 alimentIndex=i;
             }
@@ -434,8 +434,8 @@ public class FavoriteActivity extends ActionBarActivity {
     }
 
     public void actualise(){
-        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-            RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+        for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+            ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
         }
         Intent intent = new Intent(this,FavoriteActivity.class);
         startActivity(intent);

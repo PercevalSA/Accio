@@ -470,8 +470,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
     }
 
     public void actualise(){
-        for(int i=0;i<RefrigerateurActivity.getRefrigerateur().getBoxes().size();i++){
-            RefrigerateurActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+        for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+            ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
         }
         Intent intent = new Intent(this,ChoixAlimentsRecettes.class);
         startActivity(intent);
