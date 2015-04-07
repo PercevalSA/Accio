@@ -299,10 +299,13 @@ public class loadImage {
 					}
 					area[c-1] = 4*Math.PI*aire/Math.pow((double) cont, 2.0);
 				}
-				for(int c=0;c<100;c++){
-					System.out.print(histo[0][c]+" ");
+				System.out.println(currentClass);
+				for(int n=0; n<currentClass + 1;n++){
+					for(int c=0;c<100;c++){
+						System.out.print(histo[n][c]+" ");
+					}
+					System.out.println(area[0]);
 				}
-				System.out.println(area[0]);
 			}
 			catch(Exception e)
 			{
