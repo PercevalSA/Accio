@@ -326,6 +326,7 @@ public class FavoriteActivity extends ActionBarActivity {
 
     public void sendMessageAlimentSelected(View view, int index){
         Aliment aliment = listeAlimentFavoris.get(index);
+        String alimentName = aliment.getAlimentName();
         String boxName=aliment.getBoxName();
         int boxIndex=-1;
         int alimentIndex=-1;
@@ -340,21 +341,20 @@ public class FavoriteActivity extends ActionBarActivity {
         //On récupère l'index de l'aliment :
         for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().size();i++){
             if((ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(i).getAlimentName())
-                    .compareTo(boxName)==0){
+                    .compareTo(alimentName)==0){
                 alimentIndex=i;
             }
         }
 
-        if(boxIndex>=0 && alimentIndex>=0){
+        if(boxIndex<0 || alimentIndex<0){
+            Toast.makeText(getApplicationContext(), "Problème... \n boxIndex = "+boxIndex+"\n alimentIndex = "+alimentIndex,Toast.LENGTH_SHORT).show();
+        }else{
             BoxActivity.setBoxIndex(boxIndex);
             AlimentActivity.setBoxIndex(boxIndex);
             AlimentActivity.setAlimentIndex(alimentIndex);
 
             Intent intent = new Intent(this, AlimentActivity.class);
             startActivity(intent);
-        }else{
-            Toast.makeText(getApplicationContext(), "Problème...",Toast.LENGTH_SHORT).show();
-
         }
 
 
