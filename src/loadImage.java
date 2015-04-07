@@ -300,9 +300,9 @@ public class loadImage {
 					area[c-1] = 4*Math.PI*aire/Math.pow((double) cont, 2.0);
 				}
 				System.out.println(currentClass);
-				for(int n=0; n<currentClass + 1;n++){
+				for(int y=0; y<currentClass + 1;y++){
 					for(int c=0;c<100;c++){
-						System.out.print(histo[n][c]+" ");
+						System.out.print(histo[y][c]+" ");
 					}
 					System.out.println(area[0]);
 				}
