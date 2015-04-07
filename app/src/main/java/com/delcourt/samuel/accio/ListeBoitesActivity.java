@@ -1,6 +1,7 @@
 package com.delcourt.samuel.accio;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -20,14 +21,18 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
+import com.delcourt.samuel.accio.options_activities.FrigoOptionsActivity;
 import com.delcourt.samuel.accio.recettes.MenuRecettesActivity;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -97,12 +102,14 @@ public class ListeBoitesActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_search:
-                openSearch();
+            case R.id.action_refresh:
+                actualise();
                 return true;
-            case R.id.action_settings:
-                // on mettra la méthode openSettings() quand elle sera cree
+            case R.id.action_rename:
+                optionsFrigo();
                 return true;
+            case R.id.action_delete:
+                messageDeleteFrigo();
             default:
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
                     return true;
@@ -152,10 +159,59 @@ public class ListeBoitesActivity extends ActionBarActivity {
         return creationReussie;
     }
 
-    public void openSearch(){
-        Uri webpage = Uri.parse("http://www.google.fr/");
-        Intent help = new Intent(Intent.ACTION_VIEW, webpage);
-        startActivity(help);
+
+    public void optionsFrigo(){
+        Intent intent = new Intent(this, FrigoOptionsActivity.class);
+        startActivity(intent);
+    }
+
+    public void messageDeleteFrigo(){
+        //on créé une boite de dialogue
+        AlertDialog.Builder adb = new AlertDialog.Builder(ListeBoitesActivity.this);
+        //on attribue un titre à notre boite de dialogue
+        adb.setTitle("Confirmation");
+        //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
+        adb.setMessage("Voulez-vous vraiment supprimer le réfrigérateur " + ListeBoitesActivity.getRefrigerateur().getName()+
+                " ? \nLes informations correspondantes seront perdues");
+        //on indique que l'on veut le bouton ok à notre boite de dialogue
+        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                delete();
+            }
+        });
+        //on affiche la boite de dialogue
+        adb.show();
+    }
+
+    public void delete(){
+        String nameFrigo = ListeBoitesActivity.getRefrigerateur().getName();
+        int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
+        AccueilActivity.getListeFrigosNames().remove(index);
+
+        //On adapte le fichier texte
+        try {
+            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_PRIVATE));
+            BufferedWriter bw = new BufferedWriter(outStream);
+            PrintWriter out2 = new PrintWriter(bw);
+            for(int i=0;i<AccueilActivity.getListeFrigosNames().size();i++){
+                out2.println(AccueilActivity.getListeFrigosNames().get(i));
+            }
+            out2.close();
+
+        } catch (FileNotFoundException e1) {
+            Toast.makeText(getApplicationContext(), "problème réécriture liste frigos", Toast.LENGTH_SHORT).show();
+        }
+
+        Intent intent = new Intent(this,AccueilActivity.class);
+        startActivity(intent);
+    }
+
+    public void actualise(){
+        for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+            ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+        }
+        Intent intent = new Intent(this,ListeBoitesActivity.class);
+        startActivity(intent);
     }
 
     public void sendMessageBoxSelected(View view, int index){
