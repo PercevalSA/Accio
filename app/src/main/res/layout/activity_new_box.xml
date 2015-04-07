@@ -228,7 +228,7 @@
         android:id="@+id/message_new_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="38dp"
+        android:textSize="18dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 

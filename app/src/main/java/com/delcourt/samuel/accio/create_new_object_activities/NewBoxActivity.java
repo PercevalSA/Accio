@@ -150,10 +150,20 @@ public class NewBoxActivity extends ActionBarActivity {
                             newBoiteNameEnco = URLEncoder.encode(newBoiteName, "UTF-8");
                             typeBoxEnco = URLEncoder.encode(typeBox,"UTF-8");
                         // C'est ici qu'on se connecte à la BDD
-                            new CreaBoite().execute();
-
+                        new CreaBoite().execute();
                         TextView textElement = (TextView) findViewById(R.id.message_new_box);
                         textElement.setText("Connexion à la base de données");
+                        /*try{new CreaBoite().execute();
+                            TextView textElement = (TextView) findViewById(R.id.message_new_box);
+                            textElement.setText("Connexion à la base de données");}
+                        catch(Exception e){
+                            Toast toast = Toast.makeText(getApplicationContext(),
+                                    "Erreur de connexion à la base de données", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                            toast.show();
+                        }*/
+
+
 
                     }
 
@@ -231,29 +241,37 @@ public class NewBoxActivity extends ActionBarActivity {
 
         protected void onPostExecute(String result) {
 
-            String RefBdd = listeRefBdd.get(0);
-            Intent intent = new Intent(getApplicationContext(),ListeBoitesActivity.class);
+            TextView textElement = (TextView) findViewById(R.id.message_new_box);
+            textElement.setText(" ");
 
-            try {
-                OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt", MODE_APPEND));
-                BufferedWriter bw = new BufferedWriter(outStream);
-                PrintWriter out2 = new PrintWriter(bw);
-                out2.println(RefBdd);
-                out2.println(newBoiteName);
-                out2.println(typeBox);
-                out2.close();
+            try{String RefBdd = listeRefBdd.get(0);
+                Intent intent = new Intent(getApplicationContext(),ListeBoitesActivity.class);
+                try {
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Boxes.txt", MODE_APPEND));
+                    BufferedWriter bw = new BufferedWriter(outStream);
+                    PrintWriter out2 = new PrintWriter(bw);
+                    out2.println(RefBdd);
+                    out2.println(newBoiteName);
+                    out2.println(typeBox);
+                    out2.close();
 
-                //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
-                Box newBox = new Box(RefBdd, newBoiteName, typeBox);
-                RefrigerateurActivity.getRefrigerateur().getBoxes().add(newBox);
+                    //L'ensemble du réfrigérateur n'a pas encore été recréé : il faut donc ajouter cette nouvelle boîte à la liste dynamique
+                    Box newBox = new Box(RefBdd, newBoiteName, typeBox);
+                    RefrigerateurActivity.getRefrigerateur().getBoxes().add(newBox);
 
-                //la boîte a été crée, on retourne sur l'activité précédente :
-                startActivity(intent);
+                    //la boîte a été crée, on retourne sur l'activité précédente :
+                    startActivity(intent);
 
-            } catch (java.io.IOException e) {
-                Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();
+                } catch (java.io.IOException e) {
+                    Toast.makeText(getApplicationContext(), "erreur écriture boîte", Toast.LENGTH_SHORT).show();
+                }
             }
-
+            catch(IndexOutOfBoundsException e){//Cette exception est envoyée lorsqu'il y a eu un problème de connexion
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Erreur de connexion à la base de données", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast.show();
+            }
         }
     }
 
