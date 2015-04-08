@@ -56,7 +56,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         // Get the reference of listViewFrigos (pour l'affichage de la liste)
         ListView frigoList=(ListView)findViewById(R.id.listViewFrigos);
         // Create The Adapter with passing ArrayList as 3rd parameter
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeFrigosNames);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,R.layout.accueil_listview, listeFrigosNames);
         // Set The Adapter
         frigoList.setAdapter(arrayAdapter);
 

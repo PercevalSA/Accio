@@ -8,7 +8,7 @@
 
     </style>
     <style name="FontTest" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/ColorPrimary</item>
         <item name="android:textIsSelectable">false</item>
     </style>
