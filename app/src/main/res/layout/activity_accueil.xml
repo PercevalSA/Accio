@@ -15,11 +15,15 @@
         style="@style/FontTest"/>
 
     <TextView android:text="@string/choose_fridge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="18dp"
+        android:textIsSelectable="false"
         android:id="@+id/textView2"
         android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="32dp"
-        style="@style/FontNormal"
         />
 
     <Button
