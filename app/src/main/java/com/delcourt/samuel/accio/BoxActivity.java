@@ -54,7 +54,7 @@ import java.util.HashMap;
 public class BoxActivity extends ActionBarActivity {
 
 
-    private static int boxIndex;//permet de récipérer toutes les infos de la boîte (à partir de RefrigerateurActivity)
+    private static int boxIndex;//permet de récipérer toutes les infos de la boîte (à partir de ListeBoitesActivity)
     private static ArrayList<String> listeNomAliment;
     private static ArrayList<String> listeMarqueAliment;
     private static ArrayList<String> listeBoiteID;
@@ -142,8 +142,6 @@ public class BoxActivity extends ActionBarActivity {
     public void sendMessageAlimentSelected(View view, int index){
         AlimentActivity.setBoxIndex(boxIndex);
         AlimentActivity.setAlimentIndex(index);
-        //AlimentActivity.boiteName = RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getName();
-        //AlimentActivity.aliment=RefrigerateurActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(index);
         Intent intent = new Intent(this, AlimentActivity.class);
         startActivity(intent);
     }

@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -19,11 +18,9 @@ import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
-import com.delcourt.samuel.accio.RefrigerateurActivity;
 import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.AlimentRecette;
 import com.delcourt.samuel.accio.structures.Box;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,7 +29,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

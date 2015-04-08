@@ -19,11 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RefrigerateurActivity"
-            android:label="@string/title_activity_menu"
-            android:parentActivityName=".AccueilActivity" >
-        </activity>
-        <activity
             android:name=".ListeBoitesActivity"
             android:label="@string/title_activity_content"
             android:parentActivityName=".ListeBoitesActivity" >

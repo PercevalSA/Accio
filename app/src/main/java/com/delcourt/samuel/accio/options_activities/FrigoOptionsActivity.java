@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.ListeBoitesActivity;
 import com.delcourt.samuel.accio.R;
-import com.delcourt.samuel.accio.RefrigerateurActivity;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
@@ -98,24 +97,6 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         }
     }
 
-    /*public void sendMessageDeleteFrigo(View view){
-        //on créé une boite de dialogue
-        AlertDialog.Builder adb = new AlertDialog.Builder(FrigoOptionsActivity.this);
-        //on attribue un titre à notre boite de dialogue
-        adb.setTitle("Confirmation");
-        //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        adb.setMessage("Voulez-vous vraiment supprimer le réfrigérateur " + RefrigerateurActivity.getRefrigerateur().getName()+
-                " ? \nLes informations correspondantes seront perdues");
-        //on indique que l'on veut le bouton ok à notre boite de dialogue
-        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                delete();
-            }
-        });
-        //on affiche la boite de dialogue
-        adb.show();
-    }*/
-
     public void rename(String newName){
         String nameFrigo = ListeBoitesActivity.getRefrigerateur().getName();
 
@@ -142,29 +123,6 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         Intent intent = new Intent(this,AccueilActivity.class);
         startActivity(intent);
     }
-
-   /* public void delete(){
-        String nameFrigo = RefrigerateurActivity.getRefrigerateur().getName();
-        int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
-        AccueilActivity.getListeFrigosNames().remove(index);
-
-        //On adapte le fichier texte
-        try {
-            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_PRIVATE));
-            BufferedWriter bw = new BufferedWriter(outStream);
-            PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<AccueilActivity.getListeFrigosNames().size();i++){
-                out2.println(AccueilActivity.getListeFrigosNames().get(i));
-            }
-            out2.close();
-
-        } catch (FileNotFoundException e1) {
-            Toast.makeText(getApplicationContext(), "problème réécriture liste frigos", Toast.LENGTH_SHORT).show();
-        }
-
-        Intent intent = new Intent(this,AccueilActivity.class);
-        startActivity(intent);
-    } */
 
     public void listeboites(String newName){
         //On crée le fichier contenant la liste des boîtes etc
