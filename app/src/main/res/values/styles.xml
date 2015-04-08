@@ -2,8 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/ColorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/ColorPrimary</item>
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="android:colorAccent">@color/ColorAccent</item>
 
     </style>
@@ -19,7 +19,23 @@
     </style>
 
     <style name="ListTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+       <item name="android:dividerHeight">0.2dp</item>
+       <item name="android:divider">@color/ColorPrimaryDark</item>
+       <item name="android:textColor">@color/ColorTextMedium</item>
+       <item name="android:layout_width">match_parent</item>
+       <item name="android:layout_height">match_parent</item>
+       <item name="android:layout_alignParentLeft">true</item>
+       <item name="android:layout_alignParentStart">true</item>
+    </style>
 
+    <style name="FontNormal" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/ColorTextMedium</item>
+        <item name="android:textIsSelectable">false</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
 
     </style>
 
