@@ -154,12 +154,13 @@ public class HttpURLConnectionExample {
         String urlname = url.replace("get-product","edit-name");
         urlname = urlname+"&name=";
 
-        changeFlag("01");
+        changeFlag("product");
 
-        while(getLatestFilefromDir("product") == null){
+        while(getLatestFilefromDir("www/pact/product") == null){
             Thread.sleep(1000);
+            System.out.println("Sleep");
         }
-        File p = getLatestFilefromDir("product");
+        File p = getLatestFilefromDir("www/pact/product");
         String s = p.getName();
         System.out.println(s);
 
@@ -168,8 +169,8 @@ public class HttpURLConnectionExample {
         //String s = in.nextLine();
 
         // Name of product asked and added to request, with correct HTML form
-        //String namef = s.replace(" ","+");
-        urlname = urlname+s;
+        String namef = s.replace(" ","+");
+        urlname = urlname+namef;
 
         // System.out.println(urlname);
 
@@ -197,7 +198,7 @@ public class HttpURLConnectionExample {
         inname.close();
 
         p.delete();
-        changeFlag("00");
+        changeFlag("none");
         return s.replace("+"," ");
 
     }
@@ -208,21 +209,23 @@ public class HttpURLConnectionExample {
         String urlman = url.replace("get-product", "edit-attr");
         urlman = urlman+"&attr_name=Manufacturer&attr_val=";
 
-        changeFlag("10");
+        changeFlag("manufacturer");
 
-        while(getLatestFilefromDir("manufacturer") == null){
+        while(getLatestFilefromDir("www/pact/manufacturer") == null){
             Thread.sleep(1000);
+            System.out.println("Sleep");
         }
-        File p = getLatestFilefromDir("manufacturer");
+        File p = getLatestFilefromDir("www/pact/manufacturer");
         String s = p.getName();
+        System.out.println(s);
 
         //Scanner in = new Scanner(System.in);
         //System.out.println("Enter a manufacturer");
         //String s = in.nextLine();
 
         // Manufacturer of product asked and added to request, with correct HTML form
-        //String manf = s.replace(" ","+");
-        urlman = urlman+s;
+        String manf = s.replace(" ","+");
+        urlman = urlman+manf;
 
         URL objman = new URL(urlman);
         HttpURLConnection conman = (HttpURLConnection) objman.openConnection();
@@ -244,7 +247,7 @@ public class HttpURLConnectionExample {
         inman.close();
 
         p.delete();
-        changeFlag("00");
+        changeFlag("none");
         return s.replace("+"," ");
     }
 
