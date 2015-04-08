@@ -27,7 +27,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_frigo_options);
-            
+
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
@@ -107,6 +107,9 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
         AccueilActivity.getListeFrigosNames().set(index, newName);
 
+        //On change le nom du frigo dans ListeBoitesActivity
+        ListeBoitesActivity.getRefrigerateur().setName(newName);
+
         //On adapte le fichier texte
         try {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_PRIVATE));
@@ -123,7 +126,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
 
         listeboites(newName);
 
-        Intent intent = new Intent(this,AccueilActivity.class);
+        Intent intent = new Intent(this,ListeBoitesActivity.class);
         startActivity(intent);
     }
 

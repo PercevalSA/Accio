@@ -182,6 +182,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     }
 
     public void delete(){
+
         String nameFrigo = ListeBoitesActivity.getRefrigerateur().getName();
         int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
         AccueilActivity.getListeFrigosNames().remove(index);
