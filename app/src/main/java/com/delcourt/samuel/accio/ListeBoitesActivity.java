@@ -56,7 +56,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
             mActivityTitle = getTitle().toString();
 
-            addDrawerItems2();
+            addDrawerItems();
             setupDrawer();
 
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -174,6 +174,9 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 delete();
             }
         });
+        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {}
+        });
         //on affiche la boite de dialogue
         adb.show();
     }
@@ -213,7 +216,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
-    public void addDrawerItems2(){
+    public void addDrawerItems(){
         ArrayList<HashMap<String, String>> listItem = new ArrayList<>();
 
         HashMap<String, String> map;
@@ -253,22 +256,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                itemSelected(position);
-            }
-        });
-
-    }
-
-
-
-    private void addDrawerItems() {
-        String[] osArray = {"Accueil","Recette", "Favoris", "Ajout d'aliment", };
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, osArray);
-        mDrawerList.setAdapter(mAdapter);
-
-        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 itemSelected(position);
             }
         });

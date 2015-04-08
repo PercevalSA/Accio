@@ -92,6 +92,9 @@ public class FrigoOptionsActivity extends ActionBarActivity {
                     rename(newName);
                 }
             });
+            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {}
+            });
             //on affiche la boite de dialogue
             adb.show();
         }
