@@ -2,11 +2,14 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/ColorPrimary</item>
+        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:colorAccent">@color/ColorAccent</item>
+        <item name="android:colorBackground">@color/ColorBackground</item>
     </style>
     <style name="FontTest" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textSize">16dp</item>
-        <item name="android:textColor">#ff2571ff</item>
+        <item name="android:textColor">@color/ColorAccent</item>
         <item name="android:textIsSelectable">false</item>
     </style>
 
