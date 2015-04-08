@@ -9,13 +9,18 @@
     </style>
     <style name="FontTest" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textSize">16dp</item>
-        <item name="android:textColor">@color/ColorAccent</item>
+        <item name="android:textColor">@color/ColorPrimary</item>
         <item name="android:textIsSelectable">false</item>
     </style>
 
     <style name="MenuButton" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">80dp</item>
+    </style>
+
+    <style name="ListTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+
     </style>
 
 </resources>

@@ -223,22 +223,22 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
         map = new HashMap<String, String>();
         map.put("titre","Accueil");
-        map.put("image",String.valueOf(R.drawable.fav));
+        map.put("image",String.valueOf(R.drawable.ic_home));
         listItem.add(map);
 
         map = new HashMap<String, String>();
         map.put("titre","Recette");
-        map.put("image",String.valueOf(R.drawable.favn));
+        map.put("image",String.valueOf(R.drawable.ic_recipe));
         listItem.add(map);
 
         map = new HashMap<String, String>();
         map.put("titre","Favoris");
-        map.put("image",String.valueOf(R.drawable.fav));
+        map.put("image",String.valueOf(R.drawable.ic_fav));
         listItem.add(map);
 
         map = new HashMap<String, String>();
         map.put("titre","Ajout d'aliment");
-        map.put("image",String.valueOf(R.drawable.favn));
+        map.put("image",String.valueOf(R.drawable.ic_ajout));
         listItem.add(map);
 
         //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
