@@ -10,7 +10,6 @@
         android:layout_marginTop="31dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textSize="20dp"
         android:id="@+id/textView"
         style="@style/FontTest"/>
 
