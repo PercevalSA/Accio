@@ -55,7 +55,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         fabImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "clique",Toast.LENGTH_SHORT).show();
+                sendMessageNouveau(v);
             }
         });
 

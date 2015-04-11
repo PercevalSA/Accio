@@ -24,17 +24,7 @@
         style="@style/FontNormal"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nouveau"
-        android:textColor="@color/ColorTextMedium"
-        android:id="@+id/buttonNew"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-
-        android:onClick="sendMessageNouveau"/>
-
+    
     <ListView
         android:id="@+id/listViewFrigos"
         android:layout_width="match_parent"
