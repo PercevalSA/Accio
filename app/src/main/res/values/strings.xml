@@ -61,8 +61,9 @@
     <string name="action_refresh">Actualiser</string>
     <string name="action_rename">Renommer</string>
     <string name="action_delete">Supprimer</string>
+    <string name="action_credit">A propos</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-
+    <string name="title_activity_credit">A propos</string>
 
 </resources>

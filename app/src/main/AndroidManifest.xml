@@ -116,7 +116,12 @@
         <activity
             android:name=".AjoutAlimentActivity"
             android:label="@string/title_activity_ajout_aliment"
-            android:parentActivityName=".ListeBoitesActivity">
+            android:parentActivityName=".ListeBoitesActivity" >
+        </activity>
+        <activity
+            android:name=".options_activities.CreditActivity"
+            android:label="@string/title_activity_credit"
+            android:parentActivityName=".AccueilActivity">
         </activity>
     </application>
 

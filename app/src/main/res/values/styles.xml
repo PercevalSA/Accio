@@ -5,8 +5,13 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="android:colorAccent">@color/ColorAccent</item>
+        <item name="android:itemTextAppearance">@style/MenuItemText</item>
+
 
     </style>
+
+
+
     <style name="FontTest" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/ColorPrimary</item>
@@ -28,6 +33,11 @@
         <item name="android:textSize">18dp</item>
         <item name="android:textColor">@color/ColorTextMedium</item>
         <item name="android:textIsSelectable">false</item>
+
+    </style>
+
+    <style name="MenuItemText" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/ColorTextMedium</item>
 
     </style>
 

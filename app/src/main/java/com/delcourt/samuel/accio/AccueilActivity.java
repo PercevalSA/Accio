@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
+import com.delcourt.samuel.accio.options_activities.CreditActivity;
 import com.delcourt.samuel.accio.structures.Recette;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.io.BufferedReader;
@@ -102,11 +103,8 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_search:
-                openSearch();
-                return true;
-            case R.id.action_settings:
-                // on mettra la méthode openSettings() quand elle sera cree
+            case R.id.action_credit:
+                sendMessageCredit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -142,10 +140,9 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         startActivity(intent);
     }
 
-    public void openSearch(){
-        Uri webpage = Uri.parse("http://www.google.fr/");
-        Intent help = new Intent(Intent.ACTION_VIEW, webpage);
-        startActivity(help);
+    public void sendMessageCredit(){
+        Intent intent = new Intent(this,CreditActivity.class);
+        startActivity(intent);
     }
 
     public void initialisationFrigoExemple() throws FileNotFoundException {
