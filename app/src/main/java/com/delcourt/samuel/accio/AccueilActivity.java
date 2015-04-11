@@ -1,8 +1,10 @@
+
 package com.delcourt.samuel.accio;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,9 +12,12 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.structures.Recette;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
@@ -38,11 +43,22 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
 
     private static ArrayList<String> listeFrigosNames = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accueil);
         makeActionOverflowMenuShown();
+
+
+        ImageButton fabImageButton = (ImageButton) findViewById(R.id.fab_image_button);
+        fabImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "clique",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         readFiles(); //Lecture des fichiers et récupération des infos sur le frigo
 

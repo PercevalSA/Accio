@@ -19,8 +19,8 @@
     </style>
 
     <style name="ListTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-       <item name="android:dividerHeight">0.2dp</item>
-       <item name="android:divider">@color/ColorPrimaryDark</item>
+       <item name="android:dividerHeight">1dp</item>
+       <item name="android:divider">@color/ColorAccent</item>
        <item name="android:textColor">@color/ColorTextMedium</item>
     </style>
 
