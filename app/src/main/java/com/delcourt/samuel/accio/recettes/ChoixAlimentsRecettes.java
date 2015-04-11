@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,6 +66,19 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             listeMarqueAliment = new ArrayList<>();
             listeFavoris = new ArrayList<>();
             listeHistoriqueAliment = new ArrayList<>();
+
+            EditText editText = (EditText) findViewById(R.id.edit_text_recette);
+            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+//              getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                    } else if (!hasFocus) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                    }
+                }
+            });
+            editText.setFocusable(false);
 
             namesBoitesNonConnection = new ArrayList<>();
 
