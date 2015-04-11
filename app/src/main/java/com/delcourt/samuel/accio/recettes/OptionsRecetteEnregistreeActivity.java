@@ -96,6 +96,11 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
                     rename(newName);
                 }
             });
+            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
             //on affiche la boite de dialogue
             adb.show();
         }
@@ -114,6 +119,11 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 delete();
+            }
+        });
+        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
             }
         });
         //on affiche la boite de dialogue

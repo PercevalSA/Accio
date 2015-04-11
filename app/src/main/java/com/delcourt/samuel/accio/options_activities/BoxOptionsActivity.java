@@ -52,7 +52,7 @@ public class BoxOptionsActivity extends ActionBarActivity {
             setContentView(R.layout.activity_box_options);
 
             //Force l'affichage du clavier
-            EditText editText = (EditText) findViewById(R.id.edit_text_renommer_frigo);
+            EditText editText = (EditText) findViewById(R.id.edit_text_renommer_boite);
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
@@ -84,6 +84,9 @@ public class BoxOptionsActivity extends ActionBarActivity {
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
+            Toast toast = Toast.makeText(getApplicationContext(), "Imposible d'ouvrir la page...", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
         }
     }
 
