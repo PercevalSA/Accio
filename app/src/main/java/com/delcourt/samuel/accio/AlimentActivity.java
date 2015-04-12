@@ -137,6 +137,9 @@ public class AlimentActivity extends ActionBarActivity {
                     declareFavori();
                 }
             });
+            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {}
+            });
             adb.show();
         } else{
             adb.setMessage("Voulez-vous retirer l'aliment : "+
@@ -147,9 +150,7 @@ public class AlimentActivity extends ActionBarActivity {
                 }
             });
             adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-
-                }
+                public void onClick(DialogInterface dialog, int id) {}
             });
             adb.show();
         }

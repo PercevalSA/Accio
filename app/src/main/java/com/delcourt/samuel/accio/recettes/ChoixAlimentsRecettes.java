@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio.recettes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,18 +69,10 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             listeFavoris = new ArrayList<>();
             listeHistoriqueAliment = new ArrayList<>();
 
-            EditText editText = (EditText) findViewById(R.id.edit_text_recette);
-            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-//              getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-                    } else if (!hasFocus) {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                    }
-                }
-            });
-            editText.setFocusable(false);
+            //to suppress the soft-keyboard until the user actually touches the editText View :
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            );
 
             namesBoitesNonConnection = new ArrayList<>();
 
