@@ -9,9 +9,10 @@
     <TextView android:text="Application du groupe 5.3 dans le cadre du projet PACT de Télécom ParisTech"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
+        style="@style/FontNormal"
         />
 
 </RelativeLayout>

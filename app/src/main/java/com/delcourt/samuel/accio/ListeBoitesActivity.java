@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -51,6 +52,14 @@ public class ListeBoitesActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_liste_boites);
+
+            ImageButton fabImageButton = (ImageButton) findViewById(R.id.fab_image_button);
+            fabImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendMessageNewBox(v);
+                }
+            });
 
             mDrawerList = (ListView)findViewById(R.id.navList);
             mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
@@ -369,7 +378,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
             }
 
             //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.affichage_liste_boites,
+            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_boites_listview,
                     new String[] {"img", "titre", "description"}, new int[] {R.id.img, R.id.titre, R.id.description});
 
             //On attribue à notre listView l'adapter que l'on vient de créer

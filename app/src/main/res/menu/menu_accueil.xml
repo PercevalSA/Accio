@@ -5,10 +5,10 @@
 
     <item android:id="@+id/action_credit"
         android:title="@string/action_credit"
-        android:actionMenuTextColor="@color/ColorTextMedium"
         android:orderInCategory="100"
+
         app:showAsAction="never"
-        android:background="#ffeeeeee"/>
+        />
 
 
 
