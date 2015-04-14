@@ -18,6 +18,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import java.io.InputStream;
 
 
@@ -82,21 +84,25 @@ public class AjoutAlimentActivity extends ActionBarActivity {
 
         protected String doInBackground(String... urls) {
 
-            String result = "";
+            //String result = "";
 
-            InputStream is = null;
+            //InputStream is = null;
+
+            String httpResponse;
+            httpResponse = null;
 
             // Envoi de la requÃªte avec HTTPGet
+
             try {
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpGet httpget = new HttpGet("http://perceval.tk/pact/check-manufacturer-product.php");
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
-                is = entity.getContent();
+                httpResponse = EntityUtils.toString(entity);
             } catch (Exception e) {
                 Log.e("log_tag", "Error in http connection " + e.toString());
             }
-            return result.toString();
+            return httpResponse;
         }
 
         //This Method is called when Network-Request finished
@@ -126,7 +132,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     String value = editText.getText().toString().trim();
-                    AjoutAlimentActivity.product=value;
+                    AjoutAlimentActivity.product=value.replace(" ","+");
                     Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                     new RequeteAjoutAlimentProduct().execute();
                 }
@@ -143,7 +149,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     String value = editText.getText().toString().trim();
-                    AjoutAlimentActivity.manufacturer=value;
+                    AjoutAlimentActivity.manufacturer=value.replace(" ","+");
                     Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                     new RequeteAjoutAlimentManufacturer().execute();
                 }
@@ -191,6 +197,14 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Nom bien récupéré", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+
+            try {
+                connection();
+            } catch (InterruptedException e) {
+                Toast toast2 = Toast.makeText(getApplicationContext(), "Problème : Connexion", Toast.LENGTH_SHORT);
+                toast2.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast2.show();
+            }
         }
     }
 
@@ -216,9 +230,17 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(String resultat) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Nom bien récupéré", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), "Marque bien récupérée", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+
+            try {
+                connection();
+            } catch (InterruptedException e) {
+                Toast toast2 = Toast.makeText(getApplicationContext(), "Problème : Connexion", Toast.LENGTH_SHORT);
+                toast2.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+                toast2.show();
+            }
         }
     }
 
