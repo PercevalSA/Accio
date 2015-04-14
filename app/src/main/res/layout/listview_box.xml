@@ -7,7 +7,7 @@
         android:id="@+id/nom_aliment_affiche"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="7dp"
         android:textColor="@color/ColorTextMedium"
         android:textSize="16dp"
         android:layout_centerVertical="true"/>
@@ -16,7 +16,6 @@
         android:id="@+id/imgAlim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:layout_gravity="center_vertical"
         android:layout_alignParentRight="true"
         />

@@ -8,8 +8,7 @@
 
     <ListView
         android:id="@+id/listeViewListeAliments1"
-        android:dividerHeight="0.1dp"
-        android:divider="#0000CC"
+        style="@style/ListTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"

@@ -273,7 +273,7 @@ public class BoxActivity extends ActionBarActivity {
                 map.put("aliment",
                         ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(0).getAlimentName());
                 map.put("img", String.valueOf(R.drawable.erreur));
-                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
+                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.listview_box,
                         new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
                 listItem.add(map);
                 listViewAliments.setAdapter(mSchedule);
@@ -322,7 +322,7 @@ public class BoxActivity extends ActionBarActivity {
                 }
 
                 //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
+                SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.listview_box,
                         new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
 
                 //On attribue à notre listView l'adapter que l'on vient de créer
@@ -393,7 +393,7 @@ public class BoxActivity extends ActionBarActivity {
         }
 
         //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-        SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.affichage_aliments,
+        SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.listview_box,
                 new String[] {"aliment","img"}, new int[] {R.id.nom_aliment_affiche,R.id.imgAlim});
 
         //On attribue à notre listView l'adapter que l'on vient de créer
