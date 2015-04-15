@@ -1,5 +1,6 @@
 package com.delcourt.samuel.accio.recettes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -9,7 +10,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -42,6 +46,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
     private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
 
     private ArrayList<String> namesBoitesNonConnection;
+    private Button boutonChercher;
 
     //Attributs utiles pour la connexion à la BDD
     private String refBdd;
@@ -57,11 +62,17 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_choix_aliments_recettes);
+            boutonChercher =  (Button) findViewById(R.id.bouton_ok_recette);
             listeNomAliment = new ArrayList<>();
             listeBoiteID = new ArrayList<>();
             listeMarqueAliment = new ArrayList<>();
             listeFavoris = new ArrayList<>();
             listeHistoriqueAliment = new ArrayList<>();
+
+            //to suppress the soft-keyboard until the user actually touches the editText View :
+            getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            );
 
             namesBoitesNonConnection = new ArrayList<>();
 
@@ -120,6 +131,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             refBdd=boite.getReferenceBdd();
             TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
             textElement.setText("Chargement des aliments de la boîte "+boite.getName());
+            boutonChercher.setVisibility(View.INVISIBLE);
             new BDDRecettes().execute();
         }
     }
@@ -338,7 +350,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
-                setConnectionSuccessful(false);
+                //Ne lève une exception que si la boîte est vide => Pas un problème !
             }
             return result;
         }
@@ -389,6 +401,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
                     TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
                     textElement.setText(" ");
+
+                    boutonChercher.setVisibility(View.VISIBLE);
 
                     // Get the reference of listViewFrigos (pour l'affichage de la liste)
                     final ListView listViewBoxes=(ListView)findViewById(R.id.listeAlimentsProposes);
@@ -449,6 +463,8 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             TextView textElement = (TextView) findViewById(R.id.message_chargement_recettes);
             textElement.setText("");
 
+            boutonChercher.setVisibility(View.VISIBLE);
+
             //Si il reste des boîtes à connecter, on les connecte.
             if(numerosBoitesAConnecter.size()>0)numerosBoitesAConnecter.remove(0);
             if(numerosBoitesAConnecter.size()!=0){
@@ -456,6 +472,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 refBdd=boite.getReferenceBdd();
 
                 textElement.setText("Chargement des aliments de la boîte "+boite.getName());
+                boutonChercher.setVisibility(View.INVISIBLE);
 
                 new BDDRecettes().execute();
             } else {

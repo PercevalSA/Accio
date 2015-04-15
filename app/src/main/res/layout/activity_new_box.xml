@@ -101,6 +101,7 @@
                     android:layout_alignParentLeft="true"
                     android:textSize="15sp"
                     android:onClick="selectedBox2"
+                    style="@style/CustomCheckBox"
 
                     />
             </LinearLayout>
@@ -214,15 +215,7 @@
         android:layout_centerHorizontal="true"
         android:onClick="sendMessageNewBox"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/help"
-        android:id="@+id/button7"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="sendMessageHelp"/>
+
 
     <TextView
         android:id="@+id/message_new_box"

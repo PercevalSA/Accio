@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:padding="10px"
+        android:padding="8dp"
         />
 
     <TextView android:id="@+id/nom_aliment_recette"
@@ -16,7 +16,8 @@
         android:layout_height="fill_parent"
         android:textSize="24px"
         android:layout_toRightOf="@id/img_aliment_recette"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        style="@style/FontNormal"/>
 
 
     <ImageView
@@ -24,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         />
 
 </RelativeLayout>

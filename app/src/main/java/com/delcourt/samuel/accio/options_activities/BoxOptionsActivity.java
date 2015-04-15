@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,6 +51,17 @@ public class BoxOptionsActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_box_options);
 
+            //Force l'affichage du clavier
+            EditText editText = (EditText) findViewById(R.id.edit_text_renommer_boite);
+            editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    }
+                }
+            });
+
             //Récupère les informations de la boîte pour les afficher :
             TextView textElement = (TextView) findViewById(R.id.boxName_BoxOptionActivity);
             textElement.setText(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getName());
@@ -72,6 +84,9 @@ public class BoxOptionsActivity extends ActionBarActivity {
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
+            Toast toast = Toast.makeText(getApplicationContext(), "Imposible d'ouvrir la page...", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
+            toast.show();
         }
     }
 

@@ -32,13 +32,15 @@
             <TextView android:id="@+id/boxName_BoxActivity"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:textSize="28px"
+                style="@style/FontNormal"
                 android:textStyle="bold"
                 />
 
             <TextView android:id="@+id/frigoName_BoxActivity"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                style="@style/FontNormal"
+                android:textSize="16dp"
                 />
 
         </LinearLayout>
@@ -48,12 +50,11 @@
 
     <ListView
         android:id="@+id/liste_aliments"
-        android:dividerHeight="0.1dp"
-        android:divider="#0000CC"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="85dp"
+        style="@style/ListTheme"
 
      >
     </ListView>
@@ -63,7 +64,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        style="@style/FontNormal"/>
 
     <TextView android:id="@+id/resultat2"
         android:layout_width="wrap_content"
@@ -71,7 +73,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textSize="20dp"
-        android:text="Chargement ..."/>
+        android:text="Chargement ..."
+        style="@style/FontNormal"/>
 
 
 

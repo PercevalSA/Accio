@@ -4,18 +4,51 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
-        <item name="android:colorAccent">@color/ColorAccent</item>
-        <item name="android:colorBackground">@color/ColorBackground</item>
+        <item name="colorAccent">@color/ColorAccent</item>
+        <item name="android:itemTextAppearance">@style/MenuItemText</item>
+
+
     </style>
+
+
+
     <style name="FontTest" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:textSize">16dp</item>
-        <item name="android:textColor">@color/ColorAccent</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/ColorPrimary</item>
         <item name="android:textIsSelectable">false</item>
     </style>
 
     <style name="MenuButton" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:layout_width">120dp</item>
         <item name="android:layout_height">80dp</item>
+    </style>
+
+    <style name="ListTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+       <item name="android:dividerHeight">1dp</item>
+       <item name="android:divider">@color/ColorAccent</item>
+    </style>
+
+    <style name="FontNormal" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/ColorTextMedium</item>
+        <item name="android:textIsSelectable">false</item>
+
+    </style>
+
+    <style name="MenuItemText" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/ColorTextMedium</item>
+
+    </style>
+
+    <style name="CustomCheckBox">
+        <item name="android:theme">@style/CheckBoxAppTheme</item>
+    </style>
+
+    <style name="CheckBoxAppTheme">
+        <item name="android:colorAccent">
+            @color/ColorAccent
+        </item>
+
     </style>
 
 </resources>

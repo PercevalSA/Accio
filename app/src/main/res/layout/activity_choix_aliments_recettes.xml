@@ -26,8 +26,7 @@
 
     <ListView
         android:id="@+id/listeAlimentsProposes"
-        android:dividerHeight="0.1dp"
-        android:divider="#0000CC"
+        style="@style/ListTheme"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/text_choix_aliments"

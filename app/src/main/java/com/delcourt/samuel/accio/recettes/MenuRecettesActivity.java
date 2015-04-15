@@ -93,7 +93,7 @@ public class MenuRecettesActivity extends ActionBarActivity {
             listeRecettesNames.add(name);
         }
         ListView recettesList=(ListView)findViewById(R.id.list_recettes);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1, listeRecettesNames);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,R.layout.accueil_listview, listeRecettesNames);
         recettesList.setAdapter(arrayAdapter);
         recettesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {

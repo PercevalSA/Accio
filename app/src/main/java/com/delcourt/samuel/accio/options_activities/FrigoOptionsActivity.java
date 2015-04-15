@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
@@ -27,12 +29,23 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_frigo_options);
-            
+
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
             startActivity(intent);
         }
+
+        EditText editText = (EditText) findViewById(R.id.edit_text_renommer_frigo);
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+            }
+        });
+
     }
 
 
@@ -107,6 +120,9 @@ public class FrigoOptionsActivity extends ActionBarActivity {
         int index = AccueilActivity.getListeFrigosNames().indexOf(nameFrigo);
         AccueilActivity.getListeFrigosNames().set(index, newName);
 
+        //On change le nom du frigo dans ListeBoitesActivity
+        ListeBoitesActivity.getRefrigerateur().setName(newName);
+
         //On adapte le fichier texte
         try {
             OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("frigos_file.txt",MODE_PRIVATE));
@@ -123,7 +139,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
 
         listeboites(newName);
 
-        Intent intent = new Intent(this,AccueilActivity.class);
+        Intent intent = new Intent(this,ListeBoitesActivity.class);
         startActivity(intent);
     }
 
