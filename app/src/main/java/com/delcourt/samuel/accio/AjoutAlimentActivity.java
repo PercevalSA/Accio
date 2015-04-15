@@ -137,6 +137,9 @@ public class AjoutAlimentActivity extends ActionBarActivity {
                     new RequeteAjoutAlimentProduct().execute();
                 }
             });
+            alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {}
+            });
             alert.show();
         }
 
@@ -153,6 +156,9 @@ public class AjoutAlimentActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
                     new RequeteAjoutAlimentManufacturer().execute();
                 }
+            });
+            alert.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {}
             });
             alert.show();
         }

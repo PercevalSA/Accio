@@ -4,7 +4,6 @@ package com.delcourt.samuel.accio;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.options_activities.CreditActivity;
-import com.delcourt.samuel.accio.structures.Recette;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -106,6 +102,9 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
             case R.id.action_credit:
                 sendMessageCredit();
                 return true;
+            case R.id.lien_site:
+                sendMessageSite();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -188,6 +187,14 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
             } catch (FileNotFoundException e1) {
                 Toast.makeText(getApplicationContext(), "liste frigo not found", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    public void sendMessageSite(){
+        try{Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://accio.ml"));
+        startActivity(browserIntent);}
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Impossible de charger la page web", Toast.LENGTH_SHORT).show();
         }
     }
 

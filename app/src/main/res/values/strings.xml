@@ -62,6 +62,7 @@
     <string name="action_rename">Renommer</string>
     <string name="action_delete">Supprimer</string>
     <string name="action_credit">À propos</string>
+    <string name="action_site">Lien vers le site</string>
     <string name="action_help">Aide</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

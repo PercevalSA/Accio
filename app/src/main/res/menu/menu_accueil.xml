@@ -4,7 +4,14 @@
     tools:context=".MainActivity">
 
     <item android:id="@+id/action_credit"
-        android:title="@string/action_credit"
+    android:title="@string/action_credit"
+    android:orderInCategory="100"
+
+    app:showAsAction="never"
+    />
+
+    <item android:id="@+id/lien_site"
+        android:title="@string/action_site"
         android:orderInCategory="100"
 
         app:showAsAction="never"
