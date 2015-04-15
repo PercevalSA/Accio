@@ -350,7 +350,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                 }
             } catch (JSONException e) {
                 Log.e("log_tag", "Error parsing data " + e.toString());
-                setConnectionSuccessful(false);
+                //Ne lève une exception que si la boîte est vide => Pas un problème !
             }
             return result;
         }
