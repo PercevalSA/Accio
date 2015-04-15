@@ -4,7 +4,6 @@ package com.delcourt.samuel.accio;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +15,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.delcourt.samuel.accio.create_new_object_activities.NewFrigoActivity;
 import com.delcourt.samuel.accio.options_activities.CreditActivity;
-import com.delcourt.samuel.accio.structures.Recette;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -195,8 +191,11 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
     }
 
     public void sendMessageSite(){
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://accio.ml"));
-        startActivity(browserIntent);
+        try{Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://accio.ml"));
+        startActivity(browserIntent);}
+        catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Impossible de charger la page web", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
