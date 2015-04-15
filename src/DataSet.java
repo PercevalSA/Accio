@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.lang.*;
 
 /**
  * This class represents a dataset, including names for the classes,
@@ -47,17 +48,22 @@ public class DataSet {
      * default names.
      */
     public DataSet() {
-	numTrainExs = 0;
-	numTestExs = 0;
-	trainEx = new int[0][];
-	trainLabel = new int[0];
-	testEx = new int[0][];
-	numAttrs = 0;
-	attrName = new String[0];
-	attrVals = new String[0][];
-	className = new String[2];
-	className[0] = "0";
-	className[1] = "1";
+
+		numTrainExs = 0;
+		numTestExs = 0;
+		trainEx = new int[0][];
+		trainLabel = new int[0];
+		testEx = new int[0][];
+		numAttrs = 0;
+		attrName = new String[0];
+		attrVals = new String[0][];
+		className = new String[5];
+		className[0] = "0";
+		className[1] = "1";
+		//className[2] = "2";
+		//className[3] = "3";
+		//className[4] = "4";
+
     }
 
     /** This constructor reads in data from the files
@@ -76,14 +82,17 @@ public class DataSet {
 	ArrayList<String[]> attr_list = new ArrayList<String[]>();
 
 	String line;
+		int k = 0;
 	while((line = read_line()) != null) {
 	    line = line.trim( );
 	    words = line.split("\\s+");
 	    if (line.equals(""))
 		continue;
 
-	    if (className == null) {
-		if (words.length != 3) {
+		//System.out.println(words);
+
+		if (className == null) {
+		if (words.length != 2) {
 		    String err = "expected two class names at line "
 			+ line_count + " in file " + filename;
 		    System.err.println(err);
@@ -116,6 +125,7 @@ public class DataSet {
 		attrVals[i] = new String[words.length - 1];
 		for (int j = 1; j < words.length; j++) {
 		    attrVals[i][j-1] = words[j];
+			//System.out.println(attrVals[i][j-1]);
 		}
 	    }
 	}
@@ -174,21 +184,25 @@ public class DataSet {
 			    System.err.println(err);
 			    throw new RuntimeException(err);
 			}
+			System.out.println(attrVals[i]);
 			ex[i] = j;
 		    }
 		}
 		ex_list.add(ex);
 		if (traintest == 1) {
 		    int lab;
+			//System.out.println(words[numAttrs]);
 		    if (words[numAttrs].equals(className[0])) {
 				lab = 0;
 		    } else if (words[numAttrs].equals(className[1])) {
 				lab = 1;
-		    } else if (words[numAttrs].equals(className[2])) {
+		    } /*else if (words[numAttrs].equals(className[2])) {
 				lab = 2;
 			} else if (words[numAttrs].equals(className[3])) {
 				lab = 3;
-			}else {
+			} else if (words[numAttrs].equals(className[4])) {
+				lab = 4;
+			}*/ else {
 			String err = "unrecognized label at line "+line_count+
 			    " in file "+filename;
 			System.err.println(err);
@@ -224,10 +238,6 @@ public class DataSet {
      **/
     public void printTestPredictions(Classifier c,
 				     PrintStream out) {
-	out.println(c.author());
-	out.println(".");
-	out.println(c.algorithmDescription());
-	out.println(".");
 	for(int i = 0; i < numTestExs; i++) {
 	    out.println(className[c.predict(testEx[i])]);
 	}

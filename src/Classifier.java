@@ -14,17 +14,4 @@ public interface Classifier {
      * prediction, i.e., 0 or 1.
      */
     public int predict(int[] ex);
-
-    /** This method should return a very brief but understandable
-     * description of the learning algorithm that is being used,
-     * appropriate for posting on the class website.
-     */
-    public String algorithmDescription();
-
-    /** This method should return the "author" of this program as you
-     * would like it to appear on the class website.  You can use your
-     * real name, or a pseudonym, or a name that identifies your
-     * group.
-    */
-    public String author();
 }
