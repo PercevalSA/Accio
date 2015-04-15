@@ -181,7 +181,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://perceval.tk/pact/connection-add-product-name.php?product="+product);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/add-content.php?file=product&name="+product);
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
@@ -219,7 +219,7 @@ public class AjoutAlimentActivity extends ActionBarActivity {
             // Envoi de la requÃªte avec HTTPGet
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet("http://perceval.tk/pact/connection-add-manufacturer-name.php?manufacturer="+manufacturer);
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/add-content.php?file=manufacturer&name="+manufacturer);
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
