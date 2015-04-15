@@ -13,6 +13,8 @@ public class loadImage {
 	public static void main(String[] args) {
 
 		//-----------------PRISE DE PHOTO---------------------//
+		
+		/*
 		OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
 		try{
 			while(true){
@@ -37,9 +39,11 @@ public class loadImage {
 		{
 			e.printStackTrace();
 		}
+		
+		*/
 		//-----------------DEBUT DU TRAITEMENT D'IMAGE---------------------//
 			try{
-				IplImage img = cvLoadImage("cam.jpg");
+				IplImage img = cvLoadImage("cam29.jpg");
 				@SuppressWarnings("deprecation")
 				ByteBuffer rgb_data = img.getByteBuffer();		
 				int height = img.height();
@@ -299,6 +303,19 @@ public class loadImage {
 					}
 					area[c-1] = 4*Math.PI*aire/Math.pow((double) cont, 2.0);
 				}
+				
+				for(int i=0; i<height; i++){
+					for(int j=0; j<width; j++){
+						System.out.print(comp[i][j]);
+					}
+					System.out.println("");
+				}
+				
+				
+				
+				
+				
+				/*
 				System.out.println(currentClass);
 				for(int y=0; y<currentClass + 1;y++){
 					for(int c=0;c<100;c++){
@@ -306,6 +323,7 @@ public class loadImage {
 					}
 					System.out.println(area[0]);
 				}
+				*/
 			}
 			catch(Exception e)
 			{
