@@ -106,6 +106,9 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
             case R.id.action_credit:
                 sendMessageCredit();
                 return true;
+            case R.id.lien_site:
+                sendMessageSite();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -189,6 +192,11 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 Toast.makeText(getApplicationContext(), "liste frigo not found", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void sendMessageSite(){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://accio.ml"));
+        startActivity(browserIntent);
     }
 
 }
