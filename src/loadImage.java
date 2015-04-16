@@ -1,353 +1,333 @@
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.LinkedList;
-
-import org.bytedeco.javacv.*;
-import org.bytedeco.javacpp.*;
-import org.bytedeco.javacpp.helper.opencv_core.AbstractIplImage;
-
-import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_highgui.*;
-
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JRootPane;
-
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
-
-
+import org.bytedeco.javacpp.opencv_core.IplImage;
+import org.bytedeco.javacv.*;
 
 public class loadImage {
 
 	public static void main(String[] args) {
-		CanvasFrame frame = new CanvasFrame("l'image");
-		frame.setVisible(false);
+
+		//-----------------PRISE DE PHOTO---------------------//
+		
+		/*
+		OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
 		try{
-			IplImage img = cvLoadImage("cam.jpg");
-			ByteBuffer rgb_data = img.getByteBuffer();			
-			int height = img.height();
-			int width = img.width();
-
-			int[][] matrice = new int[height][width];
-			matrice = getBinaryImage(img);
-			int[][] comp;
-			comp = getComposantes(matrice);
-			int[][]contour;
-		//	contour = contour(comp);
-		//	histogramme(img);
-			int[][] bary = barycentre(comp);
-
-			/*
-			for(int i=0;i<height;i++){
-				for(int j=0; j<width;j++){
-					System.out.print(contour[i][j]);
+			while(true){
+				grabber.start();
+				IplImage image = grabber.grab();
+				@SuppressWarnings("deprecation")
+				ByteBuffer rgbdata = image.getByteBuffer();
+				int t = 0;
+				for(int k=0;k<48;k++){
+					for(int j=0;j<64;j++){
+						t=t+rgbdata.get(k*1600 + j*5);
+					}
 				}
-				System.out.println(".");
+				if(t>5000 && t<10000)
+				{
+					cvSaveImage("cam.jpg", image);
+					break;
+				}
 			}
-			*/
-			System.out.println("Done");
-			System.out.println(bary.length);
-			System.out.println(bary[0][0]+","+bary[1][0]);
-			System.out.println(bary[0][1]+","+bary[1][1]);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-
-	}
-	
-	public static int[][] getBinaryImage(IplImage img){
-		int height = img.height();
-		int width = img.width();
-		int[][] matrice = new int[height][width];
-		ByteBuffer rgb_data = img.getByteBuffer();
-		BufferedImage bw = new BufferedImage(width,height,BufferedImage.TYPE_3BYTE_BGR);
-		int max = (255<<16)|(255<<8)|255;
-
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				int red = rgb_data.get(3*j + 3*i*width + 2);
-				if(red<0){
-					red = red + 256;
-				}
-				int green = rgb_data.get(3*j + 3*i*width + 1);
-				if(green<0){
-					green = green + 256;
-				}
-				int blue = rgb_data.get(3*j + 3*i*width);
-				if(blue<0){
-					blue = blue + 256;
-				}
-
-				float[] tsl = Color.RGBtoHSB(red, green, blue, null);
-				float teinte = tsl[0];
-				float saturation = tsl[1];
-				float luminance = tsl[2];
-
-				if(red<20 && blue<20 && green<20){
-					bw.setRGB(j,i,max);
-					matrice[i][j]=0;
-				}
-				else{
-					bw.setRGB(j,i, 2);
-					matrice[i][j]=1;
-				}		
-			}
-		}
-
-
-		// Partie correction d'erreurs
-
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				int k=0;
-				while(matrice[i][j+k]==1 && j+k<width-1){
-					k++;
-				}
-				if(k<10){
-					for(int l=0;l<k+1;l++){
-						matrice[i][j+l]=0;
-						bw.setRGB(j+l, i, max);
-					}
-				}
-			}
-		}
-
-		File f = new File("bw.png");
-		try {
-			ImageIO.write(bw, "PNG", f);
-		} catch (IOException e) {
-		}
-		return matrice;
-	}
-	
-	public static int[][] contour(int[][] matrice){
-		int height = matrice.length;
-		int width = matrice[0].length;
-		int[][] contour = new int[height][width];
 		
-		for(int i=0; i<height; i++){
-			for(int j=0;j<width;j++){
-				contour[i][j]=0;
-			}
-		}
-			
-		for(int i=1;i<height-1;i++){
-			for(int j=1;j<width-1;j++){
-				if(matrice[i][j]!=0){
-					if(matrice[i-1][j]==0 || matrice[i+1][j]==0 || matrice[i][j+1]==0 || matrice[i][j-1]==0){
-						contour[i][j]=matrice[i][j];
-					}
-				}
-			}
-		}
-		return contour;
-	}
+		*/
+		//-----------------DEBUT DU TRAITEMENT D'IMAGE---------------------//
+			try{
+				IplImage img = cvLoadImage("cam29.jpg");
+				@SuppressWarnings("deprecation")
+				ByteBuffer rgb_data = img.getByteBuffer();		
+				int height = img.height();
+				int width = img.width();
 
-	public static int[][] getComposantes(int[][] matrice){
-		int height = matrice.length;
-		int width = matrice[0].length;
-		int[][] comp = new int[height][width];
+				//-----------------DEBUT DE L'IMAGE BINAIRE---------------------//
 
-		//Initialisation de la matrice a zero
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				comp[i][j]=0;
-			}
-		}
+				int[][] matrice = new int[height][width];
+				BufferedImage bw = new BufferedImage(width,height,BufferedImage.TYPE_3BYTE_BGR);
+				int max = (255<<16)|(255<<8)|255;
 
-		int currentClass = 1;
+				for(int i=0;i<height;i++){
+					for(int j=0;j<width;j++){
+						int red = rgb_data.get(3*j + 3*i*width + 2);
+						if(red<0){
+							red = red + 256;
+						}
+						int green = rgb_data.get(3*j + 3*i*width + 1);
+						if(green<0){
+							green = green + 256;
+						}
+						int blue = rgb_data.get(3*j + 3*i*width);
+						if(blue<0){
+							blue = blue + 256;
+						}
 
-
-		for(int i=1;i<height;i++){
-			for(int j=1;j<width;j++){
-				if(matrice[i][j]!=0){
-					if(comp[i-1][j]==0 && comp[i][j-1]==0){
-						comp[i][j]=currentClass;
-						currentClass = currentClass + 1;
-					}
-					else{
-						if(comp[i-1][j]==0){
-							comp[i][j]=comp[i][j-1];
+						if(red<20 && blue<20 && green<20){
+							bw.setRGB(j,i,max);
+							matrice[i][j]=0;
 						}
 						else{
-							if(comp[i][j-1]==0){
-								comp[i][j]=comp[i-1][j];
+							bw.setRGB(j,i, 2);
+							matrice[i][j]=1;
+						}		
+					}
+				}
+
+
+				// Partie correction d'erreurs
+
+				for(int i=0;i<height;i++){
+					for(int j=0;j<width;j++){
+						int k=0;
+						while(matrice[i][j+k]==1 && j+k<width-1){
+							k++;
+						}
+						if(k<10){
+							for(int l=0;l<k+1;l++){
+								matrice[i][j+l]=0;
+								bw.setRGB(j+l, i, max);
+							}
+						}
+					}
+				}
+
+				File f = new File("bw.png");
+				try {
+					ImageIO.write(bw, "PNG", f);
+				} catch (IOException e) {
+				}
+
+				//-----------------DEBUT DETERMINATION COMPOSANTES---------------------//
+
+				int[][] comp = new int[height][width];
+
+				//Initialisation de la matrice a zero
+				for(int i=0;i<height;i++){
+					for(int j=0;j<width;j++){
+						comp[i][j]=0;
+					}
+				}
+
+				int currentClass = 1;
+
+				for(int i=1;i<height;i++){
+					for(int j=1;j<width;j++){
+						if(matrice[i][j]!=0){
+							if(comp[i-1][j]==0 && comp[i][j-1]==0){
+								comp[i][j]=currentClass;
+								currentClass = currentClass + 1;
 							}
 							else{
-								comp[i][j]=Math.min(comp[i-1][j], comp[i][j-1]);
-								currentClass = comp[i][j] + 1;
-								int k = j;
-
-								while (comp[i][k] != 0) {
-									comp[i][k] = comp[i][j];
-									k = k - 1;
+								if(comp[i-1][j]==0){
+									comp[i][j]=comp[i][j-1];
 								}
-								k = i;
-								while (comp[k][j] != 0) {
-									comp[k][j] = comp[i][j];
-									k = k - 1;
+								else{
+									if(comp[i][j-1]==0){
+										comp[i][j]=comp[i-1][j];
+									}
+									else{
+										comp[i][j]=Math.min(comp[i-1][j], comp[i][j-1]);
+										currentClass = comp[i][j] + 1;
+										int k = j;
+
+										while (comp[i][k] != 0) {
+											comp[i][k] = comp[i][j];
+											k = k - 1;
+										}
+										k = i;
+										while (comp[k][j] != 0) {
+											comp[k][j] = comp[i][j];
+											k = k - 1;
+										}
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-		}
-		return comp ;
-	}
 
-	public static double[][] histogramme(IplImage image){
-		int[][] matrice = getComposantes(getBinaryImage(image));
-		int height = matrice.length;
-		int width = matrice[0].length;
-
-		ByteBuffer rgb_data = image.getByteBuffer();
-
-		//Recherche du plus grand numéro de classe
-		int n=0;
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				if(matrice[i][j]>n){
-					n=matrice[i][j];
-				}
-			}
-		}
-
-		double[][] histo = new double[n][11];
-		//Mise à zéro de la matrice
-		for(int i=0;i<n;i++){
-			for(int j=0;j<11;j++){
-				histo[i][j]=0;
-			}
-		}
-
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				int num = matrice[i][j];
-				if(num!=0){
-					int blue = rgb_data.get(3*j + 3*width*i);
-					if(blue<0)
-						blue = blue + 256;
-
-					int green = rgb_data.get(3*j + 3*width*i + 1);
-					if(green<0)
-						green = green + 256;
-
-					int red = rgb_data.get(3*j + 3*width*i + 2);
-					if(red<0)
-						red = red + 256;
-
-					float[] tsl = Color.RGBtoHSB(red, green, blue, null);
-					float teinte = tsl[0];
-					float saturation = tsl[1];
-					float luminance = tsl[2];
-					
-					int taux = Math.round(10*teinte);
-
-					histo[num-1][taux] = histo[num-1][taux] + 1;
-				}
-			}
-		}
-		
-		//normalisation
-
-		for(int i=0;i<n;i++){
-			double somme = 0;
-			for(int j=0;j<10;j++){
-				somme = somme + histo[i][j];
-			}
-			
-			for(int j=0;j<10;j++){
-				histo[i][j]=histo[i][j]/somme;
-			}
-		}
-	
-		for(int i=0;i<n;i++){
-			System.out.println("Histogramme de teinte de la classe numéro "+(i+1)+" : ["+histo[i][0]+", "+histo[i][1]+", "+histo[i][2]+", "+histo[i][3]+", "+histo[i][4]+", "+histo[i][5]+", "+histo[i][6]+", "+histo[i][7]+", "+histo[i][8]+", "+histo[i][9]+"].");
-		}
-		return histo;
-	}
-	
-	
-	public static int[][] barycentre(int[][] comp){
-		//calcul du nombre de classe
-		int height = comp.length;
-		int width = comp[0].length;
-		
-		int nbClass = 0;
-		
-		for(int i=0;i<height;i++){
-			for(int j=0;j<width;j++){
-				if(comp[i][j]>nbClass){
-					nbClass=comp[i][j];
-				}
-			}
-		}
-		
-		int[][] barycentre = new int[2][nbClass];
-		
-		for(int c=1;c<nbClass+1;c++){
-			int x = 0;
-			int y = 0;
-			int t = 0;
-			for(int i=0;i<height;i++){
-				for(int j=0;j<width;j++){
-					if(comp[i][j]==c){
-						x = x + i;
-						y = y + j;
-						t++;
+				// Supprime les classes dont les pixels sont pas assez nombreux
+				int C = 1;
+				while(C<currentClass){
+					int nbPixel = 0;
+					for(int i=0; i<height;i++){
+						for(int j=0;j<width;j++){
+							if(comp[i][j]==C){
+								nbPixel++;							
+							}
+						}
+					}
+					if(nbPixel<30){
+						for(int i=0;i<height;i++){
+							for(int j=0;j<width;j++){
+								if(comp[i][j]==C){
+									comp[i][j]=0;
+								}
+								if(comp[i][j]>C){
+									comp[i][j]=comp[i][j]-1;
+								}
+							}
+						}
+						currentClass = currentClass - 1;
+					}
+					else{
+						C=C+1;
 					}
 				}
+
+				//recorrection d'erreur
+				for(int i=0;i<height;i++){
+					for(int j=0;j<width;j++){
+						int k=0;
+						while(comp[i][j+k]!=0 && j+k<width-1){
+							k++;
+						}
+						if(k<5){
+							for(int l=0;l<k+1;l++){
+								comp[i][j+l]=0;
+							}
+						}
+					}
+				}
+
+				currentClass = currentClass - 1;
+
+				//-----------------AFFICHAGE MATRICE---------------------//
+				/*
+			for(int i=0;i<height;i++){
+				for(int j=0;j<width;j++){
+					System.out.print(comp[i][j]);
+				}
+				System.out.println("");
 			}
-			barycentre[0][c-1]=(int)(x/t);
-			barycentre[1][c-1]=(int)(y/t);			
-		}
-		return barycentre;		
-	}
+				 */
 
+				//-----------------DEBUT DE DETERMINATION DU CONTOUR---------------------//
 
-	public static int getBlue(IplImage img, int x, int y){
-		ByteBuffer rgb_data = img.getByteBuffer();
+				int[][] contour = new int[height][width];
 
-		int width = img.width();
-		int blue = rgb_data.get(3*x + 3*width*y);
+				for(int i=0; i<height; i++){
+					for(int j=0;j<width;j++){
+						contour[i][j]=0;
+					}
+				}
 
-		if(blue<0)
-			return blue + 256;
-		else
-			return blue;
-	}
+				for(int i=1;i<height-1;i++){
+					for(int j=1;j<width-1;j++){
+						if(comp[i][j]!=0){
+							if(comp[i-1][j]==0 || comp[i+1][j]==0 || comp[i][j+1]==0 || comp[i][j-1]==0){
+								contour[i][j]=comp[i][j];
+							}
+						}
+					}
+				}
 
-	public static int getGreen(IplImage img, int x, int y){
-		ByteBuffer rgb_data = img.getByteBuffer();
+				//-----------------DEBUT DE HISTOGRAMME---------------------//
 
-		int width = img.width();
-		int green = rgb_data.get(3*x + 3*width*y + 1);
+				int n=currentClass;
 
-		if(green<0)
-			return green + 256;
-		else
-			return green;
-	}
+				double[][] histo = new double[n][101];
+				//Mise à zéro de la matrice
+				for(int i=0;i<n;i++){
+					for(int j=0;j<101;j++){
+						histo[i][j]=0;
+					}
+				}
 
-	public static int getRed(IplImage img, int x, int y){
-		ByteBuffer rgb_data = img.getByteBuffer();
+				for(int i=0;i<height;i++){
+					for(int j=0;j<width;j++){
+						if(comp[i][j]<=currentClass){
+							int num = comp[i][j];
+							if(num!=0){
+								int blue = rgb_data.get(3*j + 3*width*i);
+								if(blue<0)
+									blue = blue + 256;
 
-		int width = img.width();
-		int red = rgb_data.get(3*x + 3*width*y + 2);
+								int green = rgb_data.get(3*j + 3*width*i + 1);
+								if(green<0)
+									green = green + 256;
 
-		if(red<0)
-			return red + 256;
-		else
-			return red;
+								int red = rgb_data.get(3*j + 3*width*i + 2);
+								if(red<0)
+									red = red + 256;
+
+								float[] tsl = Color.RGBtoHSB(red, green, blue, null);
+								float teinte = tsl[0];
+
+								int taux = Math.round(100*teinte);
+
+								histo[num-1][taux] = histo[num-1][taux] + 1;
+							}
+						}
+					}
+				}
+
+				//normalisation
+
+				for(int i=0;i<n;i++){
+					double somme = 0;
+					for(int j=0;j<100;j++){
+						somme = somme + histo[i][j];
+					}
+
+					for(int j=0;j<100;j++){
+						histo[i][j]=histo[i][j]/somme;
+						histo[i][j]=(int)(10000*histo[i][j]);
+					}
+				}
+
+				//-----------------DEBUT DE DETERMINATION DU SECOND ATTRIBUT---------------------//
+
+				double[] area = new double[currentClass];
+
+				for(int c=1; c<currentClass+1; c++){
+					int cont=1;
+					int aire=1;
+					for(int i=0;i<height;i++){
+						for(int j=0;j<width;j++){
+							if(contour[i][j]==c)
+								cont++;
+
+							if(comp[i][j]==c)
+								aire++;
+						}
+
+					}
+					area[c-1] = 4*Math.PI*aire/Math.pow((double) cont, 2.0);
+				}
+				
+				for(int i=0; i<height; i++){
+					for(int j=0; j<width; j++){
+						System.out.print(comp[i][j]);
+					}
+					System.out.println("");
+				}
+				
+				
+				
+				
+				
+				/*
+				System.out.println(currentClass);
+				for(int n=0; n<currentClass + 1;n++){
+					for(int c=0;c<100;c++){
+						System.out.print(histo[n][c]+" ");
+					}
+					System.out.println(area[0]);
+				}
+				*/
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 	}
 }
-//
