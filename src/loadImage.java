@@ -14,7 +14,7 @@ public class loadImage {
 
 		//-----------------PRISE DE PHOTO---------------------//
 		
-		/*
+
 		OpenCVFrameGrabber grabber = new OpenCVFrameGrabber(0);
 		try{
 			while(true){
@@ -28,7 +28,7 @@ public class loadImage {
 						t=t+rgbdata.get(k*1600 + j*5);
 					}
 				}
-				if(t>5000 && t<10000)
+				if(t>5000 && t<10000) // eclairage a regler pour prise photo
 				{
 					cvSaveImage("cam.jpg", image);
 					break;
@@ -40,7 +40,7 @@ public class loadImage {
 			e.printStackTrace();
 		}
 		
-		*/
+
 		//-----------------DEBUT DU TRAITEMENT D'IMAGE---------------------//
 			try{
 				IplImage img = cvLoadImage("cam29.jpg");
@@ -235,7 +235,7 @@ public class loadImage {
 				int n=currentClass;
 
 				double[][] histo = new double[n][101];
-				//Mise à zéro de la matrice
+				//Mise ï¿½ zï¿½ro de la matrice
 				for(int i=0;i<n;i++){
 					for(int j=0;j<101;j++){
 						histo[i][j]=0;
@@ -315,15 +315,15 @@ public class loadImage {
 				
 				
 				
-				/*
-				System.out.println(currentClass);
-				for(int n=0; n<currentClass + 1;n++){
+
+				System.out.println(currentClass); // Nombre de fruits
+				for(n=0; n<currentClass + 1;n++){
 					for(int c=0;c<100;c++){
-						System.out.print(histo[n][c]+" ");
+						System.out.print(histo[n][c]+" "); // Affichage histogramme
 					}
-					System.out.println(area[0]);
+					System.out.println(area[0]); // Rapport aire perimetre
 				}
-				*/
+
 			}
 			catch(Exception e)
 			{
