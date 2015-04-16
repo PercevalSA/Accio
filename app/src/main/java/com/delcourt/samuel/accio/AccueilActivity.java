@@ -120,7 +120,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 menuKeyField.setBoolean(config, false);
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "erreur makeActionOverflowMenuShown",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "erreur makeActionOverflowMenuShown",Toast.LENGTH_SHORT).show();
         }
     }
 

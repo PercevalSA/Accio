@@ -36,8 +36,13 @@ public class AjoutAlimentActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_ajout_aliment);
-            setConnecter(1);
-            thread.start();//On lance le thread qui gère les accès aux bdd etc.
+            if(Runtime.getRuntime().exec("/system/bin/ping -c 1 8.8.8.8").waitFor()==0){
+                setConnecter(1);
+                thread.start();//On lance le thread qui gère les accès aux bdd etc.
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"Erreur : vous n'avez pas de connexion à internet", Toast.LENGTH_SHORT).show();
+            }
         }
         catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
