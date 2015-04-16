@@ -156,12 +156,12 @@ public class HttpURLConnectionExample {
 
         changeFlag("product");
 
-        while(getLatestFilefromDir("www/pact/product") == null){
+        while(getContent("product").equals("") == true){
             Thread.sleep(1000);
             System.out.println("Sleep");
         }
-        File p = getLatestFilefromDir("www/pact/product");
-        String s = p.getName();
+
+        String s = getContent("product");
         System.out.println(s);
 
         //Scanner in = new Scanner(System.in);
@@ -197,7 +197,7 @@ public class HttpURLConnectionExample {
         }
         inname.close();
 
-        p.delete();
+        deleteContent("product");
         changeFlag("none");
         return s.replace("+"," ");
 
@@ -211,12 +211,12 @@ public class HttpURLConnectionExample {
 
         changeFlag("manufacturer");
 
-        while(getLatestFilefromDir("www/pact/manufacturer") == null){
+        while(getContent("manufacturer").equals("") == true){
             Thread.sleep(1000);
             System.out.println("Sleep");
         }
-        File p = getLatestFilefromDir("www/pact/manufacturer");
-        String s = p.getName();
+
+        String s = getContent("manufacturer");
         System.out.println(s);
 
         //Scanner in = new Scanner(System.in);
@@ -246,7 +246,7 @@ public class HttpURLConnectionExample {
         }
         inman.close();
 
-        p.delete();
+        deleteContent("manufacturer");
         changeFlag("none");
         return s.replace("+"," ");
     }
@@ -256,7 +256,7 @@ public class HttpURLConnectionExample {
 
     private static void addBDD(String nom, String manufacturer, String barcode) throws Exception {
 
-        String url = "http://localhost/pact/connection-check-manufacturer.php?manufacturer="+manufacturer;
+        String url = "http://perceval.tk/pact/connection-check-manufacturer.php?manufacturer="+manufacturer;
 
         URL objs = new URL(url);
         HttpURLConnection cons = (HttpURLConnection) objs.openConnection();
@@ -284,7 +284,7 @@ public class HttpURLConnectionExample {
         // If manufacturer doesn't exist in our DB, add it
 
         if (marqueid.equals("no")){
-            String urlbis="http://localhost/pact/connection-add-manufacturer.php?manufacturer="+manufacturer;
+            String urlbis="http://perceval.tk/pact/connection-add-manufacturer.php?manufacturer="+manufacturer;
 
             URL objsbis = new URL(urlbis);
             HttpURLConnection consbis = (HttpURLConnection) objsbis.openConnection();
@@ -313,7 +313,7 @@ public class HttpURLConnectionExample {
         // Add the product to our DB, with its corresponding manufacturer
 
         int boite = 7;
-        String urladd = "http://localhost/pact/connection-add-product.php?";
+        String urladd = "http://perceval.tk/pact/connection-add-product.php?";
         String urlParameters = "nom="+nom+"&codebarre="+barcode+"&boite="+boite+"&marque="+marqueid;
         String urladdbis = urladd+urlParameters;
 
@@ -342,10 +342,62 @@ public class HttpURLConnectionExample {
 
     }
 
+    private String getContent(String file) throws Exception {
+
+        String url = "http://perceval.tk/pact/add-delete-content.php?action=content&file="+file;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // GET request
+        con.setRequestMethod("GET");
+
+        // add request header
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+        return response.toString();
+
+    }
+
+    private void deleteContent(String file) throws Exception {
+
+        String url = "http://perceval.tk/pact/add-delete-content.php?action=delete&file="+file;
+
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        // GET request
+        con.setRequestMethod("GET");
+
+        // add request header
+        con.setRequestProperty("User-Agent", USER_AGENT);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+    }
+
 
 private static void changeFlag(String flag) throws Exception {
 
-    String url = "http://localhost/pact/connection-change-flag.php?flag="+flag;
+    String url = "http://perceval.tk/pact/connection-change-flag.php?flag="+flag;
 
     URL obj = new URL(url);
     HttpURLConnection con = (HttpURLConnection) obj.openConnection();
