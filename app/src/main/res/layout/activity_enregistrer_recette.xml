@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:text= "Enregistrer"
         android:layout_below="@id/nameRecette"
-        android:layout_centerHorizontal="true"
-        android:onClick="newRecette"/>
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

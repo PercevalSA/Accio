@@ -78,14 +78,14 @@ public class NewFrigoActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
-            Button button = (Button) findViewById(R.id.create);
 
+            //Désactive le bouton le temps de l'affichage du Toast
+            Button button = (Button) findViewById(R.id.create);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Perform action on click
                 }
             });
-
             ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
             stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
         }
@@ -100,6 +100,16 @@ public class NewFrigoActivity extends ActionBarActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "Un réfrigérateur possédant ce nom existe déjà", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
+
+                //Désactive le bouton le temps de l'affichage du Toast
+                Button button = (Button) findViewById(R.id.create);
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // Perform action on click
+                    }
+                });
+                ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
             }
             else{//On modifie les données sauvegardées
 

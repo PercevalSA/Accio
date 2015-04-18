@@ -185,7 +185,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
                 listeFrigosNames.add("Réfrigérateur essai");//initialise les données locales
                 initialisationFrigoExemple();//Permet la suite de l'initialisation du frigo de référence (càd l'exemple)
             } catch (FileNotFoundException e1) {
-                Toast.makeText(getApplicationContext(), "liste frigo not found", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         }
     }

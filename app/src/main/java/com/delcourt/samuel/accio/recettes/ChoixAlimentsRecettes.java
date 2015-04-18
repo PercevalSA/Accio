@@ -38,6 +38,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 public class ChoixAlimentsRecettes extends ActionBarActivity {
@@ -56,6 +58,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
     private static ArrayList<String> listeFavoris;
     private static Box boite;
     private static ArrayList<String> listeHistoriqueAliment;
+    private static int affichageToastAutorisé=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,13 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             listeMarqueAliment = new ArrayList<>();
             listeFavoris = new ArrayList<>();
             listeHistoriqueAliment = new ArrayList<>();
+
+            Button button = (Button) findViewById(R.id.bouton_ok_recette);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    sendMessageChercher();
+                }
+            });
 
             //to suppress the soft-keyboard until the user actually touches the editText View :
             getWindow().setSoftInputMode(
@@ -84,6 +94,10 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             startActivity(intent);
         }
     }
+
+    public int getAffichageToastAutorisé(){return affichageToastAutorisé;}
+
+    public void setAffichageToastAutorisé(int i){affichageToastAutorisé=i;}
 
 
     @Override
@@ -231,12 +245,23 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         }
     }
 
-    public void sendMessageChercher(View view){
+    public void sendMessageChercher(){
         String aliments=prepareRechercheAliments();
         if (aliments.length()==0){
             Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas choisi d'aliments", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+
+            //Désactive le bouton le temps de l'affichage du Toast
+            Button button = (Button) findViewById(R.id.bouton_ok_recette);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                }
+            });
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
+
         }else{
             Intent intent = new Intent(this, OptionsRecettesActivity.class);
             OptionsRecettesActivity.setAliments(aliments);
@@ -476,8 +501,12 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
 
                 new BDDRecettes().execute();
             } else {
-                if(namesBoitesNonConnection.size()==0){//Si toutes les connexions ont réussi
+                if(namesBoitesNonConnection.size()==0 && getAffichageToastAutorisé()==1){//Si toutes les connexions ont réussi et
                     Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
+                    affichageToastAutorisé=0;
+                    ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                    stpe.schedule(new ToastShown2(),2500, TimeUnit.MILLISECONDS);
+
                 }
             }
 
@@ -491,5 +520,30 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
         }
         Intent intent = new Intent(this,ChoixAlimentsRecettes.class);
         startActivity(intent);
+    }
+
+    class ToastShown implements Runnable {
+
+        private Button button;
+
+        public ToastShown(Button button){
+            this.button = button;
+        }
+
+        public void run(){
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    sendMessageChercher();
+                }
+            });
+        }
+
+    }
+
+    class ToastShown2 implements Runnable {
+        public ToastShown2(){}
+        public void run(){
+            setAffichageToastAutorisé(1);
+        }
     }
 }

@@ -12,16 +12,21 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.webkit.WebSettings;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.delcourt.samuel.accio.AccueilActivity;
 import com.delcourt.samuel.accio.R;
 
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 
 public class RecetteMarmitonActivity extends ActionBarActivity {
 
     private static String adresseWeb;
+    private static int autorisationAffichageToast=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +84,10 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
         }
     }
 
+    public void setAutorisationAffichageToast(int i){autorisationAffichageToast=i;}
+
+    public int getAutorisationAffichageToast(){return autorisationAffichageToast;}
+
     public void sendMessageRefresh(){
         Intent intent = new Intent(this,RecetteMarmitonActivity.class);
         startActivity(intent);
@@ -94,11 +103,24 @@ public class RecetteMarmitonActivity extends ActionBarActivity {
 
             Intent intent = new Intent(this,EnregistrerRecetteActivity.class);
             startActivity(intent);
-        } else {
+        } else if(getAutorisationAffichageToast()==1){
             Toast toast = Toast.makeText(getApplicationContext(), "Aucune recette n'est affichée." +
                     "\nAffichez une recette avant de l'enregistrer", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+            setAutorisationAffichageToast(0);
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(),2500, TimeUnit.MILLISECONDS);
+        }
+
+    }
+
+    class ToastShown implements Runnable {
+
+        public ToastShown(){}
+
+        public void run(){
+            setAutorisationAffichageToast(1);
         }
 
     }

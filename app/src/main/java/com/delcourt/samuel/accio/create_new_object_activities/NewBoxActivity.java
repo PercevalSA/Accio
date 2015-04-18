@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,6 +37,8 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class NewBoxActivity extends ActionBarActivity {
 
@@ -55,6 +58,18 @@ public class NewBoxActivity extends ActionBarActivity {
             setContentView(R.layout.activity_new_box);
             listeRefBdd = new ArrayList<>();
             getTypes();
+
+            Button button = (Button) findViewById(R.id.buttonCreateBox);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    try {
+                        sendMessageNewBox();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
@@ -84,7 +99,7 @@ public class NewBoxActivity extends ActionBarActivity {
         }
     }
 
-    public void sendMessageNewBox(View view) throws UnsupportedEncodingException {
+    public void sendMessageNewBox() throws UnsupportedEncodingException {
 
 
 
@@ -110,12 +125,32 @@ public class NewBoxActivity extends ActionBarActivity {
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
 
+            //Désactive le bouton le temps de l'affichage du Toast
+            Button button = (Button) findViewById(R.id.buttonCreateBox);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                }
+            });
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
+
         }
         else {
             if (newBoiteName.length() == 0){ //Si le nom est vide
                 Toast toast = Toast.makeText(getApplicationContext(), "Le nom de la nouvelle boîte n'a pas été renseigné", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                 toast.show();
+
+                //Désactive le bouton le temps de l'affichage du Toast
+                Button button = (Button) findViewById(R.id.buttonCreateBox);
+                button.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        // Perform action on click
+                    }
+                });
+                ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
             }
 
             else{//On s'assure qu'un seul type de boîte a été déclaré
@@ -123,6 +158,15 @@ public class NewBoxActivity extends ActionBarActivity {
                     Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas choisi le type de la boîte", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                     toast.show();
+                    //Désactive le bouton le temps de l'affichage du Toast
+                    Button button = (Button) findViewById(R.id.buttonCreateBox);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            // Perform action on click
+                        }
+                    });
+                    ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                    stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
                 }
                 else{//IL FAUT COMMUNIQUER CETTE INFO A LA BDD !
 
@@ -137,6 +181,15 @@ public class NewBoxActivity extends ActionBarActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), "Une boîte possédant ce nom existe déjà dans ce réfrigérateur", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
                         toast.show();
+                        //Désactive le bouton le temps de l'affichage du Toast
+                        Button button = (Button) findViewById(R.id.buttonCreateBox);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            public void onClick(View v) {
+                                // Perform action on click
+                            }
+                        });
+                        ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                        stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
                     }
 
                     else {//Dans ce cas, c'est bon, on peut créer la nouvelle boîte
@@ -201,8 +254,6 @@ public class NewBoxActivity extends ActionBarActivity {
                 is.close();
 
                 result = sb.toString();
-                Toast.makeText(getApplicationContext(), "conversion en chaÃ®ne : ok",
-                        Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 Log.e("log_tag", "Error converting result " + e.toString());
             }
@@ -547,6 +598,28 @@ public class NewBoxActivity extends ActionBarActivity {
         } else {//On remet typeBox à null :
             typeBox=null;
         }
+    }
+
+    class ToastShown implements Runnable {
+
+        private Button button;
+
+        public ToastShown(Button button){
+            this.button = button;
+        }
+
+        public void run(){
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    try {
+                        sendMessageNewBox();
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
     }
 
 }

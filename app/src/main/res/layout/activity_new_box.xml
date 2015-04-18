@@ -212,8 +212,7 @@
         android:text="@string/new_frigo_create"
         android:id="@+id/buttonCreateBox"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="sendMessageNewBox"/>
+        android:layout_centerHorizontal="true"/>
 
 
 

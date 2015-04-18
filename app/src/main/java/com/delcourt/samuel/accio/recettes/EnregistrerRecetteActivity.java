@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
@@ -16,6 +17,8 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class EnregistrerRecetteActivity extends ActionBarActivity {
 
@@ -26,6 +29,12 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_enregistrer_recette);
+            Button button = (Button) findViewById(R.id.create);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    newRecette();
+                }
+            });
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
@@ -58,7 +67,7 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
 
     public static void setUrl(String adresse){url=adresse;}
 
-    public void newRecette(View view) {
+    public void newRecette() {
         EditText editText = (EditText) findViewById(R.id.nameRecette);
         String recetteName = editText.getText().toString();
 
@@ -67,6 +76,17 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nom", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+
+            //Désactive le bouton le temps de l'affichage du Toast
+            Button button = (Button) findViewById(R.id.create);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                }
+            });
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
+
         } else {
             try {
                 OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_APPEND));
@@ -82,5 +102,23 @@ public class EnregistrerRecetteActivity extends ActionBarActivity {
             Intent intent = new Intent(this,MenuRecettesActivity.class);
             startActivity(intent);
         }
+    }
+
+    class ToastShown implements Runnable {
+
+        private Button button;
+
+        public ToastShown(Button button){
+            this.button = button;
+        }
+
+        public void run(){
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    newRecette();
+                }
+            });
+        }
+
     }
 }

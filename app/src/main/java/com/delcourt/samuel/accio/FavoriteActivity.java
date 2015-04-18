@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -31,6 +32,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class FavoriteActivity extends ActionBarActivity {
 
@@ -46,6 +49,7 @@ public class FavoriteActivity extends ActionBarActivity {
     private static ArrayList<String> listeFavoris;
     private static Box boite;
     private static ArrayList<String> listeHistoriqueAliment;
+    private static int autorisationAffichageToast=1;
 
 
 
@@ -95,7 +99,9 @@ public class FavoriteActivity extends ActionBarActivity {
         }
     }
 
+    public void setAutorisationAffichageToast(int i){autorisationAffichageToast=i;}
 
+    public int getAutorisationAffichageToast(){return autorisationAffichageToast;}
 
     public void chargeFavoris(){
         listeAlimentFavoris=new ArrayList<>();
@@ -314,10 +320,11 @@ public class FavoriteActivity extends ActionBarActivity {
                 textElement.setText("Chargement des aliments de la boîte " + boite.getName());
 
                 new BDDFavorite().execute();
-            } else {
-                if(namesBoitesNonConnection.size()==0){//Si toutes les connexions ont réussi
-                    Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
-                }
+            } else if(namesBoitesNonConnection.size()==0 && getAutorisationAffichageToast()==1){//Si toutes les connexions ont réussi
+                Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
+                setAutorisationAffichageToast(0);
+                ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                stpe.schedule(new ToastShown(),2500, TimeUnit.MILLISECONDS);
             }
         }
     }
@@ -439,4 +446,11 @@ public class FavoriteActivity extends ActionBarActivity {
         startActivity(intent);
     }
 
+    class ToastShown implements Runnable {
+        public ToastShown(){}
+
+        public void run(){
+            setAutorisationAffichageToast(1);
+        }
+    }
 }

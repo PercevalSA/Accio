@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
@@ -18,6 +19,8 @@ import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
@@ -28,6 +31,13 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_options_recette_enregistree);
+
+            Button button = (Button) findViewById(R.id.bouton_renommer_recette);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    sendMessageRename();
+                }
+            });
 
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
@@ -61,7 +71,7 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
     public static void setRecetteName(String newName){recetteName=newName;}
 
-    public void sendMessageRename(View view){
+    public void sendMessageRename(){
         int k = 0;
 
         EditText editText = (EditText) findViewById(R.id.edit_text_renommer_recette);
@@ -78,10 +88,32 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Vous n'avez pas entré de nouveau nom", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+
+            //Désactive le bouton le temps de l'affichage du Toast
+            Button button = (Button) findViewById(R.id.bouton_renommer_recette);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                }
+            });
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
+
         }else if (k > 0){
             Toast toast = Toast.makeText(getApplicationContext(), "Une recette possédant ce nom existe déjà", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+
+            //Désactive le bouton le temps de l'affichage du Toast
+            Button button = (Button) findViewById(R.id.bouton_renommer_recette);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                }
+            });
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
+
         }
         else{
             //on créé une boite de dialogue
@@ -135,6 +167,23 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
         Intent intent = new Intent(this,MenuRecettesActivity.class);
         startActivity(intent);
+    }
+    class ToastShown implements Runnable {
+
+        private Button button;
+
+        public ToastShown(Button button){
+            this.button = button;
+        }
+
+        public void run(){
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    sendMessageRename();
+                }
+            });
+        }
+
     }
 
 }
