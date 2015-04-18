@@ -6,13 +6,35 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.delcourt.samuel.accio.options_activities.CreditActivity">
 
-    <TextView android:text="Application du groupe 5.3 dans le cadre du projet PACT de Télécom ParisTech"
+    <TextView android:text="Application du groupe 5.3 dans le cadre du projet PACT de Télécom ParisTech.
+    "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
+        android:id="@+id/credit"
         style="@style/FontNormal"
         />
+    <TextView android:text="Développé par Samuel Delcourt et Coline Doebelin."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/credit"
+        style="@style/FontNormal"
+        />
+
+    <TextView android:text="Crédit : The Noun Project, Rafael Farias Leão, Jamison Wieser, BraveBros., Marcella Cigarini, Austin Condiff, Dmitry Baranovskiy, Taylor Medlin, Federico Falaschi, Ashley Ma, Tj Morrison."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentBottom="true"
+        style="@style/FontNormal"
+        />
+
 
 </RelativeLayout>
