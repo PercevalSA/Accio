@@ -44,6 +44,8 @@ public class RecetteEnregistreeActivity extends ActionBarActivity {
                 webview.loadUrl(adresseWeb);
             }
             else {
+                WebView webview = (WebView)findViewById(R.id.marmiton_web_view_favori);
+                webview.setVisibility(View.INVISIBLE);
                 TextView text = (TextView) findViewById(R.id.message_chargement_marmiton2);
                 text.setText("Vous n'avez pas de connexion à internet");
             }
@@ -69,11 +71,14 @@ public class RecetteEnregistreeActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_rename_recette:
+            case R.id.action_rename_recette_enregistree:
                 sendMessageRename();
                 return true;
-            case R.id.action_delete_recette:
+            case R.id.action_delete_recette_enregistree:
                 sendMessageDelete();
+                return true;
+            case R.id.action_refresh_recette_enregitree:
+                sendMessageRefresh();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -141,6 +146,11 @@ public class RecetteEnregistreeActivity extends ActionBarActivity {
 
     public void sendMessageRename(){
         Intent intent = new Intent(this, OptionsRecetteEnregistreeActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendMessageRefresh(){
+        Intent intent = new Intent(this,RecetteEnregistreeActivity.class);
         startActivity(intent);
     }
 }

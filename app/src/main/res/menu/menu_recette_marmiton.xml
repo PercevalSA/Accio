@@ -3,4 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.delcourt.samuel.accio.recettes.RecetteMarmitonActivity">
 
+    <item android:id="@+id/action_refresh_recette_enregitree"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/action_refresh"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/action_enregister"
+        android:icon="@drawable/ic_action_edit"
+        android:title="Enregistrer"
+        app:showAsAction="ifRoom" />
+
 </menu>
