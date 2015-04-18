@@ -33,7 +33,7 @@ public class FrigoOptionsActivity extends ActionBarActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_frigo_options);
 
-            Button button = (Button) findViewById(R.id.create);
+            Button button = (Button) findViewById(R.id.bouton_renommer_frigo);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     sendMessageRenameFrigo();
