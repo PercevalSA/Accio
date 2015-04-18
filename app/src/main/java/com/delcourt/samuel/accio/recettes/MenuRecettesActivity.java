@@ -109,6 +109,7 @@ public class MenuRecettesActivity extends ActionBarActivity {
     public void sendMessageRecetteEnregistreeSelected(int position){
         RecetteEnregistreeActivity.setAdresseWeb(listeRecettesEnregistrées.get(position).getAdresseWeb());
         OptionsRecetteEnregistreeActivity.setRecetteName(listeRecettesEnregistrées.get(position).getName());
+        RecetteEnregistreeActivity.setRecetteName(listeRecettesEnregistrées.get(position).getName());
         Intent intent = new Intent(this,RecetteEnregistreeActivity.class);
         startActivity(intent);
     }

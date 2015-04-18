@@ -108,27 +108,7 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
 
     }
 
-    public void sendMessageDelete(View view){
-        //on créé une boite de dialogue
-        AlertDialog.Builder adb = new AlertDialog.Builder(OptionsRecetteEnregistreeActivity.this);
-        //on attribue un titre à notre boite de dialogue
-        adb.setTitle("Confirmation");
-        //on insère un message à notre boite de dialogue, et ici on affiche le titre de l'item cliqué
-        adb.setMessage("Voulez-vous vraiment supprimer la boite " + recetteName+" ? \nLes informations correspondantes seront perdues");
-        //on indique que l'on veut le bouton ok à notre boite de dialogue
-        adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                delete();
-            }
-        });
-        adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
 
-            }
-        });
-        //on affiche la boite de dialogue
-        adb.show();
-    }
 
     public void rename(String newName){
 
@@ -136,32 +116,6 @@ public class OptionsRecetteEnregistreeActivity extends ActionBarActivity {
         for(int j =0;j<MenuRecettesActivity.getListeRecettesEnregistrées().size();j++){
             if(MenuRecettesActivity.getListeRecettesEnregistrées().get(j).getName().compareTo(recetteName)==0){
                 MenuRecettesActivity.getListeRecettesEnregistrées().get(j).setName(newName);
-            }
-        }
-        //On adapte le fichier texte
-        try {
-            OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput("recettes_file.txt",MODE_PRIVATE));
-            BufferedWriter bw = new BufferedWriter(outStream);
-            PrintWriter out2 = new PrintWriter(bw);
-            for(int i=0;i<MenuRecettesActivity.getListeRecettesEnregistrées().size();i++){
-                out2.println(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getName());
-                out2.println(MenuRecettesActivity.getListeRecettesEnregistrées().get(i).getAdresseWeb());
-            }
-            out2.close();
-
-        } catch (FileNotFoundException e1) {
-            Toast.makeText(getApplicationContext(), "problème réécriture liste boîtes", Toast.LENGTH_SHORT).show();
-        }
-
-        Intent intent = new Intent(this,MenuRecettesActivity.class);
-        startActivity(intent);
-    }
-
-    public void delete(){
-        //On supprime la boîte dans la liste dynamique :
-        for(int j =0;j<MenuRecettesActivity.getListeRecettesEnregistrées().size();j++){
-            if(MenuRecettesActivity.getListeRecettesEnregistrées().get(j).getName().compareTo(recetteName)==0){
-                MenuRecettesActivity.getListeRecettesEnregistrées().remove(j);
             }
         }
         //On adapte le fichier texte

@@ -3,4 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.delcourt.samuel.accio.recettes.RecetteEnregistreeActivity">
 
+    <item android:id="@+id/action_rename_recette"
+        android:title="@string/action_rename"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_delete_recette"
+        android:title="@string/action_delete"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 </menu>
