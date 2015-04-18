@@ -17,8 +17,7 @@
         android:layout_height="wrap_content"
         android:text= "@string/new_frigo_create"
         android:layout_below="@id/nameFrigo"
-        android:layout_centerHorizontal="true"
-        android:onClick="newFrigo"/>
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

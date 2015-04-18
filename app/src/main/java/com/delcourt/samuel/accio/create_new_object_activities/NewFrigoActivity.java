@@ -8,6 +8,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.delcourt.samuel.accio.AccueilActivity;
@@ -15,6 +17,8 @@ import com.delcourt.samuel.accio.R;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class NewFrigoActivity extends ActionBarActivity {
 
@@ -23,6 +27,13 @@ public class NewFrigoActivity extends ActionBarActivity {
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_new_frigo);
+
+            Button button = (Button) findViewById(R.id.create);
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    newFrigo();
+                }
+            });
         } catch (Exception e){
             Log.e("log_tag", "Error " + e.toString());
             Intent intent = new Intent(this,AccueilActivity.class);
@@ -53,7 +64,7 @@ public class NewFrigoActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void newFrigo(View view){
+    public void newFrigo(){
 
         int k = 0; //permet de s'assurer que le nom du nouveau frigo n'existe pas encore
 
@@ -67,6 +78,16 @@ public class NewFrigoActivity extends ActionBarActivity {
             Toast toast = Toast.makeText(getApplicationContext(), "Nom invalide", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL, 0, 0);
             toast.show();
+            Button button = (Button) findViewById(R.id.create);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                }
+            });
+
+            ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+            stpe.schedule(new ToastShown(button),2500, TimeUnit.MILLISECONDS);
         }
         else { //On s'assure qu'aucun frigo du même nom n'a encore été créé
             for (int i=0;i< AccueilActivity.getListeFrigosNames().size();i++){
@@ -101,5 +122,23 @@ public class NewFrigoActivity extends ActionBarActivity {
                 startActivity(intent); //Renvoie sur la page d'accueil. La page d'acceuil se charge elle même de mettre à jour les données modifiées
             }
         }
+    }
+
+    class ToastShown implements Runnable {
+
+        private Button button;
+
+        public ToastShown(Button button){
+            this.button = button;
+        }
+
+        public void run(){
+            button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    newFrigo();
+                }
+            });
+        }
+
     }
 }
