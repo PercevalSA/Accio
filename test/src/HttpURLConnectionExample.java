@@ -31,7 +31,7 @@ public class HttpURLConnectionExample {
             String manufacturer = http.getManufacturer(url);
 
             // Adding the product to our local DB
-            addBDD(nom, manufacturer, barcode, args[1], args[0]);
+            addBDD(nom, manufacturer, barcode, args[0], args[1]);
 
         }
     }
