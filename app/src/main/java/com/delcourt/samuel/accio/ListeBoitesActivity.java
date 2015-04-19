@@ -218,7 +218,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         return creationReussie;
     }
 
-
     public void optionsFrigo(){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
         startActivity(intent);
@@ -268,7 +267,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         Intent intent = new Intent(this,AccueilActivity.class);
         startActivity(intent);
     }
-
 
     public void sendMessageBoxSelected(View view, int index){
         BoxActivity.setBoxIndex(index);
@@ -537,8 +535,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
             if (connectionSuccessful == false) {
                 namesBoitesNonConnection.add(boite.getName());
+                Toast.makeText(getApplicationContext(), "Pas d'accès à la base de données", Toast.LENGTH_SHORT).show();
             } else { //La connexion à la base de données a fonctionné.
-
                 //On supprime réinitialise la liste des aliments de la boîte pour la réécrire :
                 boite.getListeAliments().clear();
 
@@ -577,8 +575,13 @@ public class ListeBoitesActivity extends ActionBarActivity {
                     new BDDListeAliments().execute();
                 } else if (namesBoitesNonConnection.size() == 0) {//Si toutes les connexions ont réussi
                     Toast.makeText(getApplicationContext(), "Actualisation réussie", Toast.LENGTH_SHORT).show();
+                    gestionFavoris();
                 }
             }
         }
+    }
+
+    public void gestionFavoris(){
+        A FAIRE !
     }
 }
