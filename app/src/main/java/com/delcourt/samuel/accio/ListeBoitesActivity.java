@@ -45,6 +45,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -55,6 +56,9 @@ import java.util.concurrent.TimeUnit;
 public class ListeBoitesActivity extends ActionBarActivity {
 
     private static Refrigerateur refrigerateur;
+
+    private static ArrayList<String> listeFavorisNames;//Liste des noms des aliments favoris
+    private static ArrayList<String> listeFavorisAbsentsNames;//Liste des noms des aliments favoris absents
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
@@ -73,7 +77,24 @@ public class ListeBoitesActivity extends ActionBarActivity {
     private static ArrayList<String> listeFavoris;
     private static Box boite;
     private static ArrayList<String> listeHistoriqueAliment;
-    private static int autorisationAffichageToast=1;
+
+
+
+    public static ArrayList<String> getListeFavorisAbsentsNames() {
+        return listeFavorisAbsentsNames;
+    }
+
+    public static ArrayList<String> getListeFavorisNames() {
+        return listeFavorisNames;
+    }
+
+    public static void setListeFavorisNames(ArrayList<String> listeFavorisNames) {
+        ListeBoitesActivity.listeFavorisNames = listeFavorisNames;
+    }
+
+    public static void setListeFavorisAbsentsNames(ArrayList<String> listeFavorisAbsentsNames) {
+        ListeBoitesActivity.listeFavorisAbsentsNames = listeFavorisAbsentsNames;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +131,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 }
             }
 
+            lectureListeFavoris();
 
             afficheListeBoites();
 
@@ -575,13 +597,91 @@ public class ListeBoitesActivity extends ActionBarActivity {
                     new BDDListeAliments().execute();
                 } else if (namesBoitesNonConnection.size() == 0) {//Si toutes les connexions ont réussi
                     Toast.makeText(getApplicationContext(), "Actualisation réussie", Toast.LENGTH_SHORT).show();
+                    //Tous les aliments ont été récupérés : on peut s'occuper des favoris
                     gestionFavoris();
                 }
             }
         }
     }
 
+    public void lectureListeFavoris() {//LECTURE LISTE FAVORIS
+
+        listeFavorisNames=new ArrayList<>();
+
+        InputStream instream = null;
+        String nameFrigo = refrigerateur.getName();
+        try {
+            instream = openFileInput(nameFrigo + "Favoris.txt");
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            Scanner sc = new Scanner(buffreader);
+
+            while (sc.hasNextLine() == true) {//On recrée la liste des favoris
+                String favoriteName = sc.nextLine();
+                listeFavorisNames.add(favoriteName);
+
+                Toast.makeText(getApplicationContext(), favoriteName, Toast.LENGTH_SHORT).show();
+
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {//Survient si le fichier texte favoris du frigo n'a pas encore été créé
+            Log.e("log_tag", "Error " + e.toString());
+            try {
+                OutputStreamWriter outStream = null;
+                outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Favoris.txt",MODE_APPEND));
+
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
     public void gestionFavoris(){
-        A FAIRE !
+
+        //On cherche les aliments favoris absent du réfrigérateur
+        listeFavorisAbsentsNames=new ArrayList<>();
+        int nbFavoris = listeFavorisNames.size();
+        for (int i=0;i<nbFavoris;i++){
+            //On cherche dans toutes les boîtes si cet aliment s'y trouve
+            int found = 0;
+            for(int j=0;j<refrigerateur.getBoxes().size();j++){
+                for(int k=0;k<refrigerateur.getBoxes().get(j).getListeAliments().size();k++){
+                    if(listeFavorisNames.get(i).compareTo(refrigerateur.getBoxes().get(j).getListeAliments().get(k).getAlimentName())==0){
+                        found=1;
+                        break;
+                    }
+                }
+            }
+            //On vient de regarder tous les aliments
+            if(found==0){
+                listeFavorisAbsentsNames.add(listeFavorisNames.get(i));
+            }
+        }
+
+
+
+        //Si il certains favoris sont absents du frigo, on l'affiche dans une alertDialog :
+        if(listeFavorisAbsentsNames.size()!=0){
+
+            String nomsAliments="-"+listeFavorisAbsentsNames.get(0);
+            for(int i=1;i<listeFavorisAbsentsNames.size();i++){
+                nomsAliments=nomsAliments + "\n-" + listeFavorisAbsentsNames.get(i);
+            }
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(ListeBoitesActivity.this);
+            adb.setTitle("Favoris");
+            adb.setMessage(refrigerateur.getName()+" : les aliments favoris suivants sont absents :\n\n"
+                    + nomsAliments);
+            adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {}
+            });
+            adb.show();
+        }
+
     }
 }
