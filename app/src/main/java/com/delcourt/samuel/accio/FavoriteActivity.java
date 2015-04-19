@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -119,6 +120,8 @@ public class FavoriteActivity extends ActionBarActivity {
             }
         }
         afficheFavoris();//Affiche immédiatement les aliments des boîtes déjà chargées
+
+        afficheFavorisAbsents();
         //On lance les connexions aux bdd successives :
         if(numerosBoitesAConnecter.size()!=0){
             boite=ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
@@ -325,7 +328,10 @@ public class FavoriteActivity extends ActionBarActivity {
                 setAutorisationAffichageToast(0);
                 ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
                 stpe.schedule(new ToastShown(),2500, TimeUnit.MILLISECONDS);
+
+                //On affiche la liste des favoris absents
             }
+            afficheFavorisAbsents();
         }
     }
 
@@ -452,5 +458,19 @@ public class FavoriteActivity extends ActionBarActivity {
         public void run(){
             setAutorisationAffichageToast(1);
         }
+    }
+
+    public void afficheFavorisAbsents(){
+
+        ListView frigoList=(ListView)findViewById(R.id.listViewFavorisAbsents);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,R.layout.accueil_listview, ListeBoitesActivity.getListeFavorisAbsentsNames());
+        frigoList.setAdapter(arrayAdapter);
+        frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+
+            }
+        });
     }
 }

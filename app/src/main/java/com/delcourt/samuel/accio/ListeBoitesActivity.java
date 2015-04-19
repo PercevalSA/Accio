@@ -596,7 +596,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
                     new BDDListeAliments().execute();
                 } else if (namesBoitesNonConnection.size() == 0) {//Si toutes les connexions ont réussi
-                    Toast.makeText(getApplicationContext(), "Actualisation réussie", Toast.LENGTH_SHORT).show();
                     //Tous les aliments ont été récupérés : on peut s'occuper des favoris
                     gestionFavoris();
                 }
@@ -619,9 +618,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
             while (sc.hasNextLine() == true) {//On recrée la liste des favoris
                 String favoriteName = sc.nextLine();
                 listeFavorisNames.add(favoriteName);
-
-                Toast.makeText(getApplicationContext(), favoriteName, Toast.LENGTH_SHORT).show();
-
             }
             sc.close();
         } catch (FileNotFoundException e) {//Survient si le fichier texte favoris du frigo n'a pas encore été créé
