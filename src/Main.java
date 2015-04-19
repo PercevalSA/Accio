@@ -62,9 +62,9 @@ public class Main {
 
         String urladd = null;
         if (addordelete.equals("add")) {
-            urladd = "http://localhost/pact/connection-add-product.php?";
+            urladd = "http://localhost/pact/connection-add-product-bis.php?";
         } else if (addordelete.equals("delete")) {
-            urladd = "http://localhost/pact/connection-delete-product.php?";
+            urladd = "http://localhost/pact/connection-delete-product-bis.php?";
         }
         String urlParameters = "nom="+nom+"&boite="+boite;
         String urladdbis = urladd+urlParameters;
