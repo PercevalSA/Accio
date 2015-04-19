@@ -31,8 +31,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -157,18 +161,15 @@ public class AlimentActivity extends ActionBarActivity {
     }
 
     public void declareFavori(){
-        ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(true);
-        image.setImageResource(R.drawable.fav);
+
         alimID=ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareFavori().execute();
 
     }
 
     public void declareNonFavori(){
-        ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
-        ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(false);
-        image.setImageResource(R.drawable.favn);
+
+
         alimID = ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getalimID();
         new DeclareNonFavori().execute();
 
@@ -176,6 +177,7 @@ public class AlimentActivity extends ActionBarActivity {
 
     class DeclareFavori extends AsyncTask<String, Void, String> {
 
+        private boolean connectionOK=true;
 
         protected String doInBackground(String... urls) {
 
@@ -190,6 +192,7 @@ public class AlimentActivity extends ActionBarActivity {
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
             } catch (Exception e) {
+                connectionOK=false;
                 Log.e("log_tag", "Error in http connection " + e.toString());
             }
 
@@ -232,11 +235,39 @@ public class AlimentActivity extends ActionBarActivity {
             return result;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(connectionOK==false){
+                Toast.makeText(getApplicationContext(), "Impossible d'accéder à la base de données", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
+                ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(true);
+                image.setImageResource(R.drawable.fav);
+                //On ajoute l'aliment à la liste dynamique (arraylist) des favoris :
+                ListeBoitesActivity.getListeFavorisNames().add(ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName());
+
+                //On réécrit la liste statique (txt) des favoris :
+                try {
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(ListeBoitesActivity.getRefrigerateur().getName()+
+                            "Favoris.txt",MODE_PRIVATE));
+                    BufferedWriter bw = new BufferedWriter(outStream);
+                    PrintWriter out2 = new PrintWriter(bw);
+                    for(int i=0;i<ListeBoitesActivity.getListeFavorisNames().size();i++){
+                        out2.println(ListeBoitesActivity.getListeFavorisNames().get(i));
+                    }
+                    out2.close();
+                } catch (FileNotFoundException e1) {
+                    Toast.makeText(getApplicationContext(), "problème réécriture liste frigos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     class DeclareNonFavori extends AsyncTask<String, Void, String> {
 
-
+        private boolean connectionOK=true;
         protected String doInBackground(String... urls) {
 
             String result = "";
@@ -250,6 +281,7 @@ public class AlimentActivity extends ActionBarActivity {
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
             } catch (Exception e) {
+                connectionOK=false;
                 Log.e("log_tag", "Error in http connection " + e.toString());
             }
 
@@ -292,6 +324,42 @@ public class AlimentActivity extends ActionBarActivity {
             return result;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(connectionOK==false){
+                Toast.makeText(getApplicationContext(), "Impossible d'accéder à la base de données", Toast.LENGTH_SHORT).show();
+            }else{
+                ImageView image = (ImageView) findViewById(R.id.imgAlimentFavori);
+                ListeBoitesActivity.getRefrigerateur().getBoxes().get(boxIndex).getListeAliments().get(alimentIndex).setFavori(false);
+                image.setImageResource(R.drawable.favn);
+
+                //On met à jour la liste des favoris
+                try{while(ListeBoitesActivity.getListeFavorisNames().indexOf(ListeBoitesActivity.getRefrigerateur().getBoxes()
+                        .get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName())>=0){
+                    ListeBoitesActivity.getListeFavorisNames().remove(ListeBoitesActivity.getListeFavorisNames().indexOf(ListeBoitesActivity.getRefrigerateur().getBoxes()
+                            .get(boxIndex).getListeAliments().get(alimentIndex).getAlimentName()));}
+                }
+                catch(IndexOutOfBoundsException e){
+                    Log.e("log_tag", "Array out of Bound " + e.toString());
+                }
+
+                //On adapte le fichier texte
+                try {
+                    OutputStreamWriter outStream = new OutputStreamWriter(openFileOutput(ListeBoitesActivity.getRefrigerateur().getName()+
+                            "Favoris.txt",MODE_PRIVATE));
+                    BufferedWriter bw = new BufferedWriter(outStream);
+                    PrintWriter out2 = new PrintWriter(bw);
+                    for(int i=0;i<ListeBoitesActivity.getListeFavorisNames().size();i++){
+                        out2.println(ListeBoitesActivity.getListeFavorisNames().get(i));
+                    }
+                    out2.close();
+
+                } catch (FileNotFoundException e1) {
+                    Toast.makeText(getApplicationContext(), "problème réécriture liste frigos", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
 }
