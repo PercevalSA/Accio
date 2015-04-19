@@ -112,7 +112,7 @@ public class AdaBoost implements Classifier {
 
     private final static String USER_AGENT = "Mozilla/5.0";
 
-    private String openResult(String filestem) {
+    /*private String openResult(String filestem) {
 
         String nom = null;
         String nombis = "no";
@@ -134,7 +134,7 @@ public class AdaBoost implements Classifier {
         } else {
             return nombis;
         }
-    }
+    }*/
 
     private void envoiBDD(String nom) {
 

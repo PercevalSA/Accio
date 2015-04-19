@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import static org.bytedeco.javacpp.opencv_highgui.*;
@@ -323,6 +324,12 @@ public class loadImage {
 					}
 					System.out.println(area[0]); // Rapport aire perimetre
 				}
+
+				//-----------------ECRITURE DU FICHIER EN SORTIE-----------------//
+
+				FileOutputStream file = new FileOutputStream(args[0]".test");
+				file.write(histo[0][] + area[0]);
+				file.close();
 
 			}
 			catch(Exception e)
