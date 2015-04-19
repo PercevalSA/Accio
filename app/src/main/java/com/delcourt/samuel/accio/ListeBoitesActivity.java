@@ -674,10 +674,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
                 }
             });
-            adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                }
-            });
             adb.show();
         }
 

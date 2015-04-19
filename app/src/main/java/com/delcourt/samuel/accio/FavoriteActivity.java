@@ -124,7 +124,7 @@ public class FavoriteActivity extends ActionBarActivity {
         }
         afficheFavoris();//Affiche immédiatement les aliments des boîtes déjà chargées
 
-        //afficheFavorisAbsents();
+        afficheFavorisAbsents();
         //On lance les connexions aux bdd successives :
         if(numerosBoitesAConnecter.size()!=0){
             boite=ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
