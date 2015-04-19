@@ -10,8 +10,8 @@ public class HttpURLConnectionExample {
     private final static String USER_AGENT = "Mozilla/5.0";
 
     public static void main(String[] args) throws Exception {
-        int i = 0;
-        while(i == 0){
+
+        while(true){
 
             HttpURLConnectionExample http = new HttpURLConnectionExample();
 
@@ -31,7 +31,7 @@ public class HttpURLConnectionExample {
             String manufacturer = http.getManufacturer(url);
 
             // Adding the product to our local DB
-            addBDD(nom, manufacturer, barcode);
+            addBDD(nom, manufacturer, barcode, args[1], args[0]);
 
         }
     }
@@ -156,7 +156,7 @@ public class HttpURLConnectionExample {
 
         changeFlag("product");
 
-        while(getContent("product").equals("") == true){
+        while(getContent("product").equals("")){
             Thread.sleep(1000);
             System.out.println("Sleep");
         }
@@ -211,7 +211,7 @@ public class HttpURLConnectionExample {
 
         changeFlag("manufacturer");
 
-        while(getContent("manufacturer").equals("") == true){
+        while(getContent("manufacturer").equals("")){
             Thread.sleep(1000);
             System.out.println("Sleep");
         }
@@ -254,7 +254,7 @@ public class HttpURLConnectionExample {
     //3103220035214
     //3242272001553
 
-    private static void addBDD(String nom, String manufacturer, String barcode) throws Exception {
+    private static void addBDD(String nom, String manufacturer, String barcode, String boite, String addordelete) throws Exception {
 
         String url = "http://perceval.tk/pact/connection-check-manufacturer.php?manufacturer="+manufacturer;
 
@@ -312,8 +312,13 @@ public class HttpURLConnectionExample {
 
         // Add the product to our DB, with its corresponding manufacturer
 
-        int boite = 7;
-        String urladd = "http://perceval.tk/pact/connection-add-product.php?";
+        String urladd = null;
+        if (addordelete.equals("add")) {
+            urladd = "http://perceval.tk/pact/connection-add-product.php?";
+        } else if (addordelete.equals("delete")) {
+            urladd = "http://perceval.tk/pact/connection-delete-product.php?";
+        }
+        //String urladd = "http://perceval.tk/pact/connection-add-product.php?";
         String urlParameters = "nom="+nom+"&codebarre="+barcode+"&boite="+boite+"&marque="+marqueid;
         String urladdbis = urladd+urlParameters;
 
