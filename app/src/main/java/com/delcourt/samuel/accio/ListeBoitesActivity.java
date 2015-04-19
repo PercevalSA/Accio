@@ -57,8 +57,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
     private static Refrigerateur refrigerateur;
 
-    private static ArrayList<String> listeFavorisNames;//Liste des noms des aliments favoris
-    private static ArrayList<String> listeFavorisAbsentsNames;//Liste des noms des aliments favoris absents
+    private static ArrayList<String> listeFavorisNames=new ArrayList<>();//Liste des noms des aliments favoris
+    private static ArrayList<String> listeFavorisAbsentsNames=new ArrayList<>();//Liste des noms des aliments favoris absents
 
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
@@ -95,6 +95,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
     public static void setListeFavorisAbsentsNames(ArrayList<String> listeFavorisAbsentsNames) {
         ListeBoitesActivity.listeFavorisAbsentsNames = listeFavorisAbsentsNames;
     }
+    public static void resetListeFavorisAbsentsNames(){listeFavorisAbsentsNames=new ArrayList<>();}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -666,7 +667,7 @@ public class ListeBoitesActivity extends ActionBarActivity {
 
             AlertDialog.Builder adb = new AlertDialog.Builder(ListeBoitesActivity.this);
             adb.setTitle("Favoris");
-            adb.setMessage(refrigerateur.getName()+" : les aliments favoris suivants sont absents :\n\n"
+            adb.setMessage(refrigerateur.getName() + " : les aliments favoris suivants sont absents :\n\n"
                     + nomsAliments);
             adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
@@ -674,7 +675,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 }
             });
             adb.setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {}
+                public void onClick(DialogInterface dialog, int id) {
+                }
             });
             adb.show();
         }
