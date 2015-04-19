@@ -60,6 +60,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
     private static ArrayList<String> listeFavorisNames=new ArrayList<>();//Liste des noms des aliments favoris
     private static ArrayList<String> listeFavorisAbsentsNames=new ArrayList<>();//Liste des noms des aliments favoris absents
 
+    private static int autorisationAffichageToast=1;
+
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -95,6 +97,11 @@ public class ListeBoitesActivity extends ActionBarActivity {
     public static void setListeFavorisAbsentsNames(ArrayList<String> listeFavorisAbsentsNames) {
         ListeBoitesActivity.listeFavorisAbsentsNames = listeFavorisAbsentsNames;
     }
+
+    public void setAutorisationAffichageToast(int i){autorisationAffichageToast=i;}
+
+    public int getAutorisationAffichageToast(){return autorisationAffichageToast;}
+
     public static void resetListeFavorisAbsentsNames(){listeFavorisAbsentsNames=new ArrayList<>();}
 
     @Override
@@ -179,6 +186,8 @@ public class ListeBoitesActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_liste_boites, menu);
         return true;
+
+
     }
 
     @Override
@@ -192,6 +201,10 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 return true;
             case R.id.action_delete:
                 messageDeleteFrigo();
+                return true;
+            case R.id.action_refresh:
+                actualiser();
+                return true;
             default:
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
                     return true;
@@ -557,8 +570,15 @@ public class ListeBoitesActivity extends ActionBarActivity {
             textElement0.setText("");
 
             if (connectionSuccessful == false) {
+                if(getAutorisationAffichageToast()==1){
+                    Toast.makeText(getApplicationContext(), "Pas d'accès à la base de données", Toast.LENGTH_SHORT).show();
+                }
+
                 namesBoitesNonConnection.add(boite.getName());
-                Toast.makeText(getApplicationContext(), "Pas d'accès à la base de données", Toast.LENGTH_SHORT).show();
+
+                setAutorisationAffichageToast(0);
+                ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                stpe.schedule(new ToastShown(),2700, TimeUnit.MILLISECONDS);
             } else { //La connexion à la base de données a fonctionné.
                 //On supprime réinitialise la liste des aliments de la boîte pour la réécrire :
                 boite.getListeAliments().clear();
@@ -633,6 +653,16 @@ public class ListeBoitesActivity extends ActionBarActivity {
         }
     }
 
+    public void actualiser(){
+        if(getAutorisationAffichageToast()==1){//Ne fait qqch que si le toast a disparu
+            for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+                ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+            }
+            Intent intent = new Intent(this,ListeBoitesActivity.class);
+            startActivity(intent);
+        }
+    }
+
     public void gestionFavoris(){
 
         //On cherche les aliments favoris absent du réfrigérateur
@@ -677,5 +707,12 @@ public class ListeBoitesActivity extends ActionBarActivity {
             adb.show();
         }
 
+    }
+
+    class ToastShown implements Runnable {
+        public ToastShown(){}
+        public void run(){
+            setAutorisationAffichageToast(1);
+        }
     }
 }
