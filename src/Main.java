@@ -40,15 +40,16 @@ public class Main {
                     	newfile.renameTo(new File("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".test"));
                     	AdaBoost.main(args); // Launch Adaboost algorithm
                     	
-                    	inputReader = new BufferedReader(new FileReader("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".testout")); // Get the name of the other fruit or vegetable which has been recognised
-
-                        while((nextLine = inputReader.readLine()) != null) {
-                            envoiBDD(nextLine, args[1], args[2]); // Add or delete it to/from the MySQL DB
+                    	BufferedReader inputReaderBis = new BufferedReader(new FileReader("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".testout")); // Get the name of the other fruit or vegetable which has been recognised
+                    	String nextLineBis;
+                    	
+                        while((nextLineBis = inputReaderBis.readLine()) != null) {
+                            envoiBDD(nextLineBis, args[1], args[2]); // Add or delete it to/from the MySQL DB
                         }
                         
-                        inputReader.close();
-                        todelete = new File("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".test");
-                        todelete.delete();
+                        inputReaderBis.close();
+                        File todeletebis = new File("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".test");
+                        todeletebis.delete();
                     	
                     }
 
@@ -91,6 +92,7 @@ public class Main {
         } else if (addordelete.equals("delete")) {
             urladd = "http://perceval.tk/pact/connection-delete-product-bis.php?";
         }
+        System.out.println(nom);
         String urlParameters = "nom="+nom+"&boite="+boite;
         String urladdbis = urladd+urlParameters;
 
