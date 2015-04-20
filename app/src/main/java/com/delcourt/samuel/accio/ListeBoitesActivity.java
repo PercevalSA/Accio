@@ -46,7 +46,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -715,4 +720,58 @@ public class ListeBoitesActivity extends ActionBarActivity {
             setAutorisationAffichageToast(1);
         }
     }
+
+    public void compareDates(){
+
+        try{
+            //Crée la durée à laquelle on veut comparer (1 jour)
+            DateFormat dateRef = new SimpleDateFormat("yyyy-MM-dd");
+            String strRef = "0000-00-01";
+            Date date0 = dateRef.parse(strRef);
+
+            //On récupère la date actuelle
+            DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+            String currentDateStr = df2.format(Calendar.getInstance().getTime());
+            Date currentDate = dateRef.parse(currentDateStr);
+
+
+            //Stratégie : on récupère la date d'entrée de l'aliment, on lui ajoute un jour, si la date obtenue est < la date actuelle,
+            // il y est depuis trop lgtps
+
+
+            for(int j=0;j<refrigerateur.getBoxes().size();j++){
+                for(int k=0;k<refrigerateur.getBoxes().get(j).getListeAliments().size();k++){
+                    try {
+                        //On récupère la date d'ajout
+                        String strDate = refrigerateur.getBoxes().get(j).getListeAliments().get(k).getAlimentHistorique();
+                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date dateEntree = df.parse(strDate);
+                        //DateFormat newFormat = new SimpleDateFormat("d MMMM yyyy");
+                        //strDate= newFormat.format(date);
+
+                        //On récupère la date actuelle
+                        DateFormat df3 = new SimpleDateFormat("yyyy-MM-dd");
+                        String CurrentDate = df3.format(Calendar.getInstance().getTime());
+
+                        Date alimentPresentDepuis = dateEntree - currentDate;
+
+                        //Comparaison :
+                        if (alimentPresentDepuis.after(date0)) {
+                            Toast.makeText(getApplicationContext(), "L'aliment "+
+                                    refrigerateur.getBoxes().get(j).getListeAliments().get(k).getAlimentName()+
+                                    " est là depuis plus d'un jour", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
