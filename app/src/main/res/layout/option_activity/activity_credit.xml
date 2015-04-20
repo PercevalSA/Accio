@@ -23,6 +23,22 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/credit"
+        android:id="@+id/credit2"
+        style="@style/FontNormal"
+        />
+    <TextView android:text="Accio, un projet de : Perceval Arenoux \n
+Aurélien Balteaux \n
+Réda Benchekroun \n
+Zineb Cheddadi \n
+Samuel Delcourt \n
+Coline Doebelin \n
+Aymeric Flégeo \n
+Yazid Goghrod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/credit2"
         style="@style/FontNormal"
         />
 
