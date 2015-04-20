@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -27,6 +29,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -119,6 +123,8 @@ public class FavoriteActivity extends ActionBarActivity {
             }
         }
         afficheFavoris();//Affiche immédiatement les aliments des boîtes déjà chargées
+
+        afficheFavorisAbsents();
         //On lance les connexions aux bdd successives :
         if(numerosBoitesAConnecter.size()!=0){
             boite=ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
@@ -320,11 +326,40 @@ public class FavoriteActivity extends ActionBarActivity {
                 textElement.setText("Chargement des aliments de la boîte " + boite.getName());
 
                 new BDDFavorite().execute();
-            } else if(namesBoitesNonConnection.size()==0 && getAutorisationAffichageToast()==1){//Si toutes les connexions ont réussi
-                Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
-                setAutorisationAffichageToast(0);
-                ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
-                stpe.schedule(new ToastShown(),2500, TimeUnit.MILLISECONDS);
+            } else {//Si toutes les connexions ont réussi
+                if(namesBoitesNonConnection.size()==0 && getAutorisationAffichageToast()==1){
+                    Toast.makeText(getApplicationContext(), "Actualisation réussie",Toast.LENGTH_SHORT).show();
+                    setAutorisationAffichageToast(0);
+                    ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                    stpe.schedule(new ToastShown(),2500, TimeUnit.MILLISECONDS);
+                }
+
+                if(namesBoitesNonConnection.size()==0){
+                    //On cherche les aliments favoris absent du réfrigérateur
+                    ListeBoitesActivity.resetListeFavorisAbsentsNames();
+                    int nbFavoris = ListeBoitesActivity.getListeFavorisNames().size();
+                    for (int i=0;i<nbFavoris;i++){
+                        //On cherche dans toutes les boîtes si cet aliment s'y trouve
+                        int found = 0;
+                        for(int j=0;j<ListeBoitesActivity.getRefrigerateur().getBoxes().size();j++){
+                            for(int k=0;k<ListeBoitesActivity.getRefrigerateur().getBoxes().get(j).getListeAliments().size();k++){
+                                if(ListeBoitesActivity.getListeFavorisNames().get(i).compareTo(ListeBoitesActivity.getRefrigerateur().getBoxes().get(j).getListeAliments().get(k).getAlimentName())==0){
+                                    found=1;
+                                    break;
+                                }
+                            }
+                        }
+                        //On vient de regarder tous les aliments
+                        if(found==0){
+                            ListeBoitesActivity.getListeFavorisAbsentsNames().add(ListeBoitesActivity.getListeFavorisNames().get(i));
+                        }
+                    }
+                    afficheFavorisAbsents();
+                } else{
+                    TextView text = (TextView) findViewById(R.id.text);
+                    text.setText("");
+                }
+
             }
         }
     }
@@ -373,6 +408,8 @@ public class FavoriteActivity extends ActionBarActivity {
             textElement.setText("Problème de connexion");
             ImageView image = (ImageView) findViewById(R.id.im_non_connect);
             image.setImageResource(R.drawable.erreur);
+            TextView text = (TextView) findViewById(R.id.text);
+            text.setText("");
 
         } else { //Cas où toutes les boites ont bien été chargées :
             int sizeListAliments = listeAlimentFavoris.size();
@@ -452,5 +489,25 @@ public class FavoriteActivity extends ActionBarActivity {
         public void run(){
             setAutorisationAffichageToast(1);
         }
+    }
+
+    public void afficheFavorisAbsents(){
+
+        if(ListeBoitesActivity.getListeFavorisNames().size()>0){
+            ListView frigoList=(ListView)findViewById(R.id.listViewFavorisAbsents);
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,R.layout.accueil_listview, ListeBoitesActivity.getListeFavorisAbsentsNames());
+            frigoList.setAdapter(arrayAdapter);
+            frigoList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+
+                }
+            });
+        }else{
+            TextView text = (TextView) findViewById(R.id.text);
+            text.setText("");
+        }
+
     }
 }

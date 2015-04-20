@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -23,8 +25,19 @@ import android.widget.Toast;
 import com.delcourt.samuel.accio.create_new_object_activities.NewBoxActivity;
 import com.delcourt.samuel.accio.options_activities.FrigoOptionsActivity;
 import com.delcourt.samuel.accio.recettes.MenuRecettesActivity;
+import com.delcourt.samuel.accio.structures.Aliment;
 import com.delcourt.samuel.accio.structures.Box;
 import com.delcourt.samuel.accio.structures.Refrigerateur;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -32,20 +45,64 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 public class ListeBoitesActivity extends ActionBarActivity {
 
     private static Refrigerateur refrigerateur;
 
+    private static ArrayList<String> listeFavorisNames=new ArrayList<>();//Liste des noms des aliments favoris
+    private static ArrayList<String> listeFavorisAbsentsNames=new ArrayList<>();//Liste des noms des aliments favoris absents
+
+    private static int autorisationAffichageToast=1;
+
     private ListView mDrawerList;
     private ArrayAdapter<String> mAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private String mActivityTitle;
+
+    private ArrayList<Integer> numerosBoitesAConnecter = new ArrayList<>();
+    private String refBdd;
+    private ArrayList<String> namesBoitesNonConnection;
+
+    //Attributs static : utiles dans la classe se connectant à la BDD
+    private static ArrayList<String> listeMarqueAliment;
+    private static ArrayList<String> listeNomAliment;
+    private static ArrayList<String> listeBoiteID;
+    private static ArrayList<String> listeFavoris;
+    private static Box boite;
+    private static ArrayList<String> listeHistoriqueAliment;
+
+
+
+    public static ArrayList<String> getListeFavorisAbsentsNames() {
+        return listeFavorisAbsentsNames;
+    }
+
+    public static ArrayList<String> getListeFavorisNames() {
+        return listeFavorisNames;
+    }
+
+    public static void setListeFavorisNames(ArrayList<String> listeFavorisNames) {
+        ListeBoitesActivity.listeFavorisNames = listeFavorisNames;
+    }
+
+    public static void setListeFavorisAbsentsNames(ArrayList<String> listeFavorisAbsentsNames) {
+        ListeBoitesActivity.listeFavorisAbsentsNames = listeFavorisAbsentsNames;
+    }
+
+    public void setAutorisationAffichageToast(int i){autorisationAffichageToast=i;}
+
+    public int getAutorisationAffichageToast(){return autorisationAffichageToast;}
+
+    public static void resetListeFavorisAbsentsNames(){listeFavorisAbsentsNames=new ArrayList<>();}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +139,11 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 }
             }
 
+            lectureListeFavoris();
 
             afficheListeBoites();
+
+            chargeAliments();
 
             TextView textElement = (TextView) findViewById(R.id.messageBoitesduFrigo);
             textElement.setText("Boites Accio du réfrigérateur : " + ListeBoitesActivity.getRefrigerateur().getName());
@@ -95,12 +155,39 @@ public class ListeBoitesActivity extends ActionBarActivity {
         }
     }
 
+    public void chargeAliments(){
+
+        //Initialisation pour connecter à la bdd
+        namesBoitesNonConnection = new ArrayList<>();
+        listeNomAliment = new ArrayList<>();
+        listeBoiteID = new ArrayList<>();
+        listeMarqueAliment = new ArrayList<>();
+        listeFavoris = new ArrayList<>();
+        listeHistoriqueAliment = new ArrayList<>();
+
+        for(int i=0; i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+            //On prend les références des boîtes pas encore chargées
+            if(ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).getConnectedBdd()==false){
+                numerosBoitesAConnecter.add(i);
+            }
+        }
+        //On lance les connexions aux bdd successives :
+        if(numerosBoitesAConnecter.size()!=0){
+            boite=ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
+            refBdd=boite.getReferenceBdd();
+            TextView textElement = (TextView) findViewById(R.id.message_chargement);
+            textElement.setText("Chargement des aliments de la boîte "+boite.getName());
+            new BDDListeAliments().execute();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_liste_boites, menu);
         return true;
+
+
     }
 
     @Override
@@ -114,6 +201,10 @@ public class ListeBoitesActivity extends ActionBarActivity {
                 return true;
             case R.id.action_delete:
                 messageDeleteFrigo();
+                return true;
+            case R.id.action_refresh:
+                actualiser();
+                return true;
             default:
                 if (mDrawerToggle.onOptionsItemSelected(item)) {
                     return true;
@@ -162,7 +253,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         }
         return creationReussie;
     }
-
 
     public void optionsFrigo(){
         Intent intent = new Intent(this, FrigoOptionsActivity.class);
@@ -213,7 +303,6 @@ public class ListeBoitesActivity extends ActionBarActivity {
         Intent intent = new Intent(this,AccueilActivity.class);
         startActivity(intent);
     }
-
 
     public void sendMessageBoxSelected(View view, int index){
         BoxActivity.setBoxIndex(index);
@@ -399,6 +488,231 @@ public class ListeBoitesActivity extends ActionBarActivity {
         }
     }
 
+    class BDDListeAliments extends AsyncTask<String, Void, String> {
+
+        private boolean connectionSuccessful = true;
+
+        public void setConnectionSuccessful(boolean b) {
+            connectionSuccessful = b;
+        }
+
+        protected String doInBackground(String... urls) {
+
+            String result = "";
+
+            InputStream is = null;
+
+            ListeBoitesActivity.listeBoiteID = new ArrayList<>();
+            ListeBoitesActivity.listeNomAliment = new ArrayList<>();
+            ListeBoitesActivity.listeFavoris = new ArrayList<>();
+
+            // Envoi de la requÃªte avec HTTPGet
+            try {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpGet httpget = new HttpGet("http://perceval.tk/pact/alimrecup.php?boiteid=" + refBdd);
+                //httpget.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+                setConnectionSuccessful(false);
+            }
+
+            //Conversion de la rÃ©ponse en chaine
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                is.close();
+                result = sb.toString();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error converting result " + e.toString());
+                setConnectionSuccessful(false);
+            }
+
+            //Parsing des donnÃ©es JSON
+            try {
+                Log.i("tagconvertstr", "[" + result + "]"); // permet de voir ce que retoune le script.
+                //JSONArray jArray = new JSONArray(result);
+                JSONObject object = new JSONObject(result);
+                JSONArray array = object.getJSONArray("testData");
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONArray json_data = array.getJSONArray(i);
+
+                    //Met les donnÃ©es ds la liste Ã  afficher
+                    // Ici pas besoin d'afficher les données
+
+                    result += "\n\t" + array.getString(i);
+                    ListeBoitesActivity.listeBoiteID.add(json_data.getString(0));
+                    ListeBoitesActivity.listeNomAliment.add(json_data.getString(1));
+                    ListeBoitesActivity.listeHistoriqueAliment.add(json_data.getString(4));
+                    ListeBoitesActivity.listeFavoris.add(json_data.getString(7));
+                    ListeBoitesActivity.listeMarqueAliment.add(json_data.getString(9));
 
 
+                }
+            } catch (JSONException e) {
+                Log.e("log_tag", "Error parsing data " + e.toString());
+                //Ne lève une exception que si la boîte est vide => Pas un problème !
+            }
+            return result;
+        }
+
+
+        protected void onPostExecute(String resultat) {
+
+            TextView textElement0 = (TextView) findViewById(R.id.message_chargement);
+            textElement0.setText("");
+
+            if (connectionSuccessful == false) {
+                if(getAutorisationAffichageToast()==1){
+                    Toast.makeText(getApplicationContext(), "Pas d'accès à la base de données", Toast.LENGTH_SHORT).show();
+                }
+
+                namesBoitesNonConnection.add(boite.getName());
+
+                setAutorisationAffichageToast(0);
+                ScheduledThreadPoolExecutor stpe = new ScheduledThreadPoolExecutor(2);
+                stpe.schedule(new ToastShown(),2700, TimeUnit.MILLISECONDS);
+            } else { //La connexion à la base de données a fonctionné.
+                //On supprime réinitialise la liste des aliments de la boîte pour la réécrire :
+                boite.getListeAliments().clear();
+
+                boite.setConnectedBdd(true);//On indique que la connection a réussi, la prochaine fois on ne se connectera donc pas à la bdd
+
+                int nbAliment = listeNomAliment.size();
+                for (int k = 0; k < nbAliment; k++) {
+
+                    String nom = listeNomAliment.get(k);
+                    String marque = listeMarqueAliment.get(k);
+                    boolean favori;
+                    String historique = listeHistoriqueAliment.get(k);
+                    String alimID = listeBoiteID.get(k);
+                    //marque = listeMarqueAliment.get(k);
+                    if (listeFavoris.get(k).compareTo("0") == 0) {
+                        favori = false;
+                    } else {
+                        favori = true;
+                    }
+
+                    Aliment aliment = new Aliment(nom, marque, favori, historique, boite.getName(), alimID, boite.getType());
+                    boite.getListeAliments().add(aliment);
+
+                }
+
+
+                //Si il reste des boîtes à connecter, on les connecte.
+                numerosBoitesAConnecter.remove(0);
+                if (numerosBoitesAConnecter.size() != 0) {
+                    boite = ListeBoitesActivity.getRefrigerateur().getBoxes().get(numerosBoitesAConnecter.get(0));
+                    refBdd = boite.getReferenceBdd();
+
+                    TextView textElement = (TextView) findViewById(R.id.message_chargement);
+                    textElement.setText("Chargement des aliments de la boîte " + boite.getName());
+
+                    new BDDListeAliments().execute();
+                } else if (namesBoitesNonConnection.size() == 0) {//Si toutes les connexions ont réussi
+                    //Tous les aliments ont été récupérés : on peut s'occuper des favoris
+                    gestionFavoris();
+                }
+            }
+        }
+    }
+
+    public void lectureListeFavoris() {//LECTURE LISTE FAVORIS
+
+        listeFavorisNames=new ArrayList<>();
+
+        InputStream instream = null;
+        String nameFrigo = refrigerateur.getName();
+        try {
+            instream = openFileInput(nameFrigo + "Favoris.txt");
+            InputStreamReader inputreader = new InputStreamReader(instream);
+            BufferedReader buffreader = new BufferedReader(inputreader);
+            Scanner sc = new Scanner(buffreader);
+
+            while (sc.hasNextLine() == true) {//On recrée la liste des favoris
+                String favoriteName = sc.nextLine();
+                listeFavorisNames.add(favoriteName);
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {//Survient si le fichier texte favoris du frigo n'a pas encore été créé
+            Log.e("log_tag", "Error " + e.toString());
+            try {
+                OutputStreamWriter outStream = null;
+                outStream = new OutputStreamWriter(openFileOutput(nameFrigo + "Favoris.txt",MODE_APPEND));
+
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    public void actualiser(){
+        if(getAutorisationAffichageToast()==1){//Ne fait qqch que si le toast a disparu
+            for(int i=0;i<ListeBoitesActivity.getRefrigerateur().getBoxes().size();i++){
+                ListeBoitesActivity.getRefrigerateur().getBoxes().get(i).setConnectedBdd(false);
+            }
+            Intent intent = new Intent(this,ListeBoitesActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void gestionFavoris(){
+
+        //On cherche les aliments favoris absent du réfrigérateur
+        listeFavorisAbsentsNames=new ArrayList<>();
+        int nbFavoris = listeFavorisNames.size();
+        for (int i=0;i<nbFavoris;i++){
+            //On cherche dans toutes les boîtes si cet aliment s'y trouve
+            int found = 0;
+            for(int j=0;j<refrigerateur.getBoxes().size();j++){
+                for(int k=0;k<refrigerateur.getBoxes().get(j).getListeAliments().size();k++){
+                    if(listeFavorisNames.get(i).compareTo(refrigerateur.getBoxes().get(j).getListeAliments().get(k).getAlimentName())==0){
+                        found=1;
+                        break;
+                    }
+                }
+            }
+            //On vient de regarder tous les aliments
+            if(found==0){
+                listeFavorisAbsentsNames.add(listeFavorisNames.get(i));
+            }
+        }
+
+
+
+        //Si il certains favoris sont absents du frigo, on l'affiche dans une alertDialog :
+        if(listeFavorisAbsentsNames.size()!=0){
+
+            String nomsAliments="-"+listeFavorisAbsentsNames.get(0);
+            for(int i=1;i<listeFavorisAbsentsNames.size();i++){
+                nomsAliments=nomsAliments + "\n-" + listeFavorisAbsentsNames.get(i);
+            }
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(ListeBoitesActivity.this);
+            adb.setTitle("Favoris");
+            adb.setMessage(refrigerateur.getName() + " : les aliments favoris suivants sont absents :\n\n"
+                    + nomsAliments);
+            adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                }
+            });
+            adb.show();
+        }
+
+    }
+
+    class ToastShown implements Runnable {
+        public ToastShown(){}
+        public void run(){
+            setAutorisationAffichageToast(1);
+        }
+    }
 }

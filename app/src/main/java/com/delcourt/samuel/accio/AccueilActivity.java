@@ -159,6 +159,13 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
         out2.println("Légumes");
 
         out2.close();
+
+        //On crée le fichier contenant la liste des favoris, on y ajoute une poire
+        OutputStreamWriter outStream2 = new OutputStreamWriter(openFileOutput("Réfrigérateur essaiFavoris.txt",MODE_APPEND));
+        BufferedWriter bw2 = new BufferedWriter(outStream2);
+        PrintWriter out3 = new PrintWriter(bw2);
+        out3.println("Poire");
+        out3.close();
     }
 
     public void readFiles(){
@@ -187,6 +194,7 @@ public class AccueilActivity extends ActionBarActivity { //Permet la gestion des
             } catch (FileNotFoundException e1) {
                 e.printStackTrace();
             }
+
         }
     }
 
