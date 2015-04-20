@@ -18,7 +18,7 @@
     <TextView android:text="Choisissez les aliments à partir desquels vous souhaitez effectuer la recherche de recettes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        style="@style/FontNormal"
         android:textIsSelectable="false"
         android:id="@+id/text_choix_aliments"
         android:layout_marginTop="12dp" />
@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:hint="Autres aliments"
         android:layout_above="@+id/bouton_ok_recette"
-        android:textColor="#000000"
-        android:textStyle="bold"/>
+        style="@style/FontNormal"
+        />
 
     <Button
         android:id="@+id/bouton_ok_recette"

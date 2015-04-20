@@ -31,7 +31,7 @@ public class RecetteEnregistreeActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         try{
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_recette_favorie);
+            setContentView(R.layout.activity_recette_enregistree);
 
             if(Runtime.getRuntime().exec("/system/bin/ping -c 1 8.8.8.8").waitFor()==0){
                 //Si il y a une connexion à Internet :

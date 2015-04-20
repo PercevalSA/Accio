@@ -36,7 +36,7 @@ public class MenuRecettesActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         try{
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_recipes);
+            setContentView(R.layout.activity_recette_menu);
 
             readRecettes();
             afficheRecettes();
@@ -93,7 +93,7 @@ public class MenuRecettesActivity extends ActionBarActivity {
             listeRecettesNames.add(name);
         }
         ListView recettesList=(ListView)findViewById(R.id.list_recettes);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,R.layout.accueil_listview, listeRecettesNames);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,R.layout.listview_recette_menu, listeRecettesNames);
         recettesList.setAdapter(arrayAdapter);
         recettesList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {

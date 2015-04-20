@@ -1,6 +1,5 @@
 package com.delcourt.samuel.accio.recettes;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -213,7 +211,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
             }
 
             //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.liste_aliments_recette,
+            SimpleAdapter mSchedule = new SimpleAdapter (this.getBaseContext(), listItem, R.layout.listview_aliments_recette,
                     new String[] {"nom", "img", "selected"}, new int[] {R.id.nom_aliment_recette, R.id.img_aliment_recette, R.id.aliment_recette_selected});
 
             //On attribue à notre listView l'adapter que l'on vient de créer
@@ -464,7 +462,7 @@ public class ChoixAlimentsRecettes extends ActionBarActivity {
                     }
 
                     //Création d'un SimpleAdapter qui se chargera de mettre les items présents dans notre list (listItem) dans la vue affichageitem
-                    SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.liste_aliments_recette,
+                    SimpleAdapter mSchedule = new SimpleAdapter (getApplicationContext(), listItem, R.layout.listview_aliments_recette,
                             new String[] {"nom", "img", "selected"}, new int[] {R.id.nom_aliment_recette, R.id.img_aliment_recette, R.id.aliment_recette_selected});
 
                     //On attribue à notre listView l'adapter que l'on vient de créer
