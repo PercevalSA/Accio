@@ -89,7 +89,7 @@
             android:screenOrientation="portrait"
             android:name=".recettes.RecetteEnregistreeActivity"
             android:label="@string/title_activity_recette_favorie"
-            android:parentActivityName=".recettes.MenuRecettesActivity" >
+            android:parentActivityName=".recettes.RecetteMarmitonActivity" >
         </activity>
         <activity
             android:screenOrientation="portrait"
