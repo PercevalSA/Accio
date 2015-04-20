@@ -12,8 +12,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         loadImage.main(args); // Launch image recognition
+        
+        while(true) {
 
-        if (getLatestFilefromDir("data").toString().equals(args[0]".test")) { // Checking if image recognition has been done
+        if (getLatestFilefromDir("data").toString().equals(args[0]+".test")) { // Checking if image recognition has been done
             try {
                 AdaBoost.main(args); // Launch Adaboost algorithm
             } catch (IOException e) {
@@ -22,13 +24,15 @@ public class Main {
         }
 
         try {
-            BufferedReader inputReader = new BufferedReader(new FileReader(args[0]".testout")); // Get the name of the fruit or vegetable which has been recognised
+            BufferedReader inputReader = new BufferedReader(new FileReader(args[0]+".testout")); // Get the name of the fruit or vegetable which has been recognised
             String nextLine;
 
-            while(nextLine = inputReader.readLine() != null) {
+            while((nextLine = inputReader.readLine()) != null) {
                 envoiBDD(nextLine, args[1], args[2]); // Add or delete it to/from the MySQL DB
 
             }
+            
+            inputReader.close();
 
         } catch (FileNotFoundException exc1) {
             exc1.printStackTrace();
@@ -36,6 +40,8 @@ public class Main {
         } catch (IOException exc2) {
             exc2.printStackTrace();
 
+        }
+        
         }
 
     }

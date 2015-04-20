@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import static org.bytedeco.javacpp.opencv_highgui.*;
@@ -327,9 +328,14 @@ public class loadImage {
 
 				//-----------------ECRITURE DU FICHIER EN SORTIE-----------------//
 
-				FileOutputStream file = new FileOutputStream(args[0]".test");
-				file.write(histo[0][] + area[0]);
-				file.close();
+				FileOutputStream file = new FileOutputStream(args[0]+".test");
+				DataOutputStream filefinal = new DataOutputStream(file);
+				for(int o = 0;o<100;o++) {
+					filefinal.writeDouble(histo[0][o]);
+					filefinal.writeUTF(" ");
+				}
+				filefinal.writeDouble(area[0]);
+				filefinal.close();
 
 			}
 			catch(Exception e)
