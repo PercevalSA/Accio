@@ -244,7 +244,7 @@ public class AdaBoost implements Classifier {
             return;
         }
 
-        String filestem = argv[0];
+        String filestem = "C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+argv[0];
         BinaryDataSet d = new BinaryDataSet(filestem);
         Classifier c = new AdaBoost(d);
         d.printTestPredictions(c, filestem);

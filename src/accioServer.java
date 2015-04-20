@@ -1,7 +1,12 @@
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.ByteBuffer;
 
 import static org.bytedeco.javacpp.opencv_highgui.*;
@@ -14,7 +19,7 @@ import java.awt.image.BufferedImage;
 import org.bytedeco.javacpp.opencv_core.IplImage;
 import org.bytedeco.javacv.*;
 
-public class loadImage {
+public class accioServer {
 
 	public static void main(String[] args) {
 		//-----------------PRISE DE PHOTO---------------------//
@@ -48,7 +53,7 @@ public class loadImage {
 
 		//-----------------DEBUT DU TRAITEMENT D'IMAGE---------------------//
 			try{
-				IplImage img = cvLoadImage("cam600.jpg");
+				IplImage img = cvLoadImage("cam.jpg");
 				@SuppressWarnings("deprecation")
 				ByteBuffer rgb_data = img.getByteBuffer();
 				int height = img.height();
@@ -300,16 +305,41 @@ public class loadImage {
 					}
 					System.out.println(area[0]);
 				}
+				
 				//-----------------ECRITURE DU FICHIER EN SORTIE-----------------//
-
-				FileOutputStream file = new FileOutputStream(args[0]+".test");
-				DataOutputStream filefinal = new DataOutputStream(file);
-				for(int o = 0;o<100;o++) {
-					filefinal.writeDouble(histo[0][o]);
-					filefinal.writeUTF(" ");
+				Writer file = null;
+				for(int p = 0;p<currentClass;p++) {
+					if (p == 0 && currentClass != 1) {
+						file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".test.new"), "UTF-8"));
+					} else {
+						file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:\\Users\\user\\Documents\\workspace\\Camera\\data\\"+args[0]+".test"), "UTF-8"));
+					}
+					for(int o = 0;o<100;o++) {
+						file.write(String.valueOf(histo[p][o]));					
+						file.write(" ");
+					}
+				
+				file.write(String.valueOf(area[0]));
+				file.close();
 				}
-				filefinal.writeDouble(area[0]);
-				filefinal.close();
+				//System.out.println("Fin image");
+				
+				/*BufferedReader br = new BufferedReader(new FileReader("banane-orange.test"));
+				 try {
+				        StringBuilder sb = new StringBuilder();
+				        String line = br.readLine();
+
+				        while (line != null) {
+				            sb.append(line);
+				            sb.append(System.lineSeparator());
+				            line = br.readLine();
+				        }
+				        String everything = sb.toString();
+				        System.out.println(everything);
+				    } finally {
+				        br.close();
+				    }*/
+				
 			}
 			catch(Exception e)
 			{
